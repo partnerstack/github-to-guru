@@ -23,7 +23,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function apiSendStandardCard(auth, collectionId, title, tagValue, content) {
+async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, content) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`)
   let headers = {
     auth: auth,
@@ -68,13 +68,13 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
           try {
             apiCreateTagByCategoryId(
               auth,
-              cardConfigs[cardFilename].UniqueTagValue,
-              cardConfigs[cardFilename].TeamId,
-              cardConfigs[cardFilename].TagCategoryName,
+              tagValue,
+              teamId,
+              tagCategoryName
             ).then(tagData => {
               try {
                 console.log(`Creating a new unique tag`, tagData);
-                return axios.post(`https://api.getguru.com/api/v1/teams/${cardConfigs[cardFilename].TeamId}/tagcategories/tags/`, tagData, headers)
+                return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers)
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`)
               }
@@ -289,6 +289,8 @@ function processStandardCollection(auth) {
         process.env.GURU_COLLECTION_ID,
         cardConfigs[cardFilename].Title,
         cardConfigs[cardFilename].UniqueTagValue,
+        cardConfigs[cardFilename].TeamId,
+        cardConfigs[cardFilename].TagCategoryName,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);
