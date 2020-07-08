@@ -110,6 +110,15 @@ async function apiGetTagCategoriesByTeamId(auth, teamId) {
   }
 }
 
+async function getTagCategoryId(data) {
+  console.log(`Getting Tag Category Id`)
+  for (i = 0; i < data.length; i++) {
+    if (data[i].name === tagCategoryName) {
+      return data[i].id
+    }
+  }
+}
+
 async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName) {
   console.log(`Creating tag by CategoryId`)
   let headers = {
@@ -121,24 +130,16 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
       auth,
       teamId
     ).then(response => {
-      function getTagCategoryId(data) {
-        console.log(`Getting Tag Category Id`)
-        for (i = 0; i < response.data.length; i++) {
-          if (data[i].name === tagCategoryName) {
-            return data[i].id
-          }
-        }
-      }
-      console.log("Tag response data", response)
       tagCategoryId = getTagCategoryId(response.data)
       let data = {
         categoryId: tagCategoryId,
         value: tagValue
       }
       try {
+        console.log("Attempting to create a new unique tag", response)
         return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
       } catch (error) {
-        core.setFailed(`Unable to create a tag: ${error.message}`);
+        core.setFailed(`Unable to create a new unique tag: ${error.message}`);
       }
     })
   } catch (error) {
