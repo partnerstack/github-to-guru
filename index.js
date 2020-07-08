@@ -93,7 +93,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         htmlContent: false,
                         collection: { id: collectionId },
                         shareStatus: "TEAM",
-                        tags: [response],
+                        tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION"
                       }
                       try {
