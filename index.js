@@ -76,8 +76,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                 getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
                   console.log("tag category id????", tagCategoryId)
                   let tagData = {
-                    "categoryId": tagCategoryId,
-                    "value": tagValue
+                    categoryId: tagCategoryId,
+                    value: tagValue
                   }
                   console.log("get tag data", tagData)
                   try {
