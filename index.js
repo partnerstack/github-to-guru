@@ -23,7 +23,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function apiSendStandardCard(auth, collectionId, title, content) {
+async function apiSendStandardCard(auth, collectionId, title, tagValue, content) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`)
   let headers = {
     auth: auth,
@@ -37,7 +37,7 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
       apiSearchCardByExternalId(
         auth,
         process.env.GURU_COLLECTION_ID,
-        cardConfigs[cardFilename].UniqueTagValue,
+        tagValue,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by externalId).
@@ -295,6 +295,7 @@ function processStandardCollection(auth) {
         auth,
         process.env.GURU_COLLECTION_ID,
         cardConfigs[cardFilename].Title,
+        cardConfigs[cardFilename].UniqueTagValue,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);
