@@ -109,7 +109,7 @@ async function apiGetTagCategoriesByTeamId(auth, teamId) {
   }
 }
 
-function getTagCategoryId(data, tagCategoryName) {
+async function getTagCategoryId(data, tagCategoryName) {
   console.log(`Getting Tag Category Id`)
   for (i = 0; i < data.length; i++) {
     if (data[i].name === tagCategoryName) {
@@ -129,7 +129,7 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
       auth,
       teamId
     ).then(response => {
-      tagCategoryId = getTagCategoryId(response.data, tagCategoryName)
+      tagCategoryId = await getTagCategoryId(response.data, tagCategoryName)
       try {
         console.log("Attempting to create a new unique tag", data)
         let data = {
