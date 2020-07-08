@@ -45,7 +45,8 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
       apiSearchCardByExternalId(
         auth,
         process.env.GURU_COLLECTION_ID,
-        cardConfigs[cardFilename].ExternalId,
+        // cardConfigs[cardFilename].ExternalId,
+        title,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by externalId).
@@ -84,14 +85,15 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
   }
 }
 
-async function apiSearchCardByExternalId(auth, collectionId, externalId) {
-  console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
+async function apiSearchCardByExternalId(auth, collectionId, title) {
+  // console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
+  console.log(`Searching for card in ${collectionId} collection with title: ${title}`)
   // let data = {
   //   searchTerms: externalId,
   //   queryType: "cards",
   // }
   // querystring = querystring.stringify(data)
-  response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=externalId&queryType=cards`, { auth: auth })
+  response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
   console.log("Search response: ", response)
   return response
 }
