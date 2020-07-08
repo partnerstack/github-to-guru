@@ -136,11 +136,12 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
       teamId
     ).then(response => {
       getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
+        console.log("tag category id????", tagCategoryId)
         let data = {
           categoryId: tagCategoryId,
           value: tagValue
         }
-        console.log("gettag data", data)
+        console.log("get tag data", data)
         return data
       })
     })
