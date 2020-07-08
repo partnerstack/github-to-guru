@@ -71,10 +71,17 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               tagValue,
               teamId,
               tagCategoryName
-            ).then(tagData => {
+            ).then(response => {
               try {
-                console.log(`Creating a new unique tag`, tagData);
-                return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers)
+                getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
+                  console.log("tag category id????", tagCategoryId)
+                  let data = {
+                    categoryId: tagCategoryId,
+                    value: tagValue
+                  }
+                  console.log("get tag data", data)
+                  return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+                })
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`)
               }
@@ -106,15 +113,6 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
   }
 }
 
-async function apiGetTagCategoriesByTeamId(auth, teamId) {
-  console.log(`Getting Tag Category by TeamId`)
-  try {
-    return axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`, { auth: auth })
-  } catch (error) {
-    core.setFailed(`Unable to get Tag Categories: ${error.message}`);
-  }
-}
-
 async function getTagCategoryId(data, tagCategoryName) {
   console.log(`Getting Tag Category Id`)
   for (i = 0; i < data.length; i++) {
@@ -124,27 +122,10 @@ async function getTagCategoryId(data, tagCategoryName) {
   }
 }
 
-async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName) {
+async function apiCreateTagByCategoryId(auth, teamId) {
   console.log(`Creating tag by CategoryId`)
-  let headers = {
-    auth: auth,
-    'content-type': `application / json`
-  };
   try {
-    apiGetTagCategoriesByTeamId(
-      auth,
-      teamId
-    ).then(response => {
-      getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
-        console.log("tag category id????", tagCategoryId)
-        let data = {
-          categoryId: tagCategoryId,
-          value: tagValue
-        }
-        console.log("get tag data", data)
-        return data
-      })
-    })
+    return axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`, { auth: auth })
   } catch (error) {
     core.setFailed(`Unable to get tag categories by team Id: ${error.message}`);
   }
