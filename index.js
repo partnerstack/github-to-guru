@@ -122,6 +122,9 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
 async function apiCreateTag(data, headers, teamId) {
   console.log(`Creating tag by Company`)
   try {
+    console.log("DATA", data)
+    console.log("teamID", teamId)
+    console.log("headers", headers)
     return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
   } catch (error) {
     core.setFailed(`Unable to create tag: ${error.message}`);
