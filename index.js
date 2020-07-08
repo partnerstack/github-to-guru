@@ -84,15 +84,17 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
                 tags: [response.data[0]]
               }
               console.log("DATA BODY", data)
-              return axios.post(`https://api.getguru.com/api/v1/facts/extended`, data, headers)
+              try {
+                return axios.post(`https://api.getguru.com/api/v1/facts/extended`, data, headers)
+              } catch (error) {
+                core.setFailed(`Unable to create card: ${error.message}`);
+              }
             })
           } catch (error) {
-            core.setFailed(`Unable to crate tag: ${error.message}`);
+            core.setFailed(`Unable to create tag: ${error.message}`);
           }
         }
-      }).catch(error => {
-        core.setFailed(`Unable to create card: ${error.message}`);
-      });
+      })
     } catch (error) {
       core.setFailed(`Unable to find card: ${error.message}`);
     }
@@ -114,29 +116,33 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
     auth: auth,
     'content-type': `application / json`
   };
-  apiGetTagCategoriesByTeamId(
-    auth,
-    teamId
-  ).then(response => {
-    function getTagCategoryId(data) {
-      console.log(`Getting Tag Category Id`)
-      for (i = 0; i < response.data.length; i++) {
-        if (data[i].name === tagCategoryName) {
-          return data[i].id
+  try {
+    apiGetTagCategoriesByTeamId(
+      auth,
+      teamId
+    ).then(response => {
+      function getTagCategoryId(data) {
+        console.log(`Getting Tag Category Id`)
+        for (i = 0; i < response.data.length; i++) {
+          if (data[i].name === tagCategoryName) {
+            return data[i].id
+          }
         }
       }
-    }
-    tagCategoryId = getTagCategoryId(response.data)
-    let data = {
-      categoryId: tagCategoryId,
-      value: tagValue
-    }
-    try {
-      return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
-    } catch (error) {
-      core.setFailed(`Unable to create a tag: ${error.message}`);
-    }
-  })
+      tagCategoryId = getTagCategoryId(response.data)
+      let data = {
+        categoryId: tagCategoryId,
+        value: tagValue
+      }
+      try {
+        return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+      } catch (error) {
+        core.setFailed(`Unable to create a tag: ${error.message}`);
+      }
+    })
+  } catch (error) {
+    core.setFailed(`Unable to get tag categories by team Id: ${error.message}`);
+  }
 }
 
 async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
@@ -147,10 +153,15 @@ async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
   //   queryType: "cards",
   // }
   // querystring = querystring.stringify(data)
-  response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
-  // response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
-  console.log("Search response: ", response)
-  return response
+  try {
+    response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
+    // response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
+    console.log("Search response: ", response)
+    return response
+  } catch {
+    core.setFailed(`Unable to get find card with tagValue ${tagValue}: ${error.message}`);
+  }
+
 }
 
 async function apiUpdateStandardCardById(auth, collectionId, title, id, content) {
