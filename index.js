@@ -71,6 +71,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
               cardConfigs[cardFilename].UniqueTagValue,
               cardConfigs[cardFilename].TeamId,
               cardConfigs[cardFilename].TagCategoryName,
+
             ).then(tagData => {
               try {
                 console.log(`Creating a new unique tag`, tagData);
@@ -86,7 +87,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
                 htmlContent: false,
                 collection: { id: collectionId },
                 shareStatus: "TEAM",
-                tags: [response.data[0]]
+                tags: [response.data[0]],
+                verificationState: "NEEDS_VERIFICATION"
               }
               try {
                 return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
@@ -169,7 +171,8 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, content)
     htmlContent: false,
     collection: { id: collectionId },
     shareStatus: "TEAM",
-    id: id
+    id: id,
+    verificationState: "NEEDS_VERIFICATION"
   }
   return axios.put(`https://api.getguru.com/api/v1/cards/${id}/extended`, data, headers)
 }
