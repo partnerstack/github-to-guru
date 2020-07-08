@@ -60,6 +60,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               title,
               response.data[0].id,
               fs.readFileSync(cardFilename, "utf8"),
+              response.data[0].tags,
               content
             ).then(response => {
               console.log(`Updated card`);
@@ -169,7 +170,7 @@ async function apiSearchCardByTagValueAndCategoryName(auth, collectionId, tagVal
 
 }
 
-async function apiUpdateStandardCardById(auth, collectionId, title, id, content) {
+async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, content) {
   console.log(`Updating card in ${collectionId}: ${title} with ID ${id}`)
   let headers = {
     auth: auth,
@@ -182,7 +183,8 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, content)
     collection: { id: collectionId },
     shareStatus: "TEAM",
     id: id,
-    verificationState: "NEEDS_VERIFICATION"
+    verificationState: "NEEDS_VERIFICATION",
+    tags: tags
   }
   return axios.put(`https://api.getguru.com/api/v1/cards/${id}/extended`, data, headers)
 }
