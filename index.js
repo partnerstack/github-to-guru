@@ -86,7 +86,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                     console.log("headers", headers)
                     axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers).then(response => {
                       console.log("Creating a new card.")
-                      console.log("TAG RESPONSE", response)
+                      console.log("TAG RESPONSE", response.data)
                       let cardData = {
                         preferredPhrase: title,
                         content: content,
