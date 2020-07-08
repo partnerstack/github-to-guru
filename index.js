@@ -92,7 +92,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         htmlContent: false,
                         collection: { id: collectionId },
                         shareStatus: "TEAM",
-                        tags: [response.data[0]]
+                        tags: [response.data[0]],
+                        verificationState: "NEEDS_VERIFICATION"
                       }
                       try {
                         return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
