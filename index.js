@@ -45,8 +45,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
           let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
           console.log(cardConfigs)
           for (let cardFilename in cardConfigs) try {
-            console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tag}`);
-            console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tag}`);
+            console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tagValue}`);
+            console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tagValue}`);
             apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
