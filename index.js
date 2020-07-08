@@ -71,8 +71,13 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
               cardConfigs[cardFilename].UniqueTagValue,
               cardConfigs[cardFilename].TeamId,
               cardConfigs[cardFilename].TagCategoryName,
-            ).then(response => {
-              console.log(`Created a new unique tag`);
+            ).then(data => {
+              try {
+                console.log(`Creating a new unique tag`);
+                return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+              } catch (error) {
+                core.setFailed(`Unable to create new tag: ${error.message}`)
+              }
               console.log("Creating a new card.")
               console.log("TAG RESPONSE", response)
               let data = {
@@ -134,7 +139,7 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
           categoryId: tagCategoryId,
           value: tagValue
         }
-        return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+        return data
       })
     })
   } catch (error) {
