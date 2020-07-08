@@ -84,7 +84,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                     console.log("DATA", tagData)
                     console.log("teamID", teamId)
                     console.log("headers", headers)
-                    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers).then(response => {
+                    axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers).then(response => {
                       console.log("Creating a new card.")
                       console.log("TAG RESPONSE", response)
                       let cardData = {
@@ -93,7 +93,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         htmlContent: false,
                         collection: { id: collectionId },
                         shareStatus: "TEAM",
-                        tags: [response.data[0]],
+                        tags: [response],
                         verificationState: "NEEDS_VERIFICATION"
                       }
                       try {
