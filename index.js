@@ -110,7 +110,7 @@ async function apiGetTagCategoriesByTeamId(auth, teamId) {
   }
 }
 
-async function getTagCategoryId(data, tagCategoryName) {
+function getTagCategoryId(data, tagCategoryName) {
   console.log(`Getting Tag Category Id`)
   for (i = 0; i < data.length; i++) {
     if (data[i].name === tagCategoryName) {
