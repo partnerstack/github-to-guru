@@ -81,10 +81,10 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                   }
                   console.log("get tag data", tagData)
                   try {
-                    console.log("DATA", data)
+                    console.log("DATA", tagData)
                     console.log("teamID", teamId)
                     console.log("headers", headers)
-                    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers).then(response => {
+                    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers).then(response => {
                       console.log("Creating a new card.")
                       console.log("TAG RESPONSE", response)
                       let cardData = {
