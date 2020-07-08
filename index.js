@@ -52,7 +52,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               }
             }
             console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tagValue}`);
-            console.log("response data", response.data)
+            console.log("response data", response.data[0].tags)
             console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tagValue}`);
             apiUpdateStandardCardById(
               auth,
