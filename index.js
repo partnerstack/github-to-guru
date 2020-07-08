@@ -37,7 +37,7 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
       apiSearchCardByExternalId(
         auth,
         process.env.GURU_COLLECTION_ID,
-        cardConfigs[cardFilename].TagValue,
+        cardConfigs[cardFilename].UniqueTagValue,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by externalId).
