@@ -74,6 +74,7 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
             ).then(response => {
               console.log(`Created a new unique tag`);
               console.log("Creating a new card.")
+              console.log("TAG RESPONSE", response)
               let data = {
                 preferredPhrase: title,
                 content: content,
@@ -82,6 +83,7 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
                 shareStatus: "TEAM",
                 tags: [response.data[0]]
               }
+              console.log("DATA BODY", data)
               return axios.post(`https://api.getguru.com/api/v1/facts/extended`, data, headers)
             })
           } catch (error) {
