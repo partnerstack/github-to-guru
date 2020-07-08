@@ -73,7 +73,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
               cardConfigs[cardFilename].TagCategoryName,
             ).then(tagData => {
               try {
-                console.log(`Creating a new unique tag`);
+                console.log(`Creating a new unique tag`, tagData);
                 return axios.post(`https://api.getguru.com/api/v1/teams/${cardConfigs[cardFilename].TeamId}/tagcategories/tags/`, tagData, headers)
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`)
