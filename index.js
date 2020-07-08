@@ -59,8 +59,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               process.env.GURU_COLLECTION_ID,
               title,
               response.data[0].id,
-              fs.readFileSync(cardFilename, "utf8"),
               response.data[0].tags,
+              fs.readFileSync(cardFilename, "utf8"),
               content
             ).then(response => {
               console.log(`Updated card`);
