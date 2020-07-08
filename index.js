@@ -41,7 +41,6 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by externalId).
-        console.log("search response", response)
         if (response.data.length >= 1) {
           let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
           console.log(cardConfigs)
@@ -130,6 +129,7 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
           }
         }
       }
+      console.log("Tag response data", response)
       tagCategoryId = getTagCategoryId(response.data)
       let data = {
         categoryId: tagCategoryId,
