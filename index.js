@@ -31,36 +31,26 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
   };
   // 1. Search for a card by tag value and return its id.
   if (process.env.GURU_CARD_YAML) {
-    let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
-    console.log(cardConfigs)
-    for (let cardFilename in cardConfigs) try {
+    try {
       apiSearchCardByTagValueAndCategoryName(
         auth,
         process.env.GURU_COLLECTION_ID,
         tagValue,
         tagCategoryName,
-        fs.readFileSync(cardFilename, "utf8")
+        content
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by tag value).
         if (response.data.length >= 1) {
-          let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
-          console.log(cardConfigs)
-          for (let cardFilename in cardConfigs) try {
-            for (let card in response.data) {
-              if (card.tags !== undefined || null) {
-                console.log("TAGSSSSSS", card.tags)
-              }
-            }
-            console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tagValue}`);
+          try {
+            console.log(`Found existing card for with title ${title} and tagValue ${tagValue}`);
             console.log("response data", response.data[0].tags)
-            console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tagValue}`);
+            console.log(`Updating card for with Id ${response.data[0].id} and tagValue ${tagValue}`);
             apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
               title,
               response.data[0].id,
               response.data[0].tags,
-              fs.readFileSync(cardFilename, "utf8"),
               content
             ).then(response => {
               console.log(`Updated card`);
