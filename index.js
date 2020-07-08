@@ -97,27 +97,44 @@ async function apiSendStandardCard(auth, collectionId, title, content) {
   }
 }
 
+async function apiGetTagCategoriesByTeamId(auth, teamId) {
+  console.log(`Getting Tag Category by TeamId`)
+  try {
+    return axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`, { auth: auth })
+  } catch (error) {
+    core.setFailed(`Unable to get Tag Categories: ${error.message}`);
+  }
+}
+
 async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName) {
-  // console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
-  // console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
+  console.log(`Creating tag by CategoryId`)
   let headers = {
     auth: auth,
-    'content-type': `application/json`
+    'content-type': `application / json`
   };
-  let response = axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`)
-  function getTagCategoryId(data) {
-    for (i = 0; i < response.data.length; i++) {
-      if (data[i].name === tagCategoryName) {
-        return data[i].id
+  apiGetTagCategoriesByTeamId(
+    auth,
+    teamId
+  ).then(response => {
+    function getTagCategoryId(data) {
+      console.log(`Getting Tag Category Id`)
+      for (i = 0; i < response.data.length; i++) {
+        if (data[i].name === tagCategoryName) {
+          return data[i].id
+        }
       }
     }
-  }
-  tagCategoryId = getTagCategoryId(response.data)
-  let data = {
-    categoryId: tagCategoryId,
-    value: tagValue
-  }
-  return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+    tagCategoryId = getTagCategoryId(response.data)
+    let data = {
+      categoryId: tagCategoryId,
+      value: tagValue
+    }
+    try {
+      return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+    } catch (error) {
+      core.setFailed(`Unable to create a tag: ${error.message}`);
+    }
+  })
 }
 
 async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
