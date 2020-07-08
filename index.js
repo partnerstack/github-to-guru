@@ -23,7 +23,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function apiSendStandardCard(auth, collectionId, title, tagValue, content) {
+async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, content) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`)
   let headers = {
     auth: auth,
@@ -64,36 +64,43 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
           }
         } else {
           // 2b. If card does not exist, call to create a new unique tag and then a new card with said tag.
-          console.log("Creating a new unique tag.")
+          console.log("Creating a new unique tag with team id", teamId)
           try {
             apiCreateTagByCategoryId(
               auth,
-              cardConfigs[cardFilename].UniqueTagValue,
-              cardConfigs[cardFilename].TeamId,
-              cardConfigs[cardFilename].TagCategoryName,
-
-            ).then(tagData => {
+              tagValue,
+              teamId,
+              tagCategoryName
+            ).then(response => {
               try {
-                console.log(`Creating a new unique tag`, tagData);
-                return axios.post(`https://api.getguru.com/api/v1/teams/${cardConfigs[cardFilename].TeamId}/tagcategories/tags/`, tagData, headers)
+                getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
+                  console.log("tag category id????", tagCategoryId)
+                  let data = {
+                    categoryId: tagCategoryId,
+                    value: tagValue
+                  }
+                  console.log("get tag data", data)
+                  return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+                }).then(response => {
+                  console.log("Creating a new card.")
+                  console.log("TAG RESPONSE", response)
+                  let cardData = {
+                    preferredPhrase: title,
+                    content: content,
+                    htmlContent: false,
+                    collection: { id: collectionId },
+                    shareStatus: "TEAM",
+                    tags: [response.data[0]],
+                    verificationState: "NEEDS_VERIFICATION"
+                  }
+                  try {
+                    return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
+                  } catch (error) {
+                    core.setFailed(`Unable to create card: ${error.message}`);
+                  }
+                })
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`)
-              }
-              console.log("Creating a new card.")
-              console.log("TAG RESPONSE", response)
-              let cardData = {
-                preferredPhrase: title,
-                content: content,
-                htmlContent: false,
-                collection: { id: collectionId },
-                shareStatus: "TEAM",
-                tags: [response.data[0]],
-                verificationState: "NEEDS_VERIFICATION"
-              }
-              try {
-                return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
-              } catch (error) {
-                core.setFailed(`Unable to create card: ${error.message}`);
               }
             })
           } catch (error) {
@@ -107,15 +114,6 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
   }
 }
 
-async function apiGetTagCategoriesByTeamId(auth, teamId) {
-  console.log(`Getting Tag Category by TeamId`)
-  try {
-    return axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`, { auth: auth })
-  } catch (error) {
-    core.setFailed(`Unable to get Tag Categories: ${error.message}`);
-  }
-}
-
 async function getTagCategoryId(data, tagCategoryName) {
   console.log(`Getting Tag Category Id`)
   for (i = 0; i < data.length; i++) {
@@ -125,25 +123,10 @@ async function getTagCategoryId(data, tagCategoryName) {
   }
 }
 
-async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName) {
+async function apiCreateTagByCategoryId(auth, teamId) {
   console.log(`Creating tag by CategoryId`)
-  let headers = {
-    auth: auth,
-    'content-type': `application / json`
-  };
   try {
-    apiGetTagCategoriesByTeamId(
-      auth,
-      teamId
-    ).then(response => {
-      getTagCategoryId(response.data, tagCategoryName).then(tagCategoryId => {
-        let data = {
-          categoryId: tagCategoryId,
-          value: tagValue
-        }
-        return data
-      })
-    })
+    return axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`, { auth: auth })
   } catch (error) {
     core.setFailed(`Unable to get tag categories by team Id: ${error.message}`);
   }
@@ -292,6 +275,8 @@ function processStandardCollection(auth) {
         process.env.GURU_COLLECTION_ID,
         cardConfigs[cardFilename].Title,
         cardConfigs[cardFilename].UniqueTagValue,
+        cardConfigs[cardFilename].TeamId,
+        cardConfigs[cardFilename].TagCategoryName,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);
