@@ -64,7 +64,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
           }
         } else {
           // 2b. If card does not exist, call to create a new unique tag and then a new card with said tag.
-          console.log("Creating a new unique tag.")
+          console.log("Creating a new unique tag with team id", teamId)
           try {
             apiCreateTagByCategoryId(
               auth,
@@ -78,6 +78,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`)
               }
+            }).then(response => {
               console.log("Creating a new card.")
               console.log("TAG RESPONSE", response)
               let cardData = {
