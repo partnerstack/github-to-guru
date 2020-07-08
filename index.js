@@ -176,6 +176,7 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
     auth: auth,
     'content-type': `application/json`
   };
+  console.log("TAGS", tags)
   let data = {
     preferredPhrase: title,
     content: content,
