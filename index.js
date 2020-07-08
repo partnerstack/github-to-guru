@@ -29,14 +29,6 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
     auth: auth,
     'content-type': `application/json`
   };
-  let data = {
-    preferredPhrase: title,
-    content: content,
-    htmlContent: false,
-    collection: { id: collectionId },
-    shareStatus: "TEAM",
-    externalId: externalId
-  }
   // 1. Search for a card by externalId and return its id.
   if (process.env.GURU_CARD_YAML) {
     let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
@@ -46,6 +38,7 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
         auth,
         process.env.GURU_COLLECTION_ID,
         // cardConfigs[cardFilename].ExternalId,
+        cardConfigs[cardFilename].TagValue,
         title,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
@@ -72,9 +65,30 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
             core.setFailed(`Unable to prepare card: ${error.message}`);
           }
         } else {
-          // 2b. If card does not exist, call to create a new card.
-          console.log("Creating a new card.")
-          return axios.post(`https://api.getguru.com/api/v1/facts/extended`, data, headers)
+          // 2b. If card does not exist, call to create a new unique tag and then a new card with said tag.
+          console.log("Creating a new unique tag.")
+          try {
+            apiCreateTagByCategoryId(
+              auth,
+              cardConfigs[cardFilename].UniqueTagValue,
+              cardConfigs[cardFilename].TeamId,
+              cardConfigs[cardFilename].TagCategoryName,
+            ).then(response => {
+              console.log(`Created a new unique tag`);
+              console.log("Creating a new card.")
+              let data = {
+                preferredPhrase: title,
+                content: content,
+                htmlContent: false,
+                collection: { id: collectionId },
+                shareStatus: "TEAM",
+                tags: [response.data[0]]
+              }
+              return axios.post(`https://api.getguru.com/api/v1/facts/extended`, data, headers)
+            })
+          } catch (error) {
+            core.setFailed(`Unable to crate tag: ${error.message}`);
+          }
         }
       }).catch(error => {
         core.setFailed(`Unable to create card: ${error.message}`);
@@ -85,15 +99,40 @@ async function apiSendStandardCard(auth, collectionId, title, externalId, conten
   }
 }
 
-async function apiSearchCardByExternalId(auth, collectionId, title) {
+async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName) {
   // console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
+  // console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
+  let headers = {
+    auth: auth,
+    'content-type': `application/json`
+  };
+  let response = axios.get(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`)
+  function getTagCategoryId(data) {
+    for (i = 0; i < response.data.length; i++) {
+      if (data[i].name === tagCategoryName) {
+        return data[i].id
+      }
+    }
+  }
+  tagCategoryId = getTagCategoryId(response.data)
+  let data = {
+    categoryId: tagCategoryId,
+    value: tagValue
+  }
+  return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+}
+
+async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
+  // console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
+  // console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
   console.log(`Searching for card in ${collectionId} collection with title: ${title}`)
   // let data = {
   //   searchTerms: externalId,
   //   queryType: "cards",
   // }
   // querystring = querystring.stringify(data)
-  response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
+  response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
+  // response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
   console.log("Search response: ", response)
   return response
 }
