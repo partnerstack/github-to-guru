@@ -230,12 +230,12 @@ function processStandardCollection(auth) {
         cardConfigs[cardFilename].ExternalId,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
-        console.log(`Created card for ${cardFilename}`);
+        console.log(`Created or updated card for ${cardFilename}`);
       }).catch(error => {
-        core.setFailed(`Unable to create card for ${cardFilename}: ${error.message}`);
+        core.setFailed(`Unable to create or update card for ${cardFilename}: ${error.message}`);
       });
     } catch (error) {
-      core.setFailed(`Unable to prepare card: ${error.message}`);
+      core.setFailed(`Unable to prepare card for creation/update: ${error.message}`);
     }
   }
 }
