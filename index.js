@@ -34,10 +34,11 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
     let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
     console.log(cardConfigs)
     for (let cardFilename in cardConfigs) try {
-      apiSearchCardByTagValue(
+      apiSearchCardByTagValueAndCategoryName(
         auth,
         process.env.GURU_COLLECTION_ID,
         tagValue,
+        tagCategoryName,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by tag value).
@@ -45,13 +46,18 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
           let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
           console.log(cardConfigs)
           for (let cardFilename in cardConfigs) try {
+            for (let card in response.data) {
+              if (card.tags !== undefined || null) {
+                console.log("TAGSSSSSS", card.tags)
+              }
+            }
             console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tagValue}`);
             console.log("response data", response.data)
             console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tagValue}`);
             apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
-              cardConfigs[cardFilename].Title,
+              title,
               response.data[0].id,
               fs.readFileSync(cardFilename, "utf8"),
               content
@@ -153,7 +159,7 @@ async function apiCreateTagByCategoryId(auth, teamId) {
   }
 }
 
-async function apiSearchCardByTagValue(auth, collectionId, tagValue) {
+async function apiSearchCardByTagValueAndCategoryName(auth, collectionId, tagValue, tagCategoryName) {
   console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
   try {
     return axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
