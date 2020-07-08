@@ -80,23 +80,28 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                     value: tagValue
                   }
                   console.log("get tag data", data)
-                  return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
-                }).then(response => {
-                  console.log("Creating a new card.")
-                  console.log("TAG RESPONSE", response)
-                  let cardData = {
-                    preferredPhrase: title,
-                    content: content,
-                    htmlContent: false,
-                    collection: { id: collectionId },
-                    shareStatus: "TEAM",
-                    tags: [response.data[0]],
-                    verificationState: "NEEDS_VERIFICATION"
-                  }
                   try {
-                    return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
+                    apiCreateTag(headers, teamId).then(response => {
+                      console.log("created new tag", response)
+                    }).then(response => {
+                      console.log("Creating a new card.")
+                      console.log("TAG RESPONSE", response)
+                      let cardData = {
+                        preferredPhrase: title,
+                        content: content,
+                        htmlContent: false,
+                        collection: { id: collectionId },
+                        shareStatus: "TEAM",
+                        tags: [response.data[0]]
+                      }
+                      try {
+                        return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
+                      } catch (error) {
+                        core.setFailed(`Unable to create card: ${error.message}`);
+                      }
+                    })
                   } catch (error) {
-                    core.setFailed(`Unable to create card: ${error.message}`);
+                    core.setFailed(`Unable to create tag: ${error.message}`);
                   }
                 })
               } catch (error) {
@@ -111,6 +116,15 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
     } catch (error) {
       core.setFailed(`Unable to find card: ${error.message}`);
     }
+  }
+}
+
+async function apiCreateTag(headers, teamId) {
+  console.log(`Creating tag by Company`)
+  try {
+    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+  } catch (error) {
+    core.setFailed(`Unable to get tag: ${error.message}`);
   }
 }
 
