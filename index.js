@@ -81,9 +81,10 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                   }
                   console.log("get tag data", tagData)
                   try {
-                    apiCreateTag(tagData, headers, teamId).then(response => {
-                      console.log("created new tag", response)
-                    }).then(response => {
+                    console.log("DATA", data)
+                    console.log("teamID", teamId)
+                    console.log("headers", headers)
+                    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers).then(response => {
                       console.log("Creating a new card.")
                       console.log("TAG RESPONSE", response)
                       let cardData = {
@@ -122,12 +123,12 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
 
 async function apiCreateTag(data, headers, teamId) {
   console.log(`Creating tag by Company`)
-  // TODO - Check to make sure said tag doesn't already exist first!
+  // TODO - Check to make sure said tag doesn't already exist
   try {
     console.log("DATA", data)
     console.log("teamID", teamId)
     console.log("headers", headers)
-    axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
+    return axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, data, headers)
   } catch (error) {
     core.setFailed(`Unable to create tag: ${error.message}`);
   }
