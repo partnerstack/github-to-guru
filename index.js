@@ -41,6 +41,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, content)
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         // 2a. If card exists, call to update existing card by id (not by externalId).
+        console.log("search response", response)
         if (response.data.length >= 1) {
           let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
           console.log(cardConfigs)
@@ -146,18 +147,9 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
 }
 
 async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
-  // console.log(`Searching for card in ${collectionId} collection with externalId: ${externalId}`)
   console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
-  // let data = {
-  //   searchTerms: externalId,
-  //   queryType: "cards",
-  // }
-  // querystring = querystring.stringify(data)
   try {
-    response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
-    // response = axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${title}&queryType=cards&sortField=title`, { auth: auth })
-    console.log("Search response: ", response)
-    return response
+    return axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
   } catch {
     core.setFailed(`Unable to get find card with tagValue ${tagValue}: ${error.message}`);
   }
