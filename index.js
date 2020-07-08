@@ -140,6 +140,7 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
           categoryId: tagCategoryId,
           value: tagValue
         }
+        console.log("gettag data", data)
         return data
       })
     })
