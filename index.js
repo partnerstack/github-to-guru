@@ -110,7 +110,7 @@ async function apiGetTagCategoriesByTeamId(auth, teamId) {
   }
 }
 
-async function getTagCategoryId(data) {
+async function getTagCategoryId(data, tagCategoryName) {
   console.log(`Getting Tag Category Id`)
   for (i = 0; i < data.length; i++) {
     console.log("DATA LOOP", data[i])
@@ -131,7 +131,7 @@ async function apiCreateTagByCategoryId(auth, tagValue, teamId, tagCategoryName)
       auth,
       teamId
     ).then(response => {
-      tagCategoryId = getTagCategoryId(response.data)
+      tagCategoryId = getTagCategoryId(response.data, tagCategoryName)
       let data = {
         categoryId: tagCategoryId,
         value: tagValue
