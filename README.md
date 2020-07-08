@@ -1,4 +1,4 @@
-# GitHub to Guru
+# GitHub to Guru - PStack Version
 
 **Deploy content from your GitHub repo into a Guru collection.**
 
