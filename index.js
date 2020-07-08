@@ -29,24 +29,24 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
     auth: auth,
     'content-type': `application/json`
   };
-  // 1. Search for a card by externalId and return its id.
+  // 1. Search for a card by tag value and return its id.
   if (process.env.GURU_CARD_YAML) {
     let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
     console.log(cardConfigs)
     for (let cardFilename in cardConfigs) try {
-      apiSearchCardByExternalId(
+      apiSearchCardByTagValue(
         auth,
         process.env.GURU_COLLECTION_ID,
         tagValue,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
-        // 2a. If card exists, call to update existing card by id (not by externalId).
+        // 2a. If card exists, call to update existing card by id (not by tag value).
         if (response.data.length >= 1) {
           let cardConfigs = yaml.parse(fs.readFileSync(process.env.GURU_CARD_YAML, 'utf8'));
           console.log(cardConfigs)
           for (let cardFilename in cardConfigs) try {
-            console.log(`Found existing card for ${cardFilename} with title ${title}`);
-            console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id}`);
+            console.log(`Found existing card for ${cardFilename} with title ${title} and tagValue ${tag}`);
+            console.log(`Updating card for ${cardFilename} with Id ${response.data[0].id} and tagValue ${tag}`);
             apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
@@ -152,7 +152,7 @@ async function apiCreateTagByCategoryId(auth, teamId) {
   }
 }
 
-async function apiSearchCardByExternalId(auth, collectionId, tagValue) {
+async function apiSearchCardByTagValue(auth, collectionId, tagValue) {
   console.log(`Searching for card in ${collectionId} collection with tag: ${tagValue}`)
   try {
     return axios.get(`https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`, { auth: auth })
