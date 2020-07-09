@@ -95,11 +95,26 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         shareStatus: "TEAM",
                         tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION",
-                        verifiers: [{
-                          id: "shannon.curnew@partnerstack.com",
-                          type: "USER",
-                          dateCreated: utcDate
-                        }]
+                        verificationInterval: 90,
+                        verifiers: [
+                          {
+                            "type": "user",
+                            "user": {
+                              "status": "ACTIVE",
+                              "email": "shannon.curnew@partnerstack.com",
+                              "firstName": "Shannon",
+                              "lastName": "Curnew",
+                            },
+                            "id": "shannon.curnew@partnerstack.com",
+                            "dateCreated": utcDate
+                          }
+                        ],
+                        verificationInitiator: {
+                          "status": "ACTIVE",
+                          "email": "althea.yi@partnerstack.com",
+                          "firstName": "Althea",
+                          "lastName": "Yi"
+                        },
                       }
                       try {
                         return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
@@ -171,11 +186,26 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
     shareStatus: "TEAM",
     id: id,
     verificationState: "NEEDS_VERIFICATION",
-    verifiers: [{
-      id: "shannon.curnew@partnerstack.com",
-      type: "USER",
-      dateCreated: utcDate
-    }],
+    verificationInterval: 90,
+    verifiers: [
+      {
+        "type": "user",
+        "user": {
+          "status": "ACTIVE",
+          "email": "shannon.curnew@partnerstack.com",
+          "firstName": "Shannon",
+          "lastName": "Curnew",
+        },
+        "id": "shannon.curnew@partnerstack.com",
+        "dateCreated": utcDate
+      }
+    ],
+    verificationInitiator: {
+      "status": "ACTIVE",
+      "email": "althea.yi@partnerstack.com",
+      "firstName": "Althea",
+      "lastName": "Yi"
+    },
     tags: tags
   }
   return axios.put(`https://api.getguru.com/api/v1/cards/${id}/extended`, data, headers)
