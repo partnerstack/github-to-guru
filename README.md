@@ -3,3 +3,4 @@ Updating the Github-to-Guru action with Pstack flair.
 
 ## TODO LIST
 1. Figure out how to set a group of users as the verifier.
+2. Figure out if we can make cards for nested files.
