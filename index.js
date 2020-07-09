@@ -85,6 +85,8 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                     axios.post(`https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`, tagData, headers).then(response => {
                       console.log("Creating a new card.")
                       console.log("TAG RESPONSE", response.data)
+                      let date = new Date();
+                      let utcDate = date.getUTCDate();
                       let cardData = {
                         preferredPhrase: title,
                         content: content,
@@ -92,7 +94,12 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         collection: { id: collectionId },
                         shareStatus: "TEAM",
                         tags: [response.data],
-                        verificationState: "NEEDS_VERIFICATION"
+                        verificationState: "NEEDS_VERIFICATION",
+                        verifiers: [{
+                          id: "b1107347-d2d1-4941-96dc-91027426f719",
+                          type: "USER",
+                          dateCreated: utcDate
+                        }]
                       }
                       try {
                         return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
