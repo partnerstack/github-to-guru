@@ -7,3 +7,4 @@ README.md:
   UniqueTagValue: "555"
   TeamId: "hfvvy"
   TagCategoryName: "Github-to-Guru Card ID Tags"
+  VerificationInterval: 30

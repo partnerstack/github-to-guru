@@ -23,7 +23,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, content) {
+async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, verificationInterval, content) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`)
   let headers = {
     auth: auth,
@@ -51,6 +51,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               title,
               response.data[0].id,
               response.data[0].tags,
+              verificationInterval,
               content
             ).then(response => {
               console.log(`Updated card`);
@@ -95,7 +96,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         shareStatus: "TEAM",
                         tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION",
-                        verificationInterval: 90,
+                        verificationInterval: verificationInterval,
                         verifiers: [
                           {
                             "type": "user",
@@ -170,7 +171,7 @@ async function apiSearchCardByTagValueAndCategoryName(auth, collectionId, tagVal
 
 }
 
-async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, content) {
+async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, verificationInterval, content) {
   console.log(`Updating card in ${collectionId}: ${title} with ID ${id}`)
   let headers = {
     auth: auth,
@@ -187,7 +188,7 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
     shareStatus: "TEAM",
     id: id,
     verificationState: "NEEDS_VERIFICATION",
-    verificationInterval: 90,
+    verificationInterval: verificationInterval,
     verifiers: [
       {
         "type": "user",
@@ -330,6 +331,7 @@ function processStandardCollection(auth) {
         cardConfigs[cardFilename].UniqueTagValue,
         cardConfigs[cardFilename].TeamId,
         cardConfigs[cardFilename].TagCategoryName,
+        cardConfigs[cardFilename].VerificationInterval,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);
