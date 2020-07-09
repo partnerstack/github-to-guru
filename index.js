@@ -115,6 +115,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                           "firstName": "Althea",
                           "lastName": "Yi"
                         },
+                        verificationReason: "NEW_VERIFIER"
                       }
                       try {
                         return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
@@ -206,6 +207,7 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
       "firstName": "Althea",
       "lastName": "Yi"
     },
+    verificationReason: "NEW_VERIFIER",
     tags: tags
   }
   return axios.put(`https://api.getguru.com/api/v1/cards/${id}/extended`, data, headers)
