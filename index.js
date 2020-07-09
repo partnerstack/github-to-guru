@@ -6,6 +6,7 @@ const core = require(`@actions/core`);
 const exec = require('@actions/exec');
 const github = require(`@actions/github`);
 const querystring = require('querystring');
+const path = require("path");
 
 async function getCollection(auth, collectionId) {
   console.log(`collection: ${collectionId}`)
@@ -381,7 +382,7 @@ function processStandardCollection(auth) {
         cardConfigs[cardFilename].VerificationEmail,
         cardConfigs[cardFilename].VerificationFirstName,
         cardConfigs[cardFilename].VerificationLastName,
-        fs.readFileSync(cardFilename, "utf8")
+        fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);
       }).catch(error => {
