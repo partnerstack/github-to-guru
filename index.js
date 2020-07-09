@@ -96,7 +96,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION",
                         verifiers: [{
-                          id: "b1107347-d2d1-4941-96dc-91027426f719",
+                          id: "shannon.curnew@partnerstack.com",
                           type: "USER",
                           dateCreated: utcDate
                         }]
