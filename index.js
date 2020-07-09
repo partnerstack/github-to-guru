@@ -97,19 +97,62 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION",
                         verificationInterval: verificationInterval,
-                        verifiers: [
-                          {
-                            "type": "user",
-                            "user": {
-                              "status": "ACTIVE",
-                              "email": "shannon.curnew@partnerstack.com",
-                              "firstName": "Shannon",
-                              "lastName": "Curnew",
-                            },
-                            "id": "shannon.curnew@partnerstack.com",
-                            "dateCreated": utcDate
-                          }
-                        ],
+                        // verifiers: [
+                        //   {
+                        //     "type": "user",
+                        //     "user": {
+                        //       "status": "ACTIVE",
+                        //       "email": "shannon.curnew@partnerstack.com",
+                        //       "firstName": "Shannon",
+                        //       "lastName": "Curnew",
+                        //     },
+                        //     "id": "shannon.curnew@partnerstack.com",
+                        //     "dateCreated": utcDate
+                        //   }
+                        // ],
+                        verifiers: [{
+                          "type": "user-group",
+                          "userGroup": {
+                            "id": "35725837-184a-4f83-8774-778a8a84f967",
+                            "dateCreated": "2020-07-07T17:33:52.218+0000",
+                            "groupIdentifier": "team",
+                            "numberOfCardsAsVerifier": 0,
+                            "numberOfMembers": 0,
+                            "modifiable": false,
+                            "name": "All Members"
+                          },
+                          "id": "35725837-184a-4f83-8774-778a8a84f967"
+                        }, {
+                          "type": "user",
+                          "user": {
+                            "status": "ACTIVE",
+                            "email": "althea.yi@partnerstack.com",
+                            "firstName": "Althea",
+                            "lastName": "Yi",
+                            "profilePicUrl": "https://pp.getguru.com/94597a4da6e447a3b2e710c6c0f90815.jpeg"
+                          },
+                          "id": "althea.yi@partnerstack.com"
+                        }, {
+                          "type": "user",
+                          "user": {
+                            "status": "ACTIVE",
+                            "email": "david.swords@partnerstack.com",
+                            "firstName": "David",
+                            "lastName": "Swords",
+                            "profilePicUrl": "https://lh4.googleusercontent.com/-NlcxmTufP0k/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclIoBh2ftWn1waQCsghBe-7PqL_NQ/photo.jpg"
+                          },
+                          "id": "david.swords@partnerstack.com"
+                        }, {
+                          "type": "user",
+                          "user": {
+                            "status": "ACTIVE",
+                            "email": "shannon.curnew@partnerstack.com",
+                            "firstName": "Shannon",
+                            "lastName": "Curnew",
+                            "profilePicUrl": "https://lh4.googleusercontent.com/-wwvWR8IFHMc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmXfLtkIR-rz_K-sVOr7xe6O9pXGQ/photo.jpg"
+                          },
+                          "id": "shannon.curnew@partnerstack.com"
+                        }],
                         verificationInitiator: {
                           "status": "ACTIVE",
                           "email": "althea.yi@partnerstack.com",
@@ -189,19 +232,62 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, ve
     id: id,
     verificationState: "NEEDS_VERIFICATION",
     verificationInterval: verificationInterval,
-    verifiers: [
-      {
-        "type": "user",
-        "user": {
-          "status": "ACTIVE",
-          "email": "shannon.curnew@partnerstack.com",
-          "firstName": "Shannon",
-          "lastName": "Curnew",
-        },
-        "id": "shannon.curnew@partnerstack.com",
-        "dateCreated": utcDate
-      }
-    ],
+    // verifiers: [
+    //   {
+    //     "type": "user",
+    //     "user": {
+    //       "status": "ACTIVE",
+    //       "email": "shannon.curnew@partnerstack.com",
+    //       "firstName": "Shannon",
+    //       "lastName": "Curnew",
+    //     },
+    //     "id": "shannon.curnew@partnerstack.com",
+    //     "dateCreated": utcDate
+    //   }
+    // ],
+    verifiers: [{
+      "type": "user-group",
+      "userGroup": {
+        "id": "35725837-184a-4f83-8774-778a8a84f967",
+        "dateCreated": "2020-07-07T17:33:52.218+0000",
+        "groupIdentifier": "team",
+        "numberOfCardsAsVerifier": 0,
+        "numberOfMembers": 0,
+        "modifiable": false,
+        "name": "All Members"
+      },
+      "id": "35725837-184a-4f83-8774-778a8a84f967"
+    }, {
+      "type": "user",
+      "user": {
+        "status": "ACTIVE",
+        "email": "althea.yi@partnerstack.com",
+        "firstName": "Althea",
+        "lastName": "Yi",
+        "profilePicUrl": "https://pp.getguru.com/94597a4da6e447a3b2e710c6c0f90815.jpeg"
+      },
+      "id": "althea.yi@partnerstack.com"
+    }, {
+      "type": "user",
+      "user": {
+        "status": "ACTIVE",
+        "email": "david.swords@partnerstack.com",
+        "firstName": "David",
+        "lastName": "Swords",
+        "profilePicUrl": "https://lh4.googleusercontent.com/-NlcxmTufP0k/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclIoBh2ftWn1waQCsghBe-7PqL_NQ/photo.jpg"
+      },
+      "id": "david.swords@partnerstack.com"
+    }, {
+      "type": "user",
+      "user": {
+        "status": "ACTIVE",
+        "email": "shannon.curnew@partnerstack.com",
+        "firstName": "Shannon",
+        "lastName": "Curnew",
+        "profilePicUrl": "https://lh4.googleusercontent.com/-wwvWR8IFHMc/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmXfLtkIR-rz_K-sVOr7xe6O9pXGQ/photo.jpg"
+      },
+      "id": "shannon.curnew@partnerstack.com"
+    }],
     verificationInitiator: {
       "status": "ACTIVE",
       "email": "althea.yi@partnerstack.com",
