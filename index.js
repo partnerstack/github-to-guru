@@ -161,6 +161,8 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
     'content-type': `application/json`
   };
   console.log("TAGS", tags)
+  let date = new Date();
+  let utcDate = date.getUTCDate();
   let data = {
     preferredPhrase: title,
     content: content,
