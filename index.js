@@ -23,7 +23,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, verificationInterval, content) {
+async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, tagCategoryName, verificationInterval, verificationEmail, verificationFirstName, verificationLastName, content) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`)
   let headers = {
     auth: auth,
@@ -52,6 +52,9 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               response.data[0].id,
               response.data[0].tags,
               verificationInterval,
+              verificationEmail,
+              verificationFirstName,
+              verificationLastName,
               content
             ).then(response => {
               console.log(`Updated card`);
@@ -109,11 +112,11 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                             "type": "user",
                             "user": {
                               "status": "ACTIVE",
-                              "email": "shannon.curnew@partnerstack.com",
-                              "firstName": "Shannon",
-                              "lastName": "Curnew",
+                              "email": verificationEmail,
+                              "firstName": verificationFirstName,
+                              "lastName": verificationLastName,
                             },
-                            "id": "shannon.curnew@partnerstack.com",
+                            "id": verificationEmail,
                             "dateCreated": utcDate
                           }
                         ],
@@ -201,7 +204,7 @@ async function apiSearchCardByTagValueAndCategoryName(auth, collectionId, tagVal
 
 }
 
-async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, verificationInterval, content) {
+async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, verificationInterval, verificationEmail, verificationFirstName, verificationLastName, content) {
   console.log(`Updating card in ${collectionId}: ${title} with ID ${id}`)
   let headers = {
     auth: auth,
@@ -224,11 +227,11 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, ve
         "type": "user",
         "user": {
           "status": "ACTIVE",
-          "email": "shannon.curnew@partnerstack.com",
-          "firstName": "Shannon",
-          "lastName": "Curnew",
+          "email": verificationEmail,
+          "firstName": verificationFirstName,
+          "lastName": verificationLastName,
         },
-        "id": "shannon.curnew@partnerstack.com",
+        "id": verificationEmail,
         "dateCreated": utcDate
       },
     ],
@@ -377,6 +380,9 @@ function processStandardCollection(auth) {
         cardConfigs[cardFilename].TeamId,
         cardConfigs[cardFilename].TagCategoryName,
         cardConfigs[cardFilename].VerificationInterval,
+        cardConfigs[cardFilename].VerificationEmail,
+        cardConfigs[cardFilename].VerificationFirstName,
+        cardConfigs[cardFilename].VerificationLastName,
         fs.readFileSync(cardFilename, "utf8")
       ).then(response => {
         console.log(`Created or updated card for ${cardFilename}`);

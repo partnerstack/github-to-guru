@@ -8,3 +8,6 @@ README.md:
   TeamId: "hfvvy"
   TagCategoryName: "Github-to-Guru Card ID Tags"
   VerificationInterval: 30
+  VerificationEmail: "shannon.curnew@partnerstack.com"
+  VerificationFirstName: "Shannon"
+  VerificationLastName: "Curnew"
