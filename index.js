@@ -115,19 +115,6 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                             },
                             "id": "shannon.curnew@partnerstack.com",
                             "dateCreated": utcDate
-                          },
-                          {
-                            "type": "user-group",
-                            "userGroup": {
-                              "id": "35725837-184a-4f83-8774-778a8a84f967",
-                              "dateCreated": "2020-07-07T17:33:52.218+0000",
-                              "groupIdentifier": "team",
-                              "expertIdRank": 1,
-                              "numberOfCardsAsVerifier": 0,
-                              "numberOfMembers": 0,
-                              "modifiable": false,
-                              "name": "All Members"
-                            }
                           }
                         ],
                         // verifiers: [
@@ -244,19 +231,6 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, ve
         "id": "shannon.curnew@partnerstack.com",
         "dateCreated": utcDate
       },
-      {
-        "type": "user-group",
-        "userGroup": {
-          "id": "35725837-184a-4f83-8774-778a8a84f967",
-          "dateCreated": "2020-07-07T17:33:52.218+0000",
-          "groupIdentifier": "team",
-          "expertIdRank": 1,
-          "numberOfCardsAsVerifier": 0,
-          "numberOfMembers": 0,
-          "modifiable": false,
-          "name": "All Members"
-        }
-      }
     ],
     // verifiers: [
     //   {
