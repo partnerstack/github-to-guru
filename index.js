@@ -141,16 +141,17 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         verificationReason: "NEW_VERIFIER"
                       }
                       try {
-                        return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers)
+                        return axios.post(`https://api.getguru.com/api/v1/facts/extended`, cardData, headers).then(response => {
+                          try {
+                            console.log(`Unverifying newly created card.`)
+                            postData = {}
+                            return axios.post(`https://api.getguru.com/api/v1/cards/a75a4ef6-6a6a-454d-b3a2-1864814bc1a3/unverify`, postData, headers)
+                          } catch (error) {
+                            core.setFailed(`Unable to unverify card: ${error.message}`)
+                          }
+                        })
                       } catch (error) {
                         core.setFailed(`Unable to create card: ${error.message}`);
-                      }
-                      try {
-                        console.log(`Unverifying newly created card.`)
-                        postData = {}
-                        return axios.post(`https://api.getguru.com/api/v1/cards/a75a4ef6-6a6a-454d-b3a2-1864814bc1a3/unverify`, postData, headers)
-                      } catch (error) {
-                        core.setFailed(`Unable to unverify card: ${error.message}`)
                       }
                     })
                   } catch (error) {
