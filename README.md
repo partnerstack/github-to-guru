@@ -1,4 +1,5 @@
 # GitHub to Guru - PStack Version
+This is the PartnerStack fork of Github-to-Guru!
 
 **Deploy content from your GitHub repo into a Guru collection.**
 
