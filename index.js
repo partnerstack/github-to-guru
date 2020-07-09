@@ -65,9 +65,7 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
               } catch (error) {
                 core.setFailed(`Unable to unverify card: ${error.message}`)
               }
-            }).catch(error => {
-              core.setFailed(`Unable to update card: ${error.message}`);
-            });
+            })
           } catch (error) {
             core.setFailed(`Unable to prepare card: ${error.message}`);
           }
