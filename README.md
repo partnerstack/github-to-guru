@@ -66,3 +66,5 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 ## TODO LIST
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
+3. Create a `createBoard` function.
+4. Create an `updateBoard` function.
