@@ -169,6 +169,11 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, co
     shareStatus: "TEAM",
     id: id,
     verificationState: "NEEDS_VERIFICATION",
+    verifiers: [{
+      id: "shannon.curnew@partnerstack.com",
+      type: "USER",
+      dateCreated: utcDate
+    }],
     tags: tags
   }
   return axios.put(`https://api.getguru.com/api/v1/cards/${id}/extended`, data, headers)
