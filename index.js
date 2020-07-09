@@ -104,34 +104,34 @@ async function apiSendStandardCard(auth, collectionId, title, tagValue, teamId, 
                         tags: [response.data],
                         verificationState: "NEEDS_VERIFICATION",
                         verificationInterval: verificationInterval,
-                        // verifiers: [
-                        //   {
-                        //     "type": "user",
-                        //     "user": {
-                        //       "status": "ACTIVE",
-                        //       "email": "shannon.curnew@partnerstack.com",
-                        //       "firstName": "Shannon",
-                        //       "lastName": "Curnew",
-                        //     },
-                        //     "id": "shannon.curnew@partnerstack.com",
-                        //     "dateCreated": utcDate
-                        //   }
-                        // ],
                         verifiers: [
                           {
-                            "type": "user-group",
-                            "userGroup": {
-                              "id": "35725837-184a-4f83-8774-778a8a84f967",
-                              "dateCreated": "2020-07-07T17:33:52.218+0000",
-                              "groupIdentifier": "team",
-                              "expertIdRank": 1,
-                              "numberOfCardsAsVerifier": 0,
-                              "numberOfMembers": 0,
-                              "modifiable": false,
-                              "name": "All Members"
-                            }
+                            "type": "user",
+                            "user": {
+                              "status": "ACTIVE",
+                              "email": "shannon.curnew@partnerstack.com",
+                              "firstName": "Shannon",
+                              "lastName": "Curnew",
+                            },
+                            "id": "shannon.curnew@partnerstack.com",
+                            "dateCreated": utcDate
                           }
                         ],
+                        // verifiers: [
+                        //   {
+                        //     "type": "user-group",
+                        //     "userGroup": {
+                        //       "id": "35725837-184a-4f83-8774-778a8a84f967",
+                        //       "dateCreated": "2020-07-07T17:33:52.218+0000",
+                        //       "groupIdentifier": "team",
+                        //       "expertIdRank": 1,
+                        //       "numberOfCardsAsVerifier": 0,
+                        //       "numberOfMembers": 0,
+                        //       "modifiable": false,
+                        //       "name": "All Members"
+                        //     }
+                        //   }
+                        // ],
                         verificationInitiator: {
                           "status": "ACTIVE",
                           "email": "althea.yi@partnerstack.com",
@@ -219,34 +219,34 @@ async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, ve
     id: id,
     verificationState: "NEEDS_VERIFICATION",
     verificationInterval: verificationInterval,
-    // verifiers: [
-    //   {
-    //     "type": "user",
-    //     "user": {
-    //       "status": "ACTIVE",
-    //       "email": "shannon.curnew@partnerstack.com",
-    //       "firstName": "Shannon",
-    //       "lastName": "Curnew",
-    //     },
-    //     "id": "shannon.curnew@partnerstack.com",
-    //     "dateCreated": utcDate
-    //   },
-    // ],
     verifiers: [
       {
-        "type": "user-group",
-        "userGroup": {
-          "id": "35725837-184a-4f83-8774-778a8a84f967",
-          "dateCreated": "2020-07-07T17:33:52.218+0000",
-          "groupIdentifier": "team",
-          "expertIdRank": 1,
-          "numberOfCardsAsVerifier": 0,
-          "numberOfMembers": 0,
-          "modifiable": false,
-          "name": "All Members"
-        }
-      }
+        "type": "user",
+        "user": {
+          "status": "ACTIVE",
+          "email": "shannon.curnew@partnerstack.com",
+          "firstName": "Shannon",
+          "lastName": "Curnew",
+        },
+        "id": "shannon.curnew@partnerstack.com",
+        "dateCreated": utcDate
+      },
     ],
+    // verifiers: [
+    //   {
+    //     "type": "user-group",
+    //     "userGroup": {
+    //       "id": "35725837-184a-4f83-8774-778a8a84f967",
+    //       "dateCreated": "2020-07-07T17:33:52.218+0000",
+    //       "groupIdentifier": "team",
+    //       "expertIdRank": 1,
+    //       "numberOfCardsAsVerifier": 0,
+    //       "numberOfMembers": 0,
+    //       "modifiable": false,
+    //       "name": "All Members"
+    //     }
+    //   }
+    // ],
     verificationInitiator: {
       "status": "ACTIVE",
       "email": "althea.yi@partnerstack.com",
