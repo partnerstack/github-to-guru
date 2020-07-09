@@ -61,7 +61,7 @@ jobs:
           GURU_COLLECTION_YAML: "collections/collection.yaml"
           GURU_CARD_YAML: "cards.yaml"
 ```
-
+Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## TODO LIST
 1. Figure out how to set a group of users as the verifier.
