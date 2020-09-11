@@ -68,5 +68,8 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
 4. Create an `updateBoard` function.
-5. Clean up callback hell + incorrect error messages.
-6. Figure out why an "error" is being thrown even though everything works... Likely has to do with the call to the "unverify" API and the fact that I'm sending it an empty request body (which is fine, because it won't accept anything anyway, but it probably just doesn't like the empty JSON object).
+5. Figure out how to add Cards to Boards
+6. Figure out how to create separate Cards from markdown sections (in DOK)
+7. Figure out how to create Board Sections
+8. Clean up callback hell + incorrect error messages.
+9. Figure out why an "error" is being thrown even though everything works... Likely has to do with the call to the "unverify" API and the fact that I'm sending it an empty request body (which is fine, because it won't accept anything anyway, but it probably just doesn't like the empty JSON object).
