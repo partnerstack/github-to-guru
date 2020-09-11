@@ -16,4 +16,5 @@ jobs:
           GURU_USER_TOKEN: "${{ secrets.GURU_USER_TOKEN }}"
           GURU_COLLECTION_ID: "${{ secrets.GURU_COLLECTION_ID }}"
           GURU_COLLECTION_YAML: "collections/collection.yaml"
+          GURU_TEAM_ID: "${{ secrets.GURU_TEAM_ID }}"
           GURU_CARD_YAML: "cards.yaml"
