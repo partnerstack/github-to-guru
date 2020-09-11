@@ -5,7 +5,7 @@ README.md:
     - "Readme"
   Title: "Pstack GitHub-to-Guru Readme"
   UniqueTagValue: "555"
-  TeamId: "hfvvy"
+  TeamId: process.env.GURU_TEAM_ID
   TagCategoryName: "Github-to-Guru Card ID Tags"
   VerificationInterval: 30
   VerificationEmail: "shannon.curnew@partnerstack.com"
