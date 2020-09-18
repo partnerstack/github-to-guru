@@ -191,7 +191,7 @@ async function apiSearchCardByTagValueAndCategoryName(auth, collectionId, tagVal
       auth: auth
     })
   } catch {
-    core.setFailed(`Unable to get find card with tagValue ${tagValue}: ${error.message}`);
+    core.setFailed(`Unable to get find card with tagValue ${tagValue} in category ${tagCategoryName}: ${error.message}`);
   }
 }
 async function apiUpdateStandardCardById(auth, collectionId, title, id, tags, verificationInterval,
