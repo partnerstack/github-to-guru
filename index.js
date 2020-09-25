@@ -65,14 +65,14 @@ async function apiSendStandardCard(
     "content-type": `application/json`
   }; // 1. Search for a card by tag value and return its id.
 
-  let tagValue = uuidv4()
+  let uniqueTagValue = uuidv4()
 
   if (process.env.GURU_CARD_YAML) {
     try {
       apiSearchCardByTagValueAndCategoryName(
         auth,
         process.env.GURU_COLLECTION_ID,
-        tagValue,
+        uniqueTagValue,
         tagCategoryName,
         content
       ).then((response) => {
@@ -82,11 +82,11 @@ async function apiSendStandardCard(
           let cardTags = response.data[0].tags
           try {
             console.log(
-              `Found existing card for with title ${title} and tagValue ${tagValue}`
+              `Found existing card for with title ${title} and uniqueTagValue ${uniqueuniqueTagValue}`
             );
             console.log("response data", cardTags);
             console.log(
-              `Updating card for with Id ${cardId} and tagValue ${tagValue}`
+              `Updating card for with Id ${cardId} and uniqueTagValue ${uniqueTagValue}`
             );
             apiUpdateStandardCardById(
               auth,
