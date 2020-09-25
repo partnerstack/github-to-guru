@@ -100,7 +100,7 @@ async function apiSendStandardCard(
                 console.log(`Unverifying updated card.`);
                 postData = {};
                 return axios.post(
-                  `https://api.getguru.com/api/v1/cards/a75a4ef6-6a6a-454d-b3a2-1864814bc1a3/unverify`,
+                  `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
                   postData,
                   headers
                 );
@@ -209,7 +209,7 @@ async function apiSendStandardCard(
                                   );
                                   postData = {};
                                   return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/a75a4ef6-6a6a-454d-b3a2-1864814bc1a3/unverify`,
+                                    `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
                                     postData,
                                     headers
                                   );
