@@ -18,6 +18,8 @@ const querystring = require("querystring");
 
 const path = require("path");
 
+const { v4: uuidv4 } = require("uuid");
+
 async function getCollection(auth, collectionId) {
   console.log(`collection: ${collectionId}`);
   return axios.get(
@@ -62,6 +64,8 @@ async function apiSendStandardCard(
     auth: auth,
     "content-type": `application/json`
   }; // 1. Search for a card by tag value and return its id.
+
+  let tagValue = uuidv4()
 
   if (process.env.GURU_CARD_YAML) {
     try {
