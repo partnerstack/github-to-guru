@@ -124,7 +124,7 @@ async function apiSendStandardCard(
           try {
             apiCreateTagByCategoryId(
               auth,
-              tagValue,
+              uniqueTagValue,
               teamId,
               tagCategoryName
             ).then((response) => {
@@ -134,7 +134,7 @@ async function apiSendStandardCard(
                     console.log("tag category id????", tagCategoryId);
                     let tagData = {
                       categoryId: tagCategoryId,
-                      value: tagValue
+                      value: uniqueTagValue
                     };
                     console.log("get tag data", tagData);
 
