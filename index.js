@@ -74,20 +74,22 @@ async function apiSendStandardCard(
       ).then((response) => {
         // 2a. If card exists, call to update existing card by id (not by tag value).
         if (response.data.length >= 1) {
+          let cardId = response.data[0].id
+          let cardTags = response.data[0].tags
           try {
             console.log(
               `Found existing card for with title ${title} and tagValue ${tagValue}`
             );
-            console.log("response data", response.data[0].tags);
+            console.log("response data", cardTags);
             console.log(
-              `Updating card for with Id ${response.data[0].id} and tagValue ${tagValue}`
+              `Updating card for with Id ${cardId} and tagValue ${tagValue}`
             );
             apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
               title,
-              response.data[0].id,
-              response.data[0].tags,
+              cardId,
+              cardTags,
               verificationInterval,
               verificationEmail,
               verificationFirstName,
@@ -100,7 +102,7 @@ async function apiSendStandardCard(
                 console.log(`Unverifying updated card.`);
                 let postData = {};
                 return axios.post(
-                  `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
+                  `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
                   { postData },
                   headers
                 );
@@ -205,7 +207,7 @@ async function apiSendStandardCard(
                               .then((response) => {
                                 try {
                                   console.log(
-                                    `Unverifying newly created card with id ${cardData}`
+                                    `Unverifying newly created card.`
                                   );
                                   let postData = {};
                                   return axios.post(
@@ -298,7 +300,7 @@ async function apiUpdateStandardCardById(
   auth,
   collectionId,
   title,
-  id,
+  cardId,
   tags,
   verificationInterval,
   verificationEmail,
@@ -306,7 +308,7 @@ async function apiUpdateStandardCardById(
   verificationLastName,
   content
 ) {
-  console.log(`Updating card in ${collectionId}: ${title} with ID ${id}`);
+  console.log(`Updating card in ${collectionId}: ${title} with ID ${cardId}`);
   let headers = {
     auth: auth,
     "content-type": `application/json`
@@ -322,7 +324,7 @@ async function apiUpdateStandardCardById(
       id: collectionId
     },
     shareStatus: "TEAM",
-    id: id,
+    id: cardId,
     verificationState: "NEEDS_VERIFICATION",
     verificationInterval: verificationInterval,
     verifiers: [
