@@ -252,7 +252,8 @@ async function apiSendStandardCard(
 }
 
 async function getTagCategoryId(data, tagCategoryName) {
-  console.log(`Getting Tag Category Id`);
+  console.log(`Getting Tag Category Id by category name`, tagCategoryName);
+  console.log(`tag category data`, data)
 
   for (i = 0; i < data.length; i++) {
     if (data[i].name === tagCategoryName) {
