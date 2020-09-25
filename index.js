@@ -98,11 +98,11 @@ async function apiSendStandardCard(
 
               try {
                 console.log(`Unverifying updated card.`);
-                postData = {};
+                let postData = {};
                 return axios.post(
                   `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
-                  postData,
-                  { headers }
+                  { postData },
+                  headers
                 );
               } catch (error) {
                 core.setFailed(`Unable to unverify card: ${error.message}`);
@@ -207,7 +207,7 @@ async function apiSendStandardCard(
                                   console.log(
                                     `Unverifying newly created card.`
                                   );
-                                  postData = {};
+                                  let postData = {};
                                   return axios.post(
                                     `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
                                     postData,
