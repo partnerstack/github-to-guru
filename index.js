@@ -73,6 +73,7 @@ async function apiSendStandardCard(
   let existingUniqueTag = arr.forEach((line, idx) => {
     if (line.includes("Guru tag - ")) {
       let line_arr = line.split(" ")
+      console.log("line arr", line_arr)
       return line_arr[line_arr.length - 1]
     } else {
       return null
