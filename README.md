@@ -73,5 +73,6 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 7. Figure out how to create Board Sections
 8. Clean up callback hell + incorrect error messages.
 9. Figure out why an "error" is being thrown even though everything works... Likely has to do with the call to the "unverify" API and the fact that I'm sending it an empty request body (which is fine, because it won't accept anything anyway, but it probably just doesn't like the empty JSON object).
+10. Figure out how to dynamically switch up `git config --local user.name "asyi"`
 
 Guru tag - 0b9a5fba-4ecd-47da-8405-11491374ad3f
