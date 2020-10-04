@@ -82,7 +82,7 @@ async function apiSendStandardCard(
           let cardTags = response.data[0].tags
           try {
             console.log(
-              `Found existing card for with title ${title} and uniqueTagValue ${uniqueuniqueTagValue}`
+              `Found existing card for with title ${title} and uniqueTagValue ${uniqueTagValue}`
             );
             console.log("response data", cardTags);
             console.log(
