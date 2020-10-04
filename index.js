@@ -68,6 +68,7 @@ async function apiSendStandardCard(
 
   //TODO - add some conditional logic to only set unique tag value if no `tagValue`
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+  console.log("FILE BEFORE SYNC", file)
   let arr = file.split(/\r?\n/);
   let existingUniqueTag = arr.forEach((line, idx) => {
     if (line.includes("Guru tag - ")) {
@@ -81,13 +82,13 @@ async function apiSendStandardCard(
   if (!existingUniqueTag) {
     console.log("No existing unique tag value... generating")
     uniqueTagValue = uuidv4()
-    const uniqueTagValueToWrite = `Guru tag - ${uniqueTagValue}`;
+    const uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
 
-    content = fs.appendFileSync((path.resolve(`${cardFilename}`)), uniqueTagValueToWrite, (err) => {
+    content = fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, (err) => {
       if (err) {
         throw err;
       }
-      console.log("File is updated.");
+      console.log("File is updated.", content);
     });
   } else {
     console.log(`Unique tag value found: ${uniqueTagValue}`)
