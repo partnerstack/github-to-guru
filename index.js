@@ -87,8 +87,8 @@ async function apiSendStandardCard(
 
     console.log("unique tag value to write", uniqueTagValueToWrite);
 
-    fs.appendFileSync("README.md", uniqueTagValueToWrite, { flag: "as" })
-    file = fs.readFileSync("README.md", "utf8")
+    fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
+    file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     console.log('The "data to append" was appended to file!', file);
     content = file
 
@@ -562,6 +562,8 @@ function processStandardCollection(auth) {
 
     for (let cardFilename in cardConfigs)
       try {
+        console.log("TESTING STUFF")
+        fs.appendFileSync(path.resolve(`${cardFilename}`), "\n TEST 123", { flag: "as" })
         apiSendStandardCard(
           auth,
           process.env.GURU_COLLECTION_ID,
