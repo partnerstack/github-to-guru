@@ -57,7 +57,6 @@ async function apiSendStandardCard(
   verificationEmail,
   verificationFirstName,
   verificationLastName,
-  content,
   cardFilename
 ) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`);
@@ -80,6 +79,7 @@ async function apiSendStandardCard(
   });
 
   let uniqueTagValue
+  let content
   if (!existingUniqueTag) {
     console.log("No existing unique tag value... generating")
     uniqueTagValue = uuidv4()
@@ -93,6 +93,7 @@ async function apiSendStandardCard(
   } else {
     console.log(`Unique tag value found: ${uniqueTagValue}`)
     uniqueTagValue = existingUniqueTag
+    content = file
   }
 
 
@@ -568,7 +569,6 @@ function processStandardCollection(auth) {
           cardConfigs[cardFilename].VerificationEmail,
           cardConfigs[cardFilename].VerificationFirstName,
           cardConfigs[cardFilename].VerificationLastName,
-          fs.readFileSync(path.resolve(`${cardFilename}`), "utf8"),
           cardFilename
         )
           .then((response) => {
