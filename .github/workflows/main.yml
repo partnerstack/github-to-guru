@@ -17,10 +17,10 @@ jobs:
           node update_markdown.js # This file reads a few json files and then creates a set of html files in the doc folder
       - name: Commit files # transfer the new html files back into the repository
         run: |
-          git config --local user.name "asyi"
           git add .
           git commit -m "Updating the README file with a unique tag"
-      - name: Push changes # push the output folder to your repo
+          git push
+      - name: Run github-to-guru integration
         uses: partnerstack/github-to-guru@master
         env:
           GURU_USER_EMAIL: "${{ secrets.GURU_USER_EMAIL }}"
