@@ -11,23 +11,25 @@ for (let cardFilename in cardConfigs) {
     //TODO - add some conditional logic to only set unique tag value if no `tagValue`
     let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = file.split(/\r?\n/);
+    var existingTag
     let existingUniqueTag = arr.forEach((line, idx) => {
         if (line.includes("Guru tag - ")) {
-            let line_arr = line.split(" ")
+            var line_arr = line.split(" ")
             console.log("line arr", line_arr)
-            return line_arr[line_arr.length - 1]
+            existingTag = line_arr[line_arr.length - 1]
+            return True
         } else {
             return null
         }
     });
-    console.log("existingUniqueTag", existingUniqueTag)
+    console.log("existingUniqueTag", existingTag)
 
 
 
 
     let uniqueTagValue
     let content
-    if (!existingUniqueTag) {
+    if (!existingTag) {
         console.log("No existing unique tag value... generating")
         uniqueTagValue = uuidv4()
         let uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
@@ -41,7 +43,7 @@ for (let cardFilename in cardConfigs) {
 
     } else {
         console.log(`Unique tag value found: ${uniqueTagValue}`)
-        uniqueTagValue = existingUniqueTag
+        uniqueTagValue = existingTag
         content = file
     }
 
