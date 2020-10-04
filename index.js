@@ -77,8 +77,10 @@ async function apiSendStandardCard(
     return null
   });
 
+  let uniqueTagValue
   if (!existingUniqueTag) {
-    let uniqueTagValue = uuidv4()
+    console.log("No existing unique tag value... generating")
+    uniqueTagValue = uuidv4()
     const uniqueTagValueToWrite = `Guru tag - ${uniqueTagValue}`;
 
     content = fs.appendFile((path.resolve(`${cardFilename}`), "utf8"), uniqueTagValueToWrite, (err) => {
@@ -88,6 +90,7 @@ async function apiSendStandardCard(
       console.log("File is updated.");
     });
   } else {
+    console.log(`Unique tag value found: ${uniqueTagValue}`)
     uniqueTagValue = existingUniqueTag
   }
 
