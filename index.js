@@ -67,7 +67,7 @@ async function apiSendStandardCard(
   //TODO - add some conditional logic to only set unique tag value if no `tagValue`
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
-  let existingTag
+  var existingTag
   arr.forEach((line, idx) => {
     if (line.includes("Guru tag - ")) {
       let line_arr = line.split(" ")
