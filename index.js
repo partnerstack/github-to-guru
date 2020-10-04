@@ -88,8 +88,9 @@ async function apiSendStandardCard(
     console.log("unique tag value to write", uniqueTagValueToWrite);
 
     fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite)
-    content = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
-    console.log('The "data to append" was appended to file!', content);
+    file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+    console.log('The "data to append" was appended to file!', file);
+    content = file
 
   } else {
     console.log(`Unique tag value found: ${uniqueTagValue}`)
