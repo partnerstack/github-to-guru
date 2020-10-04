@@ -83,7 +83,7 @@ async function apiSendStandardCard(
     uniqueTagValue = uuidv4()
     const uniqueTagValueToWrite = `Guru tag - ${uniqueTagValue}`;
 
-    content = fs.appendFile((path.resolve(`${cardFilename}`), "utf8"), uniqueTagValueToWrite, (err) => {
+    content = fs.appendFileSync((path.resolve(`${cardFilename}`)), uniqueTagValueToWrite, (err) => {
       if (err) {
         throw err;
       }
