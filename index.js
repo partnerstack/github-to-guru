@@ -50,7 +50,6 @@ async function apiSendStandardCard(
   auth,
   collectionId,
   title,
-  tagValue,
   teamId,
   tagCategoryName,
   verificationInterval,
@@ -68,7 +67,6 @@ async function apiSendStandardCard(
   //TODO - add some conditional logic to only set unique tag value if no `tagValue`
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
-  console.log("ARRR", arr)
   let existingUniqueTag = arr.forEach((line, idx) => {
     if (line.includes("Guru tag - ")) {
       let line_arr = line.split(" ")
@@ -89,8 +87,8 @@ async function apiSendStandardCard(
 
     console.log("unique tag value to write", uniqueTagValueToWrite);
 
-    fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
-    file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+    fs.appendFileSync(`${cardFilename}`, uniqueTagValueToWrite, { flag: "as" })
+    file = fs.readFileSync(`${cardFilename}`, "utf8")
     console.log('The "data to append" was appended to file!', file);
     content = file
 
@@ -99,6 +97,8 @@ async function apiSendStandardCard(
     uniqueTagValue = existingUniqueTag
     content = file
   }
+
+  console.log("CONTENT", content)
 
 
   if (process.env.GURU_CARD_YAML) {
@@ -566,7 +566,6 @@ function processStandardCollection(auth) {
           auth,
           process.env.GURU_COLLECTION_ID,
           cardConfigs[cardFilename].Title,
-          cardConfigs[cardFilename].UniqueTagValue,
           cardConfigs[cardFilename].TeamId,
           cardConfigs[cardFilename].TagCategoryName,
           cardConfigs[cardFilename].VerificationInterval,

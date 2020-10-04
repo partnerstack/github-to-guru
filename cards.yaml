@@ -4,7 +4,6 @@ README.md:
     - "Documentation"
     - "Readme"
   Title: "Pstack GitHub-to-Guru Readme"
-  UniqueTagValue: "555"
   TeamId: process.env.GURU_TEAM_ID
   TagCategoryName: "UnderDok Tags"
   VerificationInterval: 30
