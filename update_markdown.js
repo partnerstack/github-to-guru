@@ -27,7 +27,7 @@ for (let cardFilename in cardConfigs) {
 
 
 
-    let uniqueTagValue
+    var uniqueTagValue
     let content
     if (!existingTag) {
         console.log("No existing unique tag value... generating")
