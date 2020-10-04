@@ -562,8 +562,6 @@ function processStandardCollection(auth) {
 
     for (let cardFilename in cardConfigs)
       try {
-        console.log("TESTING STUFF")
-        fs.appendFileSync(path.resolve(`${cardFilename}`), "\n TEST 123", { flag: "as" })
         apiSendStandardCard(
           auth,
           process.env.GURU_COLLECTION_ID,

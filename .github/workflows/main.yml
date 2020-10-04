@@ -18,3 +18,18 @@ jobs:
           GURU_COLLECTION_YAML: "collections/collection.yaml"
           GURU_TEAM_ID: "${{ secrets.GURU_TEAM_ID }}"
           GURU_CARD_YAML: "cards.yaml"
+
+      # Runs commands using the runners shell
+      - name: Run the build markdown script
+        run: |
+          node update_markdown.js # This file reads a few json files and then creates a set of html files in the doc folder
+      - name: Commit files # transfer the new html files back into the repository
+        run: |
+          git config --local user.name "asyi"
+          git add .
+          git commit -m "Updating the README file with a unique tag"
+      - name: Push changes # push the output folder to your repo
+        uses: partnerstack/github-to-guru@master
+        with:
+          github_token: ${{ secrets.ALTHEA_GITHUB_TO_GURU_GITHUB_TOKEN }}
+          force: true
