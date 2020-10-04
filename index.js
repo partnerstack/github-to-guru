@@ -87,8 +87,8 @@ async function apiSendStandardCard(
 
     console.log("unique tag value to write", uniqueTagValueToWrite);
 
-    fs.appendFileSync(cardFilename, uniqueTagValueToWrite, { flag: "as" })
-    file = fs.readFileSync(cardFilename, "utf8")
+    fs.appendFileSync("README.md", uniqueTagValueToWrite, { flag: "as" })
+    file = fs.readFileSync("README.md", "utf8")
     console.log('The "data to append" was appended to file!', file);
     content = file
 
