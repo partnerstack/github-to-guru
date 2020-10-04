@@ -20,7 +20,7 @@ jobs:
           git config --local user.name "asyi"
           git add .
           git diff-index --quiet HEAD || git commit -m "Updating the README file with a unique tag"
-          git push master
+          git push
       - name: Run github-to-guru integration
         uses: partnerstack/github-to-guru@master
         env:
