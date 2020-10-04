@@ -19,7 +19,7 @@ for (let cardFilename in cardConfigs) {
             existingTag = line_arr[line_arr.length - 1]
             return True
         } else {
-            return null
+            return False
         }
     });
     console.log("existingUniqueTag", existingTag)
