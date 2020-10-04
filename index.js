@@ -85,12 +85,11 @@ async function apiSendStandardCard(
     uniqueTagValue = uuidv4()
     const uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
 
-    content = fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log("File is updated.", content);
-    });
+
+    let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'a' });
+    stream.write(uniqueTagValueToWrite)
+    console.log("File is updated.", stream);
+    stream.end();
   } else {
     console.log(`Unique tag value found: ${uniqueTagValue}`)
     uniqueTagValue = existingUniqueTag
