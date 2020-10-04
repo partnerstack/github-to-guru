@@ -65,7 +65,7 @@ async function apiSendStandardCard(
     "content-type": `application/json`
   }; // 1. Search for a card by tag value and return its id.
 
-  let uniqueTagValue = uuidv4()
+  let uniqueTagValue = title
 
   if (process.env.GURU_CARD_YAML) {
     try {
