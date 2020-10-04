@@ -29,6 +29,3 @@ jobs:
           git commit -m "Updating the README file with a unique tag"
       - name: Push changes # push the output folder to your repo
         uses: partnerstack/github-to-guru@master
-        with:
-          github_token: ${{ secrets.ALTHEA_GITHUB_TO_GURU_GITHUB_TOKEN }}
-          force: true
