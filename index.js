@@ -95,7 +95,7 @@ async function apiSendStandardCard(
     content = file
 
   } else {
-    console.log(`Unique tag value found: ${uniqueTagValue}`)
+    console.log(`Unique tag value found: ${existingTag}`)
     uniqueTagValue = existingTag
     content = file
   }
