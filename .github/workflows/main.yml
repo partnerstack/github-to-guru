@@ -10,13 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        env:
-          GURU_USER_EMAIL: "${{ secrets.GURU_USER_EMAIL }}"
-          GURU_USER_TOKEN: "${{ secrets.GURU_USER_TOKEN }}"
-          GURU_COLLECTION_ID: "${{ secrets.GURU_COLLECTION_ID }}"
-          GURU_COLLECTION_YAML: "collections/collection.yaml"
-          GURU_TEAM_ID: "${{ secrets.GURU_TEAM_ID }}"
-          GURU_CARD_YAML: "cards.yaml"
 
       # Runs commands using the runners shell
       - name: Run the build markdown script
@@ -29,3 +22,10 @@ jobs:
           git commit -m "Updating the README file with a unique tag"
       - name: Push changes # push the output folder to your repo
         uses: partnerstack/github-to-guru@master
+        env:
+          GURU_USER_EMAIL: "${{ secrets.GURU_USER_EMAIL }}"
+          GURU_USER_TOKEN: "${{ secrets.GURU_USER_TOKEN }}"
+          GURU_COLLECTION_ID: "${{ secrets.GURU_COLLECTION_ID }}"
+          GURU_COLLECTION_YAML: "collections/collection.yaml"
+          GURU_TEAM_ID: "${{ secrets.GURU_TEAM_ID }}"
+          GURU_CARD_YAML: "cards.yaml"
