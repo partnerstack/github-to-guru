@@ -57,7 +57,8 @@ async function apiSendStandardCard(
   verificationEmail,
   verificationFirstName,
   verificationLastName,
-  content
+  content,
+  cardFilename
 ) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`);
   let headers = {
@@ -563,7 +564,8 @@ function processStandardCollection(auth) {
           cardConfigs[cardFilename].VerificationEmail,
           cardConfigs[cardFilename].VerificationFirstName,
           cardConfigs[cardFilename].VerificationLastName,
-          fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+          fs.readFileSync(path.resolve(`${cardFilename}`), "utf8"),
+          cardFilename
         )
           .then((response) => {
             console.log(`Created or updated card for ${cardFilename}`);
