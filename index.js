@@ -65,7 +65,31 @@ async function apiSendStandardCard(
     "content-type": `application/json`
   }; // 1. Search for a card by tag value and return its id.
 
-  let uniqueTagValue = uuidv4()
+  //TODO - add some conditional logic to only set unique tag value if no `tagValue`
+  let file = fs.readFileSync = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+  let arr = file.split(/\r?\n/);
+  let existingUniqueTag = arr.forEach((line, idx) => {
+    if (line.includes("Guru tag - ")) {
+      let line_arr = line.split(" ")
+      return line_arr[line_arr.length - 1]
+    }
+    return null
+  });
+
+  if (!existingUniqueTag) {
+    let uniqueTagValue = uuidv4()
+    const uniqueTagValueToWrite = `Guru tag - ${uniqueTagValue}`;
+
+    fs.appendFile((path.resolve(`${cardFilename}`), "utf8"), uniqueTagValueToWrite, (err) => {
+      if (err) {
+        throw err;
+      }
+      console.log("File is updated.");
+    });
+  } else {
+    uniqueTagValue = existingUniqueTag
+  }
+
 
   if (process.env.GURU_CARD_YAML) {
     try {
