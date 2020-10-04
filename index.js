@@ -405,7 +405,7 @@ async function apiUpdateStandardCardById(
     tags: tags
   };
   return axios.put(
-    `https://api.getguru.com/api/v1/cards/${id}/extended`,
+    `https://api.getguru.com/api/v1/cards/${cardId}/extended`,
     data,
     headers
   );
