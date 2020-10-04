@@ -19,7 +19,7 @@ jobs:
         run: |
           git config --local user.name "asyi"
           git add .
-          git commit -m "Updating the README file with a unique tag"
+          git diff-index --quiet HEAD || git commit -m "Updating the README file with a unique tag"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
