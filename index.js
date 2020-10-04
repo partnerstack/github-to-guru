@@ -73,9 +73,9 @@ async function apiSendStandardCard(
       let line_arr = line.split(" ")
       console.log("line arr", line_arr)
       existingTag = line_arr[line_arr.length - 1]
-      return True
+      return true
     } else {
-      return False
+      return false
     }
   });
   console.log("existingUniqueTag", existingTag)
