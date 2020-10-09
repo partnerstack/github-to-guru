@@ -77,7 +77,7 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 11. Figure out how to add cards to Board
 
 
-STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-level Board Group never containing free-floating cards... the idea is that we'll programatically generate a card, which gets put in the top-level bucket, then we do the following to immediately class it in a sub board somewhere... unless the guru CS people get back to me on how to programatically create a new card within a section)
+STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-level Collection ("cards not on a board") never containing manually-made and/or free-floating cards... the idea is that we'll programatically generate a card, which gets put in this "cards not on a board" bucket, then we do the following to immediately class it in a sub board somewhere... unless the guru CS people get back to me on how to programatically create a new card within a section)
 1. GET - the board to which you want to move things... you can get board by `id` or get all `boards` and figure it out from there.
 2. GET - the {{card_id}} of the card in question
 3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
