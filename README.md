@@ -76,4 +76,11 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 10. Figure out how to dynamically switch up `git config --local user.name "asyi"`
 11. Figure out how to add cards to Board
 
+
+STEPS FOR MOVING CARDS TO NESTED BOARD SECTION
+1. GET - the board to which you want to move things... you can get board by `id` or get all `boards` and figure it out from there.
+2. GET - the {{card_id}} of the card in question
+3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
+4. POST - https://api.getguru.com/api/v1/boards/{{board_id}}/entries - Use the Response Body's `itemID` from step 2 as the value of this Request Body's `BoardEntries[i].id`.
+
 Guru tag - 0b9a5fba-4ecd-47da-8405-11491374ad3f
