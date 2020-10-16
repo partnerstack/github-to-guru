@@ -271,11 +271,11 @@ async function apiSendStandardCard(
                               .then((response) => {
                                 try {
                                   console.log(
-                                    `Unverifying newly created card, ${response.id}`
+                                    `Unverifying newly created card, ${response.data.id}`
                                   );
                                   let postData = {};
                                   return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/${response.id}/unverify`,
+                                    `https://api.getguru.com/api/v1/cards/${response.data.id}/unverify`,
                                     postData,
                                     headers
                                   );
