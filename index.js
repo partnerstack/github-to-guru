@@ -238,15 +238,28 @@ async function apiSendStandardCard(
                               )
                               .then((response) => {
                                 try {
+                                  var newCardId = response.data.id
                                   console.log(
-                                    `Unverifying newly created card, ${response.data.id}`
+                                    `Unverifying newly created card, ${newCardId}`
                                   );
                                   let postData = {};
                                   return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/${response.data.id}/unverify`,
+                                    `https://api.getguru.com/api/v1/cards/${newCardId}/unverify`,
                                     postData,
                                     headers
-                                  );
+                                  ).then((response) => {
+                                    try {
+                                      let boardId = {
+                                        "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
+                                      }
+                                      console.log(`Adding card with Id ${cardId} to hard-coded Board with Id ${boardId}`)
+                                      return axios.post(`https://api.getguru.com/api/v1/cards/${newCardId}/boards/`, boardId, headers)
+                                    } catch (error) {
+                                      core.setFailed(
+                                        `Unable to add card to Board: ${error.message}`
+                                      );
+                                    }
+                                  })
                                 } catch (error) {
                                   core.setFailed(
                                     `Unable to unverify card: ${error.message}`
