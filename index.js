@@ -252,7 +252,7 @@ async function apiSendStandardCard(
                                       let boardId = {
                                         "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
                                       }
-                                      console.log(`Adding card with Id ${cardId} to hard-coded Board with Id ${boardId}`)
+                                      console.log(`Adding card with Id ${newCardId} to hard-coded Board with Id ${boardId}`)
                                       return axios.post(`https://api.getguru.com/api/v1/cards/${newCardId}/boards/`, boardId, headers)
                                     } catch (error) {
                                       core.setFailed(
