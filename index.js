@@ -238,7 +238,7 @@ async function apiSendStandardCard(
                               )
                               .then((response) => {
                                 try {
-                                  var newCardId = response.data.id
+                                  let newCardId = response.data.id
                                   console.log(
                                     `Unverifying newly created card, ${newCardId}`
                                   );
@@ -247,7 +247,7 @@ async function apiSendStandardCard(
                                     `https://api.getguru.com/api/v1/cards/${newCardId}/unverify`,
                                     postData,
                                     headers
-                                  ).then((response) => {
+                                  ).then((response, newCardId) => {
                                     try {
                                       let boardId = {
                                         "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
