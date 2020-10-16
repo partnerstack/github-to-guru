@@ -19,7 +19,6 @@ const querystring = require("querystring");
 const path = require("path");
 
 const { v4: uuidv4 } = require("uuid");
-const { create } = require("domain");
 
 async function getCollection(auth, collectionId) {
   console.log(`collection: ${collectionId}`);
@@ -261,7 +260,36 @@ async function apiSendStandardCard(
                             },
                             verificationReason: "NEW_VERIFIER"
                           };
-                          createCard(cardData, headers)
+
+                          try {
+                            return axios
+                              .post(
+                                `https://api.getguru.com/api/v1/facts/extended`,
+                                cardData,
+                                headers
+                              )
+                              .then((response) => {
+                                try {
+                                  console.log(
+                                    `Unverifying newly created card.`
+                                  );
+                                  let postData = {};
+                                  return axios.post(
+                                    `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
+                                    postData,
+                                    headers
+                                  );
+                                } catch (error) {
+                                  core.setFailed(
+                                    `Unable to unverify card: ${error.message}`
+                                  );
+                                }
+                              });
+                          } catch (error) {
+                            core.setFailed(
+                              `Unable to create card: ${error.message}`
+                            );
+                          }
                         });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
