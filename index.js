@@ -235,10 +235,22 @@ async function apiSendStandardCard(
                                 `https://api.getguru.com/api/v1/facts/extended`,
                                 cardData,
                                 headers
-                              )
+                              ).then((response) => {
+                                try {
+                                  let boardId = {
+                                    "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
+                                  }
+                                  console.log(`Adding card with Id ${response.data.id} to hard-coded Board with Id ${boardId}`)
+                                  return axios.post(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
+                                } catch (error) {
+                                  core.setFailed(
+                                    `Unable to add card to Board: ${error.message}`
+                                  );
+                                }
+                              })
                               .then((response) => {
                                 try {
-                                  var newCardId = response.data.id
+                                  let newCardId = response.data.items[0].id
                                   console.log(
                                     `Unverifying newly created card, ${newCardId}`
                                   );
@@ -247,19 +259,7 @@ async function apiSendStandardCard(
                                     `https://api.getguru.com/api/v1/cards/${newCardId}/unverify`,
                                     postData,
                                     headers
-                                  ).then((newCardId) => {
-                                    try {
-                                      let boardId = {
-                                        "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
-                                      }
-                                      console.log(`Adding card with Id ${newCardId} to hard-coded Board with Id ${boardId}`)
-                                      return axios.post(`https://api.getguru.com/api/v1/cards/${newCardId}/boards/`, boardId, headers)
-                                    } catch (error) {
-                                      core.setFailed(
-                                        `Unable to add card to Board: ${error.message}`
-                                      );
-                                    }
-                                  })
+                                  )
                                 } catch (error) {
                                   core.setFailed(
                                     `Unable to unverify card: ${error.message}`
