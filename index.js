@@ -46,32 +46,6 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function createCard(cardData, cardId, headers) {
-  return axios
-    .post(
-      `https://api.getguru.com/api/v1/facts/extended`,
-      cardData,
-      headers
-    )
-    .then((response) => {
-      try {
-        console.log(
-          `Unverifying newly created card, ${cardId}`
-        );
-        let postData = {};
-        return axios.post(
-          `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
-          postData,
-          headers
-        );
-      } catch (error) {
-        core.setFailed(
-          `Unable to unverify card: ${error.message}`
-        );
-      }
-    });
-}
-
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -256,7 +230,29 @@ async function apiSendStandardCard(
                           };
 
                           try {
-                            createCard(cardData, response.data.id)
+                            return axios
+                              .post(
+                                `https://api.getguru.com/api/v1/facts/extended`,
+                                cardData,
+                                headers
+                              )
+                              .then((response) => {
+                                try {
+                                  console.log(
+                                    `Unverifying newly created card, ${response.data.id}`
+                                  );
+                                  let postData = {};
+                                  return axios.post(
+                                    `https://api.getguru.com/api/v1/cards/${response.data.id}/unverify`,
+                                    postData,
+                                    headers
+                                  );
+                                } catch (error) {
+                                  core.setFailed(
+                                    `Unable to unverify card: ${error.message}`
+                                  );
+                                }
+                              });
                           } catch (error) {
                             core.setFailed(
                               `Unable to create card: ${error.message}`
