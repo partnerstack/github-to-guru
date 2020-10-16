@@ -275,7 +275,7 @@ async function apiSendStandardCard(
                                   );
                                   let postData = {};
                                   return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
+                                    `https://api.getguru.com/api/v1/cards/${response.id}/unverify`,
                                     postData,
                                     headers
                                   );
