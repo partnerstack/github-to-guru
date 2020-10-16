@@ -46,7 +46,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function createCard(cardData, headers) {
+async function createCard(cardData, cardId, headers) {
   try {
     return axios
       .post(
@@ -261,35 +261,7 @@ async function apiSendStandardCard(
                             verificationReason: "NEW_VERIFIER"
                           };
 
-                          try {
-                            return axios
-                              .post(
-                                `https://api.getguru.com/api/v1/facts/extended`,
-                                cardData,
-                                headers
-                              )
-                              .then((response) => {
-                                try {
-                                  console.log(
-                                    `Unverifying newly created card, ${response.data.id}`
-                                  );
-                                  let postData = {};
-                                  return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/${response.data.id}/unverify`,
-                                    postData,
-                                    headers
-                                  );
-                                } catch (error) {
-                                  core.setFailed(
-                                    `Unable to unverify card: ${error.message}`
-                                  );
-                                }
-                              });
-                          } catch (error) {
-                            core.setFailed(
-                              `Unable to create card: ${error.message}`
-                            );
-                          }
+                          createCard(cardData, response.data.id)
                         });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
