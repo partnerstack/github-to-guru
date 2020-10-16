@@ -271,7 +271,7 @@ async function apiSendStandardCard(
                               .then((response) => {
                                 try {
                                   console.log(
-                                    `Unverifying newly created card, ${response}`
+                                    `Unverifying newly created card, ${response.id}`
                                   );
                                   let postData = {};
                                   return axios.post(
