@@ -19,6 +19,7 @@ const querystring = require("querystring");
 const path = require("path");
 
 const { v4: uuidv4 } = require("uuid");
+const { create } = require("domain");
 
 async function getCollection(auth, collectionId) {
   console.log(`collection: ${collectionId}`);
@@ -46,6 +47,38 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
+async function createCard(cardData, headers) {
+  try {
+    return axios
+      .post(
+        `https://api.getguru.com/api/v1/facts/extended`,
+        cardData,
+        headers
+      )
+      .then((response) => {
+        try {
+          console.log(
+            `Unverifying newly created card.`
+          );
+          let postData = {};
+          return axios.post(
+            `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
+            postData,
+            headers
+          );
+        } catch (error) {
+          core.setFailed(
+            `Unable to unverify card: ${error.message}`
+          );
+        }
+      });
+  } catch (error) {
+    core.setFailed(
+      `Unable to create card: ${error.message}`
+    );
+  }
+}
+
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -64,7 +97,6 @@ async function apiSendStandardCard(
     "content-type": `application/json`
   }; // 1. Search for a card by tag value and return its id.
 
-  //TODO - add some conditional logic to only set unique tag value if no `tagValue`
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
   var existingTag
@@ -229,36 +261,7 @@ async function apiSendStandardCard(
                             },
                             verificationReason: "NEW_VERIFIER"
                           };
-
-                          try {
-                            return axios
-                              .post(
-                                `https://api.getguru.com/api/v1/facts/extended`,
-                                cardData,
-                                headers
-                              )
-                              .then((response) => {
-                                try {
-                                  console.log(
-                                    `Unverifying newly created card.`
-                                  );
-                                  let postData = {};
-                                  return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/9b8cf219-842f-428a-8afb-00362440bebd/unverify`,
-                                    postData,
-                                    headers
-                                  );
-                                } catch (error) {
-                                  core.setFailed(
-                                    `Unable to unverify card: ${error.message}`
-                                  );
-                                }
-                              });
-                          } catch (error) {
-                            core.setFailed(
-                              `Unable to create card: ${error.message}`
-                            );
-                          }
+                          createCard(cardData, headers)
                         });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
