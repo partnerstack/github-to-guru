@@ -247,7 +247,7 @@ async function apiSendStandardCard(
                                     `https://api.getguru.com/api/v1/cards/${newCardId}/unverify`,
                                     postData,
                                     headers
-                                  ).then((response, newCardId) => {
+                                  ).then(({ response, newCardId }) => {
                                     try {
                                       let boardId = {
                                         "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
