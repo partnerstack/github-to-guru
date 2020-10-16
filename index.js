@@ -47,35 +47,29 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
 }
 
 async function createCard(cardData, cardId, headers) {
-  try {
-    return axios
-      .post(
-        `https://api.getguru.com/api/v1/facts/extended`,
-        cardData,
-        headers
-      )
-      .then((response) => {
-        try {
-          console.log(
-            `Unverifying newly created card.`
-          );
-          let postData = {};
-          return axios.post(
-            `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
-            postData,
-            headers
-          );
-        } catch (error) {
-          core.setFailed(
-            `Unable to unverify card: ${error.message}`
-          );
-        }
-      });
-  } catch (error) {
-    core.setFailed(
-      `Unable to create card: ${error.message}`
-    );
-  }
+  return axios
+    .post(
+      `https://api.getguru.com/api/v1/facts/extended`,
+      cardData,
+      headers
+    )
+    .then((response) => {
+      try {
+        console.log(
+          `Unverifying newly created card, ${cardId}`
+        );
+        let postData = {};
+        return axios.post(
+          `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
+          postData,
+          headers
+        );
+      } catch (error) {
+        core.setFailed(
+          `Unable to unverify card: ${error.message}`
+        );
+      }
+    });
 }
 
 async function apiSendStandardCard(
@@ -261,7 +255,13 @@ async function apiSendStandardCard(
                             verificationReason: "NEW_VERIFIER"
                           };
 
-                          createCard(cardData, response.data.id)
+                          try {
+                            createCard(cardData, response.data.id)
+                          } catch (error) {
+                            core.setFailed(
+                              `Unable to create card: ${error.message}`
+                            );
+                          }
                         });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
