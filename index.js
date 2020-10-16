@@ -237,6 +237,7 @@ async function apiSendStandardCard(
                                 headers
                               ).then((response) => {
                                 try {
+                                  // TODO - DYNAMICALLY CREATE OR GET BOARDID
                                   let boardId = {
                                     "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
                                   }
@@ -248,6 +249,7 @@ async function apiSendStandardCard(
                                   );
                                 }
                               })
+                              // TODO - DYNAMICALLY CRAETE OR GET BOARD SECTION AND ADD CARD TO IT
                               .then((response) => {
                                 try {
                                   let newCardId = response.data.items[0].id
