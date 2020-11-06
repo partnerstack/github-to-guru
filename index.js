@@ -156,10 +156,10 @@ async function createCard(
       },
       verificationReason: "NEW_VERIFIER"
     };
-    console.log(`Making the card create request to Guru  now with ${cardData}`)
+    console.log(`Making the card create request to Guru  now with ${JSON.stringify(cardData)}`)
     return axios.post(
       `https://api.getguru.com/api/v1/facts/extended`,
-      cardData,
+      JSON.stringify(cardData),
       headers
     ).then((repsonse) => {
       console.log("Response", response);
