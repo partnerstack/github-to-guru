@@ -51,6 +51,8 @@ async function splitCardFilename(cardFilename) {
   // board group, board, board section, card name
   // depending on the number of slashes
   console.log(`Splitting the cardFilename ${cardFilename} by slash...`)
+  let cardPathArray = cardFilename.split("/")
+  let cardPaths = {}
 
   switch (cardPathArray.length) {
     case 1:
