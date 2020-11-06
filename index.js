@@ -156,14 +156,13 @@ async function createCard(
       },
       verificationReason: "NEW_VERIFIER"
     };
-    console.log(`Making the card create request to Guru  now with ${cardData}`)
+    console.log(`Making the card create request to Guru  now with ${JSON.stringify(cardData)}`)
     return axios.post(
       `https://api.getguru.com/api/v1/facts/extended`,
       cardData,
       headers
     ).then((repsonse) => {
       console.log("Response", response);
-      console.log("Response data", response.data.json)
     }).catch((error) => {
       if (error.response) {
         // The request was made and the server responded with a status code
