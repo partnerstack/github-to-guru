@@ -46,6 +46,35 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
+async function splitCardFilename(cardFilename) {
+  // given a cardFilename, split it into
+  // board group, board, board section, card name
+  // depending on the number of slashes
+  console.log(`Splitting the cardFilename ${cardFilename} by slash...`)
+
+  switch (cardPathArray.length) {
+    case 1:
+      cardPaths["cardName"] = cardPathArray[0]
+      break;
+    case 2:
+      cardPaths["boardName"] = cardPathArray[0]
+      cardPaths["cardName"] = cardPathArray[1]
+      break;
+    case 3:
+      cardPaths["boardGroupName"] = cardPathArray[0]
+      cardPaths["boardName"] = cardPathArray[1]
+      cardPaths["cardName"] = cardPathArray[2]
+      break;
+    case 4:
+      cardPaths["boardGroupName"] = cardPathArray[0]
+      cardPaths["boardName"] = cardPathArray[1]
+      cardPaths["boardSectionName"] = cardPathArray[2]
+      cardPaths["cardName"] = cardPathArray[3]
+      break;
+  }
+  return cardPaths
+}
+
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -61,9 +90,9 @@ async function apiSendStandardCard(
   console.log(`Creating or Updating card in ${collectionId}: ${title}`);
   let headers = {
     auth: auth,
-    "content-type": `application/json`
-  }; // 1. Search for a card by tag value and return its id.
-
+    "content-type": `application / json`
+  };
+  // 1. Search for a card by tag value and return its id.
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
   var existingTag
@@ -80,7 +109,7 @@ async function apiSendStandardCard(
   let uniqueTagValue
   let content
   if (!existingTag) {
-    console.log(`${cardFilename} has no existingTag. Generating... `)
+    console.log(`${cardFilename} has no existingTag.Generating... `)
     uniqueTagValue = uuidv4()
     let uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
 
@@ -110,11 +139,11 @@ async function apiSendStandardCard(
           let cardTags = response.data[0].tags
           try {
             console.log(
-              `Found existing card for with title ${title} and uniqueTagValue ${uniqueTagValue}`
+              `Found existing card for with title ${title} and uniqueTagValue ${uniqueTagValue} `
             );
             console.log("response data", cardTags);
             console.log(
-              `Updating card for with Id ${cardId} and uniqueTagValue ${uniqueTagValue}`
+              `Updating card for with Id ${cardId} and uniqueTagValue ${uniqueTagValue} `
             );
             apiUpdateStandardCardById(
               auth,
@@ -181,6 +210,10 @@ async function apiSendStandardCard(
                           console.log("TAG RESPONSE", response.data);
                           let date = new Date();
                           let utcDate = date.getUTCDate();
+                          let cardPaths = splitCardFilename(cardFilename)
+                          console.log(`Retrieved cardFilename paths: ${cardPaths}`)
+
+
                           let cardData = {
                             preferredPhrase: title,
                             content: content,
