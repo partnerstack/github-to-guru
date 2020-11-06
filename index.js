@@ -93,82 +93,70 @@ async function createCard(
   verificationLastName,
   utcDate
 ) {
-  console.log("Finally creating the Card with title", title)
-  console.log("headers", headers)
-  console.log("collectionId", collectionId)
-  console.log("tags", tags)
-  console.log("verif int", verificationInterval)
-  console.log("verif email", verificationEmail)
-  console.log("verif firstname", verificationFirstName)
-  console.log("verif lastname", verificationLastName)
-  console.log("date", utcDate)
-  console.log("content", content)
-
-  let cardData = {
-    preferredPhrase: title,
-    content: content,
-    boards: [
-      {
-        // TODO - figure out how to dynamically get/create board id
-        id: "c422a42b-891f-4537-988e-2ed7a1c39237",
-        action: {
-          // TODO - using board id, figure out how to dynmaically get/create board sectionId
-          // This can be done by making a capp to '/api/v1/boards/{id}'
-          sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
-          actionType: "add",
-          // if prevSiblingItem is same as board id, card will be added to top of section
-          prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
-        }
-      }
-    ],
-    htmlContent: false,
-    collection: {
-      id: collectionId
-    },
-    shareStatus: "TEAM",
-    // tags: [response.data],
-    tags: tags,
-    verificationState: "NEEDS_VERIFICATION",
-    verificationInterval: verificationInterval,
-    verifiers: [
-      {
-        type: "user",
-        user: {
-          status: "ACTIVE",
-          email: verificationEmail,
-          firstName: verificationFirstName,
-          lastName: verificationLastName
-        },
-        id: verificationEmail,
-        dateCreated: utcDate
-      }
-    ],
-    // verifiers: [
-    //   {
-    //     "type": "user-group",
-    //     "userGroup": {
-    //       "id": "35725837-184a-4f83-8774-778a8a84f967",
-    //       "dateCreated": "2020-07-07T17:33:52.218+0000",
-    //       "groupIdentifier": "team",
-    //       "expertIdRank": 1,
-    //       "numberOfCardsAsVerifier": 0,
-    //       "numberOfMembers": 0,
-    //       "modifiable": false,
-    //       "name": "All Members"
-    //     }
-    //   }
-    // ],
-    verificationInitiator: {
-      status: "ACTIVE",
-      email: "althea.yi@partnerstack.com",
-      firstName: "Althea",
-      lastName: "Yi"
-    },
-    verificationReason: "NEW_VERIFIER"
-  };
-
   try {
-    console.log("Making the card create request to Guru  now...")
+    let cardData = {
+      preferredPhrase: title,
+      content: content,
+      boards: [
+        {
+          // TODO - figure out how to dynamically get/create board id
+          id: "c422a42b-891f-4537-988e-2ed7a1c39237",
+          action: {
+            // TODO - using board id, figure out how to dynmaically get/create board sectionId
+            // This can be done by making a capp to '/api/v1/boards/{id}'
+            sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
+            actionType: "add",
+            // if prevSiblingItem is same as board id, card will be added to top of section
+            prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
+          }
+        }
+      ],
+      htmlContent: false,
+      collection: {
+        id: collectionId
+      },
+      shareStatus: "TEAM",
+      // tags: [response.data],
+      tags: tags,
+      verificationState: "NEEDS_VERIFICATION",
+      verificationInterval: verificationInterval,
+      verifiers: [
+        {
+          type: "user",
+          user: {
+            status: "ACTIVE",
+            email: verificationEmail,
+            firstName: verificationFirstName,
+            lastName: verificationLastName
+          },
+          id: verificationEmail,
+          dateCreated: utcDate
+        }
+      ],
+      // verifiers: [
+      //   {
+      //     "type": "user-group",
+      //     "userGroup": {
+      //       "id": "35725837-184a-4f83-8774-778a8a84f967",
+      //       "dateCreated": "2020-07-07T17:33:52.218+0000",
+      //       "groupIdentifier": "team",
+      //       "expertIdRank": 1,
+      //       "numberOfCardsAsVerifier": 0,
+      //       "numberOfMembers": 0,
+      //       "modifiable": false,
+      //       "name": "All Members"
+      //     }
+      //   }
+      // ],
+      verificationInitiator: {
+        status: "ACTIVE",
+        email: "althea.yi@partnerstack.com",
+        firstName: "Althea",
+        lastName: "Yi"
+      },
+      verificationReason: "NEW_VERIFIER"
+    };
+    console.log(`Making the card create request to Guru  now with ${cardData}`)
     return axios.post(
       `https://api.getguru.com/api/v1/facts/extended`,
       cardData,
