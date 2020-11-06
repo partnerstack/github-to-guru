@@ -433,22 +433,25 @@ async function apiSendStandardCard(
                         let utcDate = date.getUTCDate();
                         let cardPaths = splitCardFilename(cardFilename)
                         let tags = response.data
-                        console.log(`Retrieved cardFilename paths: ${cardPaths}`)
-
-                        // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-                        getOrCreateBoardsAndCards(
-                          cardPaths,
-                          headers,
-                          title,
-                          content,
-                          collectionId,
-                          tags,
-                          verificationInterval,
-                          verificationEmail,
-                          verificationFirstName,
-                          verificationLastName,
-                          utcDate
-                        )
+                        console.log(`Retrieved cardFilename paths: ${cardPaths}`)j
+                        try {
+                          // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
+                          getOrCreateBoardsAndCards(
+                            cardPaths,
+                            headers,
+                            title,
+                            content,
+                            collectionId,
+                            tags,
+                            verificationInterval,
+                            verificationEmail,
+                            verificationFirstName,
+                            verificationLastName,
+                            utcDate
+                          )
+                        } catch (error) {
+                          core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
+                        }
                       });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
