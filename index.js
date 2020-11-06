@@ -47,7 +47,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-async function splitCardFilename(cardFilename) {
+function splitCardFilename(cardFilename) {
   // given a cardFilename, split it into
   // board group, board, board section, card name
   // depending on the number of slashes
