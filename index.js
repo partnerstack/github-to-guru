@@ -93,7 +93,16 @@ async function createCard(
   verificationLastName,
   utcDate
 ) {
-  console.log("Finally creating the Card")
+  console.log("Finally creating the Card with title", title)
+  console.log("headers", headers)
+  console.log("collectionId", collectionId)
+  console.log("tags", tags)
+  console.log("verif int", verificationInterval)
+  console.log("verif email", verificationEmail)
+  console.log("verif firstname", verificationFirstName)
+  console.log("verif lastname", verificationLastName)
+  console.log("date", utcDate)
+  console.log("content", content)
 
   let cardData = {
     preferredPhrase: title,
