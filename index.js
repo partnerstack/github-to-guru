@@ -159,7 +159,7 @@ async function createCard(
     console.log(`Making the card create request to Guru  now with ${JSON.stringify(cardData)}`)
     return axios.post(
       `https://api.getguru.com/api/v1/facts/extended`,
-      JSON.stringify(cardData),
+      cardData,
       headers
     ).then((repsonse) => {
       console.log("Response", response);
