@@ -64,6 +64,7 @@ jobs:
 Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## TODO LIST - Updated
+0. Figure out why cards are no longer creating... last working state was commit https://github.com/partnerstack/github-to-guru/commit/60952a4b43df896324f261f0dbe96ac76ccd6c13
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
