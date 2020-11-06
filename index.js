@@ -245,52 +245,7 @@ async function apiSendStandardCard(
                                 `https://api.getguru.com/api/v1/facts/extended`,
                                 cardData,
                                 headers
-                              ).then((response) => {
-                                //   try {
-                                //     // TODO - DYNAMICALLY CREATE OR GET BOARDID
-                                //     let boardId = {
-                                //       "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
-                                //     }
-                                //     console.log(`Adding card with Id ${response.data.id} to hard-coded Board with Id ${boardId}`)
-                                //     return axios.post(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
-                                //   } catch (error) {
-                                //     core.setFailed(
-                                //       `Unable to add card to Board: ${error.message}`
-                                //     );
-                                //   }
-                                // }).then((response) => {
-                                //   // TODO - DYNAMICALLY CRAETE OR GET BOARD SECTION AND ADD CARD TO IT
-                                //   try {
-                                //     let boardSectionId = {
-                                //       "sectionId": "3d7801a3-61c3-45f4-a681-1f2110d9c782"
-                                //     }
-                                //     console.log(`Adding card with Id ${response.data.id} to hard-coded Board with sectionId ${boardSectionId}`)
-                                //     return axios.put(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
-                                //   } catch (error) {
-                                //     core.setFailed(
-                                //       `Unable to add card to Board Section: ${error.message}`
-                                //     );
-                                //   }
-                                // })
-                                // .then((response) => {
-                                try {
-                                  console.log("RESPONSE DATA", response.data)
-                                  let newCardId = response.data.items[0].id
-                                  console.log(
-                                    `Unverifying newly created card, ${newCardId}`
-                                  );
-                                  let postData = {};
-                                  return axios.post(
-                                    `https://api.getguru.com/api/v1/cards/${newCardId}/unverify`,
-                                    postData,
-                                    headers
-                                  )
-                                } catch (error) {
-                                  core.setFailed(
-                                    `Unable to unverify card: ${error.message}`
-                                  );
-                                }
-                              });
+                              )
                           } catch (error) {
                             core.setFailed(
                               `Unable to create card: ${error.message}`

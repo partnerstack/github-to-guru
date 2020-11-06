@@ -75,6 +75,7 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 9. Figure out why an "error" is being thrown even though everything works... Likely has to do with the call to the "unverify" API and the fact that I'm sending it an empty request body (which is fine, because it won't accept anything anyway, but it probably just doesn't like the empty JSON object).
 10. Figure out how to dynamically switch up `git config --local user.name "asyi"`
 11. Figure out how to add cards to Board
+12. Figure out how to add cards to Board Section
 
 
 STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-level Collection ("cards not on a board") never containing manually-made and/or free-floating cards... the idea is that we'll programatically generate a card, which gets put in this "cards not on a board" bucket, then we do the following to immediately class it in a sub board somewhere... unless the guru CS people get back to me on how to programatically create a new card within a section)
