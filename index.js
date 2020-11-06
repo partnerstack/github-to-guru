@@ -87,7 +87,7 @@ async function createCard(
   verificationInterval,
   verificationEmail,
   verificationFirstName,
-  verificationFirstName,
+  verificationLastName,
   utcDate
 ) {
   let cardData = {
@@ -177,7 +177,7 @@ async function getOrCreateBoardsAndCards(
   verificationInterval,
   verificationEmail,
   verificationFirstName,
-  verificationFirstName,
+  verificationLastName,
   utcDate
 ) {
   switch (Object.keys(cardPaths).length) {
@@ -192,7 +192,7 @@ async function getOrCreateBoardsAndCards(
         verificationInterval,
         verificationEmail,
         verificationFirstName,
-        verificationFirstName,
+        verificationLastName,
         utcDate
       )
       break;
@@ -372,7 +372,7 @@ async function apiSendStandardCard(
                             verificationInterval,
                             verificationEmail,
                             verificationFirstName,
-                            verificationFirstName,
+                            verificationLastName,
                             utcDate
                           )
                         });
