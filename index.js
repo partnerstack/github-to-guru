@@ -185,6 +185,10 @@ async function getOrCreateBoardsAndCards(
 ) {
   try {
     console.log(`Getting/creating boards and cards now... cardPaths contains ${Object.keys(cardPaths).length} elements`)
+    let boardGroupName
+    let boardName
+    let boardSectionName
+    let cardName
     switch (Object.keys(cardPaths).length) {
       case 1:
         // create a top-level card in the collection
@@ -204,8 +208,8 @@ async function getOrCreateBoardsAndCards(
         break;
       case 2:
         // get/create a board and add card to the board
-        let boardName = cardPaths.boardName
-        let cardName = cardPaths.cardName
+        boardName = cardPaths.boardName
+        cardName = cardPaths.cardName
         console.log("Creating/Getting Board and Card")
 
         createCard(
@@ -226,9 +230,9 @@ async function getOrCreateBoardsAndCards(
         // get/created a nested board
         // add card to nested board
         console.log("Creating/Getting Board Group, Board and Card")
-        let boardGroupName = cardPaths.boardGroupName
-        let boardName = cardPaths.boardName
-        let cardName = cardPaths.cardName
+        boardGroupName = cardPaths.boardGroupName
+        boardName = cardPaths.boardName
+        cardName = cardPaths.cardName
 
         createCard(
           headers,
@@ -249,10 +253,10 @@ async function getOrCreateBoardsAndCards(
         // get/create a nested board
         // get/create nested board section
         // add card to nested board section
-        let boardGroupName = cardPaths.boardGroupName
-        let boardName = cardPaths.boardName
-        let boardSectionName = cardPaths.boardSectionName
-        let cardName = cardPaths.cardName
+        boardGroupName = cardPaths.boardGroupName
+        boardName = cardPaths.boardName
+        boardSectionName = cardPaths.boardSectionName
+        cardName = cardPaths.cardName
 
         createCard(
           headers,
