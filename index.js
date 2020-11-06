@@ -200,24 +200,63 @@ async function getOrCreateBoardsAndCards(
       // get/create a board and add card to the board
       let boardName = cardPaths.boardName
       let cardName = cardPaths.cardName
+
+      createCard(
+        headers,
+        title,
+        content,
+        collectionId,
+        tags,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationLastName,
+        utcDate
+      )
       break;
     case 3:
       // get/create a board group
       // get/created a nested board
       // add card to nested board
       let boardGroupName = cardPaths.boardGroupName
-      let boardName = cardPaths.boardName
-      let cardName = cardPaths.cardName
+      boardName = cardPaths.boardName
+      cardName = cardPaths.cardName
+
+      createCard(
+        headers,
+        title,
+        content,
+        collectionId,
+        tags,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationLastName,
+        utcDate
+      )
       break;
     case 4:
       // get/create board group
       // get/create a nested board
       // get/create nested board section
       // add card to nested board section
-      let boardGroupName = cardPaths.boardGroupName
-      let boardName = cardPaths.boardName
-      let boardSectionName = cardPaths.boardSectionName
-      let cardName = cardPaths.cardName
+      boardGroupName = cardPaths.boardGroupName
+      boardName = cardPaths.boardName
+      boardSectionName = cardPaths.boardSectionName
+      cardName = cardPaths.cardName
+
+      createCard(
+        headers,
+        title,
+        content,
+        collectionId,
+        tags,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationLastName,
+        utcDate
+      )
       break;
   }
 }
