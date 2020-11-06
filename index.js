@@ -180,85 +180,97 @@ async function getOrCreateBoardsAndCards(
   verificationLastName,
   utcDate
 ) {
-  switch (Object.keys(cardPaths).length) {
-    case 1:
-      // create a top-level card in the collection
-      createCard(
-        headers,
-        title,
-        content,
-        collectionId,
-        tags,
-        verificationInterval,
-        verificationEmail,
-        verificationFirstName,
-        verificationLastName,
-        utcDate
-      )
-      break;
-    case 2:
-      // get/create a board and add card to the board
-      let boardName = cardPaths.boardName
-      let cardName = cardPaths.cardName
+  try {
+    console.log("Getting/creating boards and cards now...")
+    switch (Object.keys(cardPaths).length) {
+      case 1:
+        // create a top-level card in the collection
+        console.log("Creating/Getting top-level Card")
+        createCard(
+          headers,
+          title,
+          content,
+          collectionId,
+          tags,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          utcDate
+        )
+        break;
+      case 2:
+        // get/create a board and add card to the board
+        let boardName = cardPaths.boardName
+        let cardName = cardPaths.cardName
+        console.log("Creating/Getting Board and Card")
 
-      createCard(
-        headers,
-        title,
-        content,
-        collectionId,
-        tags,
-        verificationInterval,
-        verificationEmail,
-        verificationFirstName,
-        verificationLastName,
-        utcDate
-      )
-      break;
-    case 3:
-      // get/create a board group
-      // get/created a nested board
-      // add card to nested board
-      let boardGroupName = cardPaths.boardGroupName
-      boardName = cardPaths.boardName
-      cardName = cardPaths.cardName
+        createCard(
+          headers,
+          title,
+          content,
+          collectionId,
+          tags,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          utcDate
+        )
+        break;
+      case 3:
+        // get/create a board group
+        // get/created a nested board
+        // add card to nested board
+        console.log("Creating/Getting Board Group, Board and Card")
+        let boardGroupName = cardPaths.boardGroupName
+        boardName = cardPaths.boardName
+        cardName = cardPaths.cardName
 
-      createCard(
-        headers,
-        title,
-        content,
-        collectionId,
-        tags,
-        verificationInterval,
-        verificationEmail,
-        verificationFirstName,
-        verificationLastName,
-        utcDate
-      )
-      break;
-    case 4:
-      // get/create board group
-      // get/create a nested board
-      // get/create nested board section
-      // add card to nested board section
-      boardGroupName = cardPaths.boardGroupName
-      boardName = cardPaths.boardName
-      boardSectionName = cardPaths.boardSectionName
-      cardName = cardPaths.cardName
+        createCard(
+          headers,
+          title,
+          content,
+          collectionId,
+          tags,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          utcDate
+        )
+        break;
+      case 4:
+        console.log("Creating/Getting Board Group, Board, Board Section and Card")
+        // get/create board group
+        // get/create a nested board
+        // get/create nested board section
+        // add card to nested board section
+        boardGroupName = cardPaths.boardGroupName
+        boardName = cardPaths.boardName
+        boardSectionName = cardPaths.boardSectionName
+        cardName = cardPaths.cardName
 
-      createCard(
-        headers,
-        title,
-        content,
-        collectionId,
-        tags,
-        verificationInterval,
-        verificationEmail,
-        verificationFirstName,
-        verificationLastName,
-        utcDate
-      )
-      break;
+        createCard(
+          headers,
+          title,
+          content,
+          collectionId,
+          tags,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          utcDate
+        )
+        break;
+    }
+  } catch (error) {
+    core.setFailed(
+      `Unable to create boards and cards: ${error.message}`
+    );
   }
+
 }
 
 async function apiSendStandardCard(
@@ -392,7 +404,7 @@ async function apiSendStandardCard(
                           headers
                         )
                         .then((response) => {
-                          console.log("Creating a new card.");
+                          console.log("GOing to get or create new Boards and Cards");
                           console.log("TAG RESPONSE", response.data);
                           let date = new Date();
                           let utcDate = date.getUTCDate();
