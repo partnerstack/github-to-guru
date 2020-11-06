@@ -274,7 +274,7 @@ async function apiSendStandardCard(
                                 // })
                                 // .then((response) => {
                                 try {
-                                  console.log("RESPONSE DATA", response.data.items)
+                                  console.log("RESPONSE DATA", response.data)
                                   let newCardId = response.data.items[0].id
                                   console.log(
                                     `Unverifying newly created card, ${newCardId}`
