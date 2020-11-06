@@ -189,7 +189,7 @@ async function apiSendStandardCard(
                                 id: "c422a42b-891f-4537-988e-2ed7a1c39237",
                                 action: {
                                   sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
-                                  actionType: add,
+                                  actionType: "add",
                                   prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
                                 }
                               }
