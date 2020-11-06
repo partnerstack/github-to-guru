@@ -181,7 +181,7 @@ async function getOrCreateBoardsAndCards(
   utcDate
 ) {
   try {
-    console.log("Getting/creating boards and cards now...")
+    console.log(`Getting/creating boards and cards now... cardPaths contains ${Object.keys(cardPaths).length} elements`)
     switch (Object.keys(cardPaths).length) {
       case 1:
         // create a top-level card in the collection
