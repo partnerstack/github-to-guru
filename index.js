@@ -184,6 +184,16 @@ async function apiSendStandardCard(
                           let cardData = {
                             preferredPhrase: title,
                             content: content,
+                            boards: [
+                              {
+                                id: "c422a42b-891f-4537-988e-2ed7a1c39237",
+                                action: {
+                                  sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
+                                  actionType: add,
+                                  prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
+                                }
+                              }
+                            ],
                             htmlContent: false,
                             collection: {
                               id: collectionId
@@ -236,21 +246,33 @@ async function apiSendStandardCard(
                                 cardData,
                                 headers
                               ).then((response) => {
-                                try {
-                                  // TODO - DYNAMICALLY CREATE OR GET BOARDID
-                                  let boardId = {
-                                    "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
-                                  }
-                                  console.log(`Adding card with Id ${response.data.id} to hard-coded Board with Id ${boardId}`)
-                                  return axios.post(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
-                                } catch (error) {
-                                  core.setFailed(
-                                    `Unable to add card to Board: ${error.message}`
-                                  );
-                                }
-                              })
-                              // TODO - DYNAMICALLY CRAETE OR GET BOARD SECTION AND ADD CARD TO IT
-                              .then((response) => {
+                                //   try {
+                                //     // TODO - DYNAMICALLY CREATE OR GET BOARDID
+                                //     let boardId = {
+                                //       "id": "c422a42b-891f-4537-988e-2ed7a1c39237"
+                                //     }
+                                //     console.log(`Adding card with Id ${response.data.id} to hard-coded Board with Id ${boardId}`)
+                                //     return axios.post(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
+                                //   } catch (error) {
+                                //     core.setFailed(
+                                //       `Unable to add card to Board: ${error.message}`
+                                //     );
+                                //   }
+                                // }).then((response) => {
+                                //   // TODO - DYNAMICALLY CRAETE OR GET BOARD SECTION AND ADD CARD TO IT
+                                //   try {
+                                //     let boardSectionId = {
+                                //       "sectionId": "3d7801a3-61c3-45f4-a681-1f2110d9c782"
+                                //     }
+                                //     console.log(`Adding card with Id ${response.data.id} to hard-coded Board with sectionId ${boardSectionId}`)
+                                //     return axios.put(`https://api.getguru.com/api/v1/cards/${response.data.id}/boards/`, boardId, headers)
+                                //   } catch (error) {
+                                //     core.setFailed(
+                                //       `Unable to add card to Board Section: ${error.message}`
+                                //     );
+                                //   }
+                                // })
+                                // .then((response) => {
                                 try {
                                   let newCardId = response.data.items[0].id
                                   console.log(
