@@ -93,6 +93,8 @@ async function createCard(
   verificationLastName,
   utcDate
 ) {
+  console.log("Finally creating the Card")
+
   let cardData = {
     preferredPhrase: title,
     content: content,
@@ -157,6 +159,7 @@ async function createCard(
   };
 
   try {
+    console.log("Making the card create request to Guru  now...")
     return axios
       .post(
         `https://api.getguru.com/api/v1/facts/extended`,
