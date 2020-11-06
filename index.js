@@ -19,6 +19,7 @@ const querystring = require("querystring");
 const path = require("path");
 
 const { v4: uuidv4 } = require("uuid");
+const { Z_ASCII } = require("zlib");
 
 async function getCollection(auth, collectionId) {
   console.log(`collection: ${collectionId}`);
@@ -75,6 +76,150 @@ async function splitCardFilename(cardFilename) {
       break;
   }
   return cardPaths
+}
+
+async function createCard(
+  headers,
+  title,
+  content,
+  collectionId,
+  tags,
+  verificationInterval,
+  verificationEmail,
+  verificationFirstName,
+  verificationFirstName,
+  utcDate
+) {
+  let cardData = {
+    preferredPhrase: title,
+    content: content,
+    boards: [
+      {
+        // TODO - figure out how to dynamically get/create board id
+        id: "c422a42b-891f-4537-988e-2ed7a1c39237",
+        action: {
+          // TODO - using board id, figure out how to dynmaically get/create board sectionId
+          // This can be done by making a capp to '/api/v1/boards/{id}'
+          sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
+          actionType: "add",
+          // if prevSiblingItem is same as board id, card will be added to top of section
+          prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
+        }
+      }
+    ],
+    htmlContent: false,
+    collection: {
+      id: collectionId
+    },
+    shareStatus: "TEAM",
+    // tags: [response.data],
+    tags: tags,
+    verificationState: "NEEDS_VERIFICATION",
+    verificationInterval: verificationInterval,
+    verifiers: [
+      {
+        type: "user",
+        user: {
+          status: "ACTIVE",
+          email: verificationEmail,
+          firstName: verificationFirstName,
+          lastName: verificationLastName
+        },
+        id: verificationEmail,
+        dateCreated: utcDate
+      }
+    ],
+    // verifiers: [
+    //   {
+    //     "type": "user-group",
+    //     "userGroup": {
+    //       "id": "35725837-184a-4f83-8774-778a8a84f967",
+    //       "dateCreated": "2020-07-07T17:33:52.218+0000",
+    //       "groupIdentifier": "team",
+    //       "expertIdRank": 1,
+    //       "numberOfCardsAsVerifier": 0,
+    //       "numberOfMembers": 0,
+    //       "modifiable": false,
+    //       "name": "All Members"
+    //     }
+    //   }
+    // ],
+    verificationInitiator: {
+      status: "ACTIVE",
+      email: "althea.yi@partnerstack.com",
+      firstName: "Althea",
+      lastName: "Yi"
+    },
+    verificationReason: "NEW_VERIFIER"
+  };
+
+  try {
+    return axios
+      .post(
+        `https://api.getguru.com/api/v1/facts/extended`,
+        cardData,
+        headers
+      )
+  } catch (error) {
+    core.setFailed(
+      `Unable to create card: ${error.message}`
+    );
+  }
+}
+
+async function getOrCreateBoardsAndCards(
+  cardPaths,
+  headers,
+  title,
+  content,
+  collectionId,
+  tags,
+  verificationInterval,
+  verificationEmail,
+  verificationFirstName,
+  verificationFirstName,
+  utcDate
+) {
+  switch (Object.keys(cardPaths).length) {
+    case 1:
+      // create a top-level card in the collection
+      createCard(
+        headers,
+        title,
+        content,
+        collectionId,
+        tags,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationFirstName,
+        utcDate
+      )
+      break;
+    case 2:
+      // get/create a board and add card to the board
+      let boardName = cardPaths.boardName
+      let cardName = cardPaths.cardName
+      break;
+    case 3:
+      // get/create a board group
+      // get/created a nested board
+      // add card to nested board
+      let boardGroupName = cardPaths.boardGroupName
+      let boardName = cardPaths.boardName
+      let cardName = cardPaths.cardName
+      break;
+    case 4:
+      // get/create board group
+      // get/create a nested board
+      // get/create nested board section
+      // add card to nested board section
+      let boardGroupName = cardPaths.boardGroupName
+      let boardName = cardPaths.boardName
+      let boardSectionName = cardPaths.boardSectionName
+      let cardName = cardPaths.cardName
+      break;
+  }
 }
 
 async function apiSendStandardCard(
@@ -213,83 +358,23 @@ async function apiSendStandardCard(
                           let date = new Date();
                           let utcDate = date.getUTCDate();
                           let cardPaths = splitCardFilename(cardFilename)
+                          let tags = response.data
                           console.log(`Retrieved cardFilename paths: ${cardPaths}`)
 
-
-                          let cardData = {
-                            preferredPhrase: title,
-                            content: content,
-                            boards: [
-                              {
-                                // TODO - figure out how to dynamically get/create board id
-                                id: "c422a42b-891f-4537-988e-2ed7a1c39237",
-                                action: {
-                                  // TODO - using board id, figure out how to dynmaically get/create board sectionId
-                                  // This can be done by making a capp to '/api/v1/boards/{id}'
-                                  sectionId: "3d7801a3-61c3-45f4-a681-1f2110d9c782",
-                                  actionType: "add",
-                                  // if prevSiblingItem is same as board id, card will be added to top of section
-                                  prevSiblingItem: "3d7801a3-61c3-45f4-a681-1f2110d9c782"
-                                }
-                              }
-                            ],
-                            htmlContent: false,
-                            collection: {
-                              id: collectionId
-                            },
-                            shareStatus: "TEAM",
-                            tags: [response.data],
-                            verificationState: "NEEDS_VERIFICATION",
-                            verificationInterval: verificationInterval,
-                            verifiers: [
-                              {
-                                type: "user",
-                                user: {
-                                  status: "ACTIVE",
-                                  email: verificationEmail,
-                                  firstName: verificationFirstName,
-                                  lastName: verificationLastName
-                                },
-                                id: verificationEmail,
-                                dateCreated: utcDate
-                              }
-                            ],
-                            // verifiers: [
-                            //   {
-                            //     "type": "user-group",
-                            //     "userGroup": {
-                            //       "id": "35725837-184a-4f83-8774-778a8a84f967",
-                            //       "dateCreated": "2020-07-07T17:33:52.218+0000",
-                            //       "groupIdentifier": "team",
-                            //       "expertIdRank": 1,
-                            //       "numberOfCardsAsVerifier": 0,
-                            //       "numberOfMembers": 0,
-                            //       "modifiable": false,
-                            //       "name": "All Members"
-                            //     }
-                            //   }
-                            // ],
-                            verificationInitiator: {
-                              status: "ACTIVE",
-                              email: "althea.yi@partnerstack.com",
-                              firstName: "Althea",
-                              lastName: "Yi"
-                            },
-                            verificationReason: "NEW_VERIFIER"
-                          };
-
-                          try {
-                            return axios
-                              .post(
-                                `https://api.getguru.com/api/v1/facts/extended`,
-                                cardData,
-                                headers
-                              )
-                          } catch (error) {
-                            core.setFailed(
-                              `Unable to create card: ${error.message}`
-                            );
-                          }
+                          // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
+                          getOrCreateBoardsAndCards(
+                            cardPaths,
+                            headers,
+                            title,
+                            content,
+                            collectionId,
+                            tags,
+                            verificationInterval,
+                            verificationEmail,
+                            verificationFirstName,
+                            verificationFirstName,
+                            utcDate
+                          )
                         });
                     } catch (error) {
                       core.setFailed(`Unable to create tag: ${error.message}`);
