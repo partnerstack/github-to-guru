@@ -261,19 +261,25 @@ async function getOrCreateBoardsAndCards(
         boardSectionName = cardPaths.boardSectionName
         cardName = cardPaths.cardName
 
-        createCard(
-          headers,
-          title,
-          content,
-          collectionId,
-          tags,
-          verificationInterval,
-          verificationEmail,
-          verificationFirstName,
-          verificationLastName,
-          utcDate
-        )
-        break;
+        try {
+          createCard(
+            headers,
+            title,
+            content,
+            collectionId,
+            tags,
+            verificationInterval,
+            verificationEmail,
+            verificationFirstName,
+            verificationLastName,
+            utcDate
+          )
+          break;
+        } catch (error) {
+          core.setFailed(
+            `Creating the card for case 4 Failed: ${error.message}`
+          );
+        }
     }
   } catch (error) {
     core.setFailed(
