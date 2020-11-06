@@ -433,7 +433,7 @@ async function apiSendStandardCard(
                         let utcDate = date.getUTCDate();
                         let cardPaths = splitCardFilename(cardFilename)
                         let tags = response.data
-                        console.log(`Retrieved cardFilename paths: ${cardPaths}`)j
+                        console.log(`Retrieved cardFilename paths: ${cardPaths}`)
                         try {
                           // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
                           getOrCreateBoardsAndCards(
