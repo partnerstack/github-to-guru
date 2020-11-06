@@ -227,8 +227,8 @@ async function getOrCreateBoardsAndCards(
         // add card to nested board
         console.log("Creating/Getting Board Group, Board and Card")
         let boardGroupName = cardPaths.boardGroupName
-        boardName = cardPaths.boardName
-        cardName = cardPaths.cardName
+        let boardName = cardPaths.boardName
+        let cardName = cardPaths.cardName
 
         createCard(
           headers,
@@ -249,10 +249,10 @@ async function getOrCreateBoardsAndCards(
         // get/create a nested board
         // get/create nested board section
         // add card to nested board section
-        boardGroupName = cardPaths.boardGroupName
-        boardName = cardPaths.boardName
-        boardSectionName = cardPaths.boardSectionName
-        cardName = cardPaths.cardName
+        let boardGroupName = cardPaths.boardGroupName
+        let boardName = cardPaths.boardName
+        let boardSectionName = cardPaths.boardSectionName
+        let cardName = cardPaths.cardName
 
         createCard(
           headers,
