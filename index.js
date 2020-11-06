@@ -57,22 +57,26 @@ async function splitCardFilename(cardFilename) {
 
   switch (cardPathArray.length) {
     case 1:
-      cardPaths["cardName"] = cardPathArray[0]
+      console.log(`Only found a cardName ${cardPathArray[0]}`)
+      cardPaths[`cardName`] = cardPathArray[0]
       break;
     case 2:
-      cardPaths["boardName"] = cardPathArray[0]
-      cardPaths["cardName"] = cardPathArray[1]
+      console.log(`Found boardName ${cardPathArray[1]} and cardName ${cardPathArray[0]}`)
+      cardPaths[`boardName`] = cardPathArray[0]
+      cardPaths[`cardName`] = cardPathArray[1]
       break;
     case 3:
-      cardPaths["boardGroupName"] = cardPathArray[0]
-      cardPaths["boardName"] = cardPathArray[1]
-      cardPaths["cardName"] = cardPathArray[2]
+      console.log(`Found boardGroupName ${cardPathArray[0]}, boardName ${cardPathArray[1]} and cardName ${cardPathArray[2]}`)
+      cardPaths[`boardGroupName`] = cardPathArray[0]
+      cardPaths[`boardName`] = cardPathArray[1]
+      cardPaths[`cardName`] = cardPathArray[2]
       break;
     case 4:
-      cardPaths["boardGroupName"] = cardPathArray[0]
-      cardPaths["boardName"] = cardPathArray[1]
-      cardPaths["boardSectionName"] = cardPathArray[2]
-      cardPaths["cardName"] = cardPathArray[3]
+      console.log(`Found boardGroupName ${cardPathArray[0]}, boardName ${cardPathArray[1]}, boardSectionName ${cardPathArray[2]} and cardName ${cardPathArray[3]}`)
+      cardPaths[`boardGroupName`] = cardPathArray[0]
+      cardPaths[`boardName`] = cardPathArray[1]
+      cardPaths[`boardSectionName`] = cardPathArray[2]
+      cardPaths[`cardName`] = cardPathArray[3]
       break;
   }
   return cardPaths
