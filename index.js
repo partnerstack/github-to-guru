@@ -176,6 +176,7 @@ async function createCard(
         headers
       )
   } catch (error) {
+    console.log(error.response.data)
     core.setFailed(
       `Unable to create card: ${error.message}`
     );
