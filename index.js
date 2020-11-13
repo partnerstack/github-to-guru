@@ -325,7 +325,7 @@ async function apiSendStandardCard(
   let arr = file.split(/\r?\n/);
   var existingTag
   arr.forEach((line, idx) => {
-    if (line.includes("Guru tag - ")) {
+    if (line.includes("UUID Guru Tag - ")) {
       let line_arr = line.split(" ")
       existingTag = line_arr[line_arr.length - 1]
       return true
@@ -339,7 +339,7 @@ async function apiSendStandardCard(
   if (!existingTag) {
     console.log(`${cardFilename} has no existingTag.Generating... `)
     uniqueTagValue = uuidv4()
-    let uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
+    let uniqueTagValueToWrite = `\nUUID Guru Tag - ${uniqueTagValue}`;
 
     fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
     file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")

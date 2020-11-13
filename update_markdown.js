@@ -12,7 +12,7 @@ for (let cardFilename in cardConfigs) {
     let arr = markdownFile.split(/\r?\n/);
     var existingTag
     arr.forEach((line, idx) => {
-        if (line.includes("Guru tag - ")) {
+        if (line.includes("UUID Guru Tag - ")) {
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
@@ -24,7 +24,7 @@ for (let cardFilename in cardConfigs) {
 
     if (!existingTag) {
         let uniqueTagValue = uuidv4()
-        let uniqueTagValueToWrite = `\nGuru tag - ${uniqueTagValue}`;
+        let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag - ${uniqueTagValue}**`;
 
         fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
     }

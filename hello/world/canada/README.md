@@ -1,6 +1,8 @@
 # GitHub to Guru - PStack Version
 Updating the Github-to-Guru action with Pstack flair.
 
+## How to set up a GitHub to Guru integration
+
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
 
 2. Create a `cards.yaml` file in the root directory. Here is an example of what the file should contain:
@@ -84,4 +86,4 @@ STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-l
 3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
 4. POST - https://api.getguru.com/api/v1/boards/{{board_id}}/entries - Use the Response Body's `itemID` from step 2 as the value of this Request Body's `BoardEntries[i].id`.
 
-Guru tag - 0b9a5fba-4ecd-47da-8405-11491374ad3f
+
