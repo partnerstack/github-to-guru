@@ -32,5 +32,6 @@ for (let cardFilename in cardConfigs) {
 
         let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'as' })
         stream.write(`${uniqueTagValueToWrite}`)
+        stream.end();
     }
 }
