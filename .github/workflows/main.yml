@@ -18,6 +18,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name "asyi"
+          git config --local user.email "alsery@protonmail.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Updating the README file with a unique tag"
           git push
