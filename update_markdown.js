@@ -24,7 +24,7 @@ for (let cardFilename in cardConfigs) {
 
     if (!existingTag) {
         let uniqueTagValue = uuidv4()
-        let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag - ${uniqueTagValue}**`;
+        let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag -** ${uniqueTagValue}`;
 
         fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
     }
