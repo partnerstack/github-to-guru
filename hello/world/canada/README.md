@@ -89,4 +89,4 @@ STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-l
 
 
 ***
-**UUID Guru Tag - 23ce8990-449e-416a-9fe1-bc866b5bffde**
+**UUID Guru Tag -** 23ce8990-449e-416a-9fe1-bc866b5bffde
