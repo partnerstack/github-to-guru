@@ -28,10 +28,10 @@ for (let cardFilename in cardConfigs) {
         let uniqueTagValue = uuidv4()
         let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag -** ${uniqueTagValue}`;
 
-        // fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
+        fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
 
-        let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'as' })
-        stream.write(`${uniqueTagValueToWrite}`)
-        stream.end();
+        // let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'as' })
+        // stream.write(`${uniqueTagValueToWrite}`)
+        // stream.end();
     }
 }
