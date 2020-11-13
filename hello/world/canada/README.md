@@ -105,6 +105,3 @@ STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-l
 2. GET - the {{card_id}} of the card in question
 3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
 4. POST - https://api.getguru.com/api/v1/boards/{{board_id}}/entries - Use the Response Body's `itemID` from step 2 as the value of this Request Body's `BoardEntries[i].id`.
-
-***
-**UUID Guru Tag -** 0a371dfa-71cb-4e25-ad7c-199eb2ca4000
