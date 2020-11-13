@@ -23,14 +23,6 @@ jobs:
           git diff-index --quiet HEAD || git commit -m "Updating the README file with a unique tag"
           git push
           git pull --no-rebase
-      - name: Commit files for last time
-        run: |
-          git config --local user.name "asyi"
-          git config --local user.email "alsery@protonmail.com"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Last update"
-          git push
-          git pull --no-rebase
       - name: Run github-to-guru integration
         uses: partnerstack/github-to-guru@master
         env:
@@ -40,3 +32,11 @@ jobs:
           GURU_COLLECTION_YAML: "collections/collection.yaml"
           GURU_TEAM_ID: "${{ secrets.GURU_TEAM_ID }}"
           GURU_CARD_YAML: "cards.yaml"
+      - name: Commit files for last time
+        run: |
+          git config --local user.name "asyi"
+          git config --local user.email "alsery@protonmail.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Last update"
+          git push
+          git pull --no-rebase
