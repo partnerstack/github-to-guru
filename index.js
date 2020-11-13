@@ -344,6 +344,7 @@ async function apiSendStandardCard(
     // fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
     let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'as' })
     stream.write(`${uniqueTagValueToWrite}`)
+    stream.end()
     file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     console.log(`Appended a unique tag to ${cardFilename}: ${uniqueTagValueToWrite}`);
     content = file
