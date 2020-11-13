@@ -337,11 +337,13 @@ async function apiSendStandardCard(
   let uniqueTagValue
   let content
   if (!existingTag) {
-    console.log(`${cardFilename} has no existingTag.Generating... `)
+    console.log(`${cardFilename} has no existing Tag .Generating... `)
     uniqueTagValue = uuidv4()
-    let uniqueTagValueToWrite = `\nUUID Guru Tag - ${uniqueTagValue}`;
+    let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag -** ${uniqueTagValue}`
 
-    fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
+    // fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
+    fs.createWriteStream(path.resolve(`${cardFilename}`), { flags: 'as' })
+    stream.write(`${uniqueTagValueToWrite}`)
     file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     console.log(`Appended a unique tag to ${cardFilename}: ${uniqueTagValueToWrite}`);
     content = file
