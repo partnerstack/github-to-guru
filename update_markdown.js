@@ -8,11 +8,12 @@ let cardConfigs = yaml.parse(
 );
 
 for (let cardFilename in cardConfigs) {
+    console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
     var existingTag
     arr.forEach((line, idx) => {
-        if (line.includes("\n***\n**UUID Guru Tag -** ")) {
+        if (line.includes("UUID Guru Tag - ")) {
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
@@ -20,9 +21,11 @@ for (let cardFilename in cardConfigs) {
             return false
         }
     });
+    console.log("Found existing tag", existingTag)
 
 
     if (!existingTag) {
+        console.log("No existing tag... creating one now")
         let uniqueTagValue = uuidv4()
         let uniqueTagValueToWrite = `\n***\n**UUID Guru Tag -** ${uniqueTagValue}`;
 
