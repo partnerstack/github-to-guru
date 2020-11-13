@@ -28,7 +28,7 @@ for (let cardFilename in cardConfigs) {
 
         // fs.appendFileSync(path.resolve(`${cardFilename}`), uniqueTagValueToWrite, { flag: "as" })
 
-        let stream = fs.createWriteStream(path.resolve(`${cardFilename}`), 'w')
+        let stream = fs.createWriteStream(path.resolve(`${cardFilename}`))
         stream.write(`${uniqueTagValueToWrite}`)
     }
 }
