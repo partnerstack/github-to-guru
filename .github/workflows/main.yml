@@ -15,14 +15,23 @@ jobs:
       - name: Run the update markdown script
         run: |
           node update_markdown.js
-      - name: Commit files
+      - name: Commit files after updating markdown script
         run: |
           git config --local user.name "asyi"
           git config --local user.email "alsery@protonmail.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Updating the README file with a unique tag"
           git push
+          git pull --no-rebase
       - name: Run github-to-guru integration
+      - name: Commit files for last time
+        run: |
+          git config --local user.name "asyi"
+          git config --local user.email "alsery@protonmail.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Last update"
+          git push
+          git pull --no-rebase
         uses: partnerstack/github-to-guru@master
         env:
           GURU_USER_EMAIL: "${{ secrets.GURU_USER_EMAIL }}"
