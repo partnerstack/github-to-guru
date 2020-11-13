@@ -12,7 +12,7 @@ for (let cardFilename in cardConfigs) {
     let arr = markdownFile.split(/\r?\n/);
     var existingTag
     arr.forEach((line, idx) => {
-        if (line.includes("UUID Guru Tag - ")) {
+        if (line.includes("\n***\n**UUID Guru Tag -** ")) {
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
