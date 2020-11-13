@@ -21,7 +21,6 @@ for (let cardFilename in cardConfigs) {
             return false
         }
     });
-    console.log("Found existing tag", existingTag)
 
 
     if (!existingTag) {
