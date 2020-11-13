@@ -82,8 +82,64 @@ It must contain a README.md file with the following format:
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
-4. Create a new card with the content of the entire file
-5. For each H2, find or create a new card
+4. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
+(see https://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options and https://stackoverflow.com/questions/58582161/is-it-possible-to-write-text-in-the-middle-of-a-file-with-fs-createwritestream)
+```
+const fs = require("fs");
+
+const fileData = fs.readFileSync("result.csv", { encoding: "utf8" });
+const fileDataArray = fileData.split("\n");
+const newData = "5258,525,98951,0,1";
+const index = 2; // after each row to insert your data
+
+fileDataArray.splice(index, 0, newData); // insert data into the array
+
+const newFileData = fileDataArray.join("\n"); // create the new file
+
+fs.writeFileSync("result.csv", newFileData, { encoding: "utf8" }); // save it
+```
+
+OUR EXAMPLE:
+```
+  // 1. Search card line by line and find the H2 tags
+  let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
+  let arr = file.split(/\r?\n/);
+  var existingH2Tag = {}
+  arr.forEach((line, idx) => {
+    if (line.includes("UUID H2 GURU TAG -**")) {
+      let line_arr = line.split(" ")
+      // `idx-1` under the assumption that the tag is on the line immediately after the H2
+      existingH2Tag[`h2line${idx-1}`] = line_arr[line_arr.length - 1]
+      return true
+    } else {
+      existingH2Tag[`h2line${idx-1}`] = null
+      return false
+    }
+  });
+
+  let uniqueTagValue
+  let content
+  // for key in `existingH2Tag`
+  if (existingH2Tag.key == null) {
+    console.log(`${existingH2Tag.key} has no existing H2 Tag. Generating... `)
+    uniqueTagValue = uuidv4()
+    let uniqueTagValueToWrite = `\n***\n**UUID H2 Guru Tag -** ${uniqueTagValue}`
+
+    // TODO - check example above
+    arr.splice(index, 0, uniqueTagValueToWrite); // insert new tag into file lines array
+
+    let newFileData = arr.join("\n"); // create the new file
+    file = fs.writeFileSync("result.csv", newFileData, { encoding: "utf8" }); // save it
+    console.log(`Added new unique tags to H2s`);
+    content = file
+
+  } else {
+    console.log(`existingH2Tag: `, existingH2Tag.key)
+    uniqueTagValue = existingH2Tag
+    content = file
+  }
+```
+5. Create/update a card for each H2
 
 ## TODO LIST - Updated
 1. Figure out how to set a group of users as the verifier.
