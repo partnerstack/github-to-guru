@@ -68,6 +68,7 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 
 ## DOK Heading Hierarchy
 ### Adding a New Theme
+[**UUID H2 Guru Tag -** 2f3d26b5-4cd4-4c95-aedb-99126ccf572c]
 A Theme is a top level project or collection of documents under the docs folder.
 
 It must contain a README.md file with the following format:
@@ -81,6 +82,7 @@ It must contain a README.md file with the following format:
 
 ## How to Split a DOK File into Guru
 1. Fetch the file (eg. `README.md`)
+[**UUID H2 Guru Tag -** 3ab9c4c7-37ba-4dd2-8166-3a783c577422]
 [**UUID H2 Guru Tag -** c80ba16f-8b4b-474d-98ab-e3d2d8e0e123]
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
