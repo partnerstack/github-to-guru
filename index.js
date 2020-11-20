@@ -320,7 +320,7 @@ async function apiSendStandardCard(
     auth: auth,
     "content-type": `application / json`
   };
-  // 1. Search for a card by tag value and return its id.
+  // 0. Parse file to see if it has tags... if it doesn't, create some and add to file
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
   var existingTag
@@ -355,6 +355,7 @@ async function apiSendStandardCard(
   }
 
   if (process.env.GURU_CARD_YAML) {
+    // 1. Search for a card by tag value and return its id.
     try {
       apiSearchCardByTagValueAndCategoryName(
         auth,

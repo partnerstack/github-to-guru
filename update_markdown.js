@@ -11,9 +11,12 @@ for (let cardFilename in cardConfigs) {
     console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
+    var linesWithH2 = {}
     var existingTag
     arr.forEach((line, idx) => {
         if (line.includes("UUID Guru Tag -**")) {
+            console.log("LINE ----- ", line)
+            console.log("INDEX -----", idx)
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
