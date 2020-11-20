@@ -36,7 +36,7 @@ for (let cardFilename in cardConfigs) {
             existingH2TagLines.push(idx)
             console.log("Exisint H2 Tag Lines", existingH2TagLines)
             return true
-        } if (line.indexOf("## ") == 0 && !existingH2TagLines.includes(idx + 1)) {
+        } if (line.indexOf("## ") == 0) {
             console.log("This line needs an H2 Tag...", idx + 1)
             linesThatNeedH2Tags.push(idx + 1)
             return true
@@ -49,10 +49,12 @@ for (let cardFilename in cardConfigs) {
         console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
         for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
             console.log(`Generating H2 Tag for line ${linesThatNeedH2Tags[i]} `)
-            let uniqueH2TagValue = uuidv4()
-            let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
+            if (!existingH2TagLines.includes(linesThatNeedH2Tags[i] + 1)) {
+                let uniqueH2TagValue = uuidv4()
+                let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
 
-            arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+                arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+            }
         }
         let newFileData = arr.join("\n"); // create the new file
         let file = fs.writeFileSync(path.resolve(`${cardFilename}`), newFileData, { encoding: "utf8" }); // save it
