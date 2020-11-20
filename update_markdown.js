@@ -44,14 +44,14 @@ for (let cardFilename in cardConfigs) {
         }
     });
 
-    let lineCount = 0
     if (linesThatNeedH2Tags.length !== 0) {
-        for (lineIndex in linesThatNeedH2Tags) {
-            console.log(`Generating H2 Tag for line ${lineIndex} `)
+        console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
+        for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
+            console.log(`Generating H2 Tag for line ${linesThatNeedH2Tags[i]} `)
             let uniqueH2TagValue = uuidv4()
             let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
 
-            arr.splice(lineIndex + lineCount, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+            arr.splice(lineIndex[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
             lineCount++
         }
         let newFileData = arr.join("\n"); // create the new file
