@@ -34,6 +34,7 @@ for (let cardFilename in cardConfigs) {
         } if (line.indexOf("[**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
             existingH2TagLines.push(idx)
+            console.log("Exisint H2 Tag Lines", existingH2TagLines)
             return true
         } if (line.indexOf("## ") == 0 && !existingH2TagLines.includes(idx + 1)) {
             console.log("This line needs an H2 Tag...", idx + 1)
