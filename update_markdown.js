@@ -52,7 +52,6 @@ for (let cardFilename in cardConfigs) {
             let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
 
             arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
-            lineCount++
         }
         let newFileData = arr.join("\n"); // create the new file
         let file = fs.writeFileSync(path.resolve(`${cardFilename}`), newFileData, { encoding: "utf8" }); // save it
