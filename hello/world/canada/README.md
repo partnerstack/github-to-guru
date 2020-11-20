@@ -1,3 +1,4 @@
+[**UUID H2 Guru Tag -** 94f9a9fc-806a-4c5b-8e9f-c82deb6a5331]
 # GitHub to Guru - PStack Version
 Updating the Github-to-Guru action with Pstack flair.
 
@@ -8,6 +9,7 @@ Updating the Github-to-Guru action with Pstack flair.
 
 2. Create a `cards.yaml` file in the root directory. Here is an example of what the file should contain:
 ```
+[**UUID H2 Guru Tag -** d078c3b1-4802-49d7-ab47-b344cec0c0a0]
 README.md:
   Tags:
     - "DOK Readme"
@@ -18,6 +20,7 @@ README.md:
   TeamId: "1uvrh"
   TagCategoryName: "Github-to-Guru Card ID Tags"
   VerificationInterval: 30
+[**UUID H2 Guru Tag -** 87b90a64-e706-474a-9865-5c9170334c29]
   VerificationEmail: "shannon.curnew@partnerstack.com"
   VerificationFirstName: "Shannon"
   VerificationLastName: "Curnew"
@@ -28,6 +31,7 @@ docs/common/documentation.md:
     - "Updates"
     - "Readme"
   Title: "Common Documentation"
+[**UUID H2 Guru Tag -** 7196225b-d5ca-4e0d-b383-4a4cd89d46f7]
   UniqueTagValue: "888"
   TeamId: "hfvvy"
   TagCategoryName: "Github-to-Guru Card ID Tags"
