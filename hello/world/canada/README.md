@@ -67,7 +67,6 @@ jobs:
 Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## DOK Heading Hierarchy
-[**UUID H2 Guru Tag -** 129c7b0b-7612-4a42-ad02-c132dca27e0c]
 ### Adding a New Theme
 A Theme is a top level project or collection of documents under the docs folder.
 
@@ -81,7 +80,6 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
-[**UUID H2 Guru Tag -** be6dfbb0-2635-4b35-af33-33551a870f4c]
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
@@ -145,7 +143,6 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
-[**UUID H2 Guru Tag -** 081a799e-93a9-4c97-9e68-13d679d86dd0]
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.

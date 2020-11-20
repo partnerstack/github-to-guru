@@ -11,19 +11,53 @@ for (let cardFilename in cardConfigs) {
     console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
-    var linesWithH2 = {}
+    var linesThatNeedH2Tags = []
+    var existingH2TagLines = []
     var existingTag
+    // idx - zero-indexed file line number
+    // line - content of a given file line number (aka idx)
     arr.forEach((line, idx) => {
         if (line.includes("UUID Guru Tag -**")) {
-            console.log("LINE ----- ", line)
-            console.log("INDEX -----", idx)
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
+            return true
+        } else if (
+            line.includes("`") && line.includes("##") |
+            line.includes(">") && line.includes("##") |
+            line.includes("<") && line.includes("##")
+        ) {
+            console.log("We'll have to figure out how to handle this situation...")
+            return true
+        } else if (line.includes("`") | line.includes(">") | line.includes("<")) {
+            console.log("We'll have to figure out how to handle this situation...")
+            return true
+        } if (line.indexOf("[**UUID H2 Guru Tag -** ") == 0) {
+            console.log("This line is an existing H2 Tag...")
+            existingH2TagLines.push(idx)
+            return true
+        } if (line.indexOf("## ") == 0) {
+            console.log("This line needs an H2 Tag...", idx + 1)
+            linesThatNeedH2Tags.push(idx + 1)
             return true
         } else {
             return false
         }
     });
+
+    let lineCount = 0
+    if (linesThatNeedH2Tags.length !== 0) {
+        for (lineIndex in linesThatNeedH2Tags) {
+            console.log(`Generating H2 Tag for line ${lineIndex} `)
+            let uniqueH2TagValue = uuidv4()
+            let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
+
+            arr.splice(lineIndex + lineCount, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+            lineCount++
+        }
+        let newFileData = arr.join("\n"); // create the new file
+        let file = fs.writeFileSync(path.resolve(`${cardFilename}`), newFileData, { encoding: "utf8" }); // save it
+        console.log(`Added new unique tags to H2s`);
+    }
 
 
     if (!existingTag) {

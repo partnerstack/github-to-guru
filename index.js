@@ -324,6 +324,8 @@ async function apiSendStandardCard(
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
   var existingTag
+  // idx - zero-indexed file line number
+  // line - content of a given file line number (aka idx)
   arr.forEach((line, idx) => {
     if (line.includes("UUID Guru Tag -**")) {
       let line_arr = line.split(" ")
