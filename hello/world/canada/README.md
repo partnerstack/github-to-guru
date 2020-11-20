@@ -2,7 +2,6 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration
-[**UUID H2 Guru Tag -** 4682cc7d-6c48-4554-842b-6134c53dc715]
 
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
 
@@ -68,7 +67,6 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 
 ## DOK Heading Hierarchy
 [**UUID H2 Guru Tag -** 3da83192-0190-4723-a50d-cc8f0a99ef3e]
-[**UUID H2 Guru Tag -** ae2ba387-2e5a-4f21-b17a-4ee30ec18dfc]
 ### Adding a New Theme
 A Theme is a top level project or collection of documents under the docs folder.
 
@@ -149,7 +147,6 @@ OUR EXAMPLE:
 
 ## TODO LIST - Updated
 [**UUID H2 Guru Tag -** ac6cc56d-8c3f-45f5-8e50-e705307b6ba1]
-[**UUID H2 Guru Tag -** bce9d31a-9920-400e-8bf1-ba73db71efda]
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
