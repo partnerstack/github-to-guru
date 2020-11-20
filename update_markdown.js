@@ -21,6 +21,16 @@ for (let cardFilename in cardConfigs) {
             var line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
+        } else if (
+            line.includes("`") && line.includes("##") |
+            line.includes(">") && line.includes("##") |
+            line.includes("<") && line.includes("##")
+        ) {
+            console.log("We'll have to figure out how to handle this situation...")
+            return true
+        } else if (line.includes("`") | line.includes(">") | line.includes("<")) {
+            console.log("We'll have to figure out how to handle this situation...")
+            return true
         } if (line.indexOf("[**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
             existingH2TagLines.push(idx)
