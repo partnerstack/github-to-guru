@@ -37,6 +37,7 @@ for (let cardFilename in cardConfigs) {
             console.log("Exisint H2 Tag Lines", existingH2TagLines)
             return true
         } if (line.indexOf("## ") == 0) {
+            // TODO - fix this so it doesn't include H3s
             console.log("This line needs an H2 Tag...", idx + 1)
             linesThatNeedH2Tags.push(idx + 1)
             return true

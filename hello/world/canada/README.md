@@ -68,7 +68,6 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 
 ## DOK Heading Hierarchy
 ### Adding a New Theme
-[**UUID H2 Guru Tag -** 07953799-6a0f-404d-b191-4dd0e3b03b85]
 A Theme is a top level project or collection of documents under the docs folder.
 
 It must contain a README.md file with the following format:
