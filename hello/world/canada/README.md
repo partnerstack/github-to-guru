@@ -2,6 +2,7 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration
+[**UUID H2 Guru Tag -** cceb57bc-6786-46f9-8680-6b38efb3ddb3]
 
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
 
@@ -66,6 +67,7 @@ jobs:
 Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## DOK Heading Hierarchy
+[**UUID H2 Guru Tag -** 1c7a3463-dd82-47f0-b94e-6fd7ed77b379]
 ### Adding a New Theme
 A Theme is a top level project or collection of documents under the docs folder.
 
@@ -79,6 +81,7 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
+[**UUID H2 Guru Tag -** 8b95a6ef-f489-439a-a682-8c20a8d602b3]
 1. Fetch the file (eg. `README.md`)
 [**UUID H2 Guru Tag -** 3ab9c4c7-37ba-4dd2-8166-3a783c577422]
 1. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
@@ -143,6 +146,7 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
+[**UUID H2 Guru Tag -** 287ac4cb-cbc9-4158-9e10-bb6f56936a9d]
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
