@@ -2,7 +2,6 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration
-[**UUID H2 Guru Tag -** 9e8d8e6a-1980-44ad-83a5-349f96115a31]
 
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
 
@@ -68,7 +67,6 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 
 ## DOK Heading Hierarchy
 ### Adding a New Theme
-[**UUID H2 Guru Tag -** 2f3d26b5-4cd4-4c95-aedb-99126ccf572c]
 A Theme is a top level project or collection of documents under the docs folder.
 
 It must contain a README.md file with the following format:
@@ -83,10 +81,9 @@ It must contain a README.md file with the following format:
 ## How to Split a DOK File into Guru
 1. Fetch the file (eg. `README.md`)
 [**UUID H2 Guru Tag -** 3ab9c4c7-37ba-4dd2-8166-3a783c577422]
-[**UUID H2 Guru Tag -** c80ba16f-8b4b-474d-98ab-e3d2d8e0e123]
-2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
-3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
-4. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
+1. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
+2. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
+3. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
 (see https://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options and https://stackoverflow.com/questions/58582161/is-it-possible-to-write-text-in-the-middle-of-a-file-with-fs-createwritestream)
 ```
 const fs = require("fs");
@@ -146,7 +143,6 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
-[**UUID H2 Guru Tag -** 23699a5b-1a89-4fb2-b6f4-92d1cc9155f3]
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
