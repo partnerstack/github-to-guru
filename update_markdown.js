@@ -11,7 +11,7 @@ for (let cardFilename in cardConfigs) {
     console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
-    let h2_regex = /## \w+$/
+    let h2_regex = /^## \w+/
     var linesThatNeedH2Tags = []
     var existingH2TagLines = []
     var existingTag
