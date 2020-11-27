@@ -2,6 +2,7 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration
+[**UUID H2 Guru Tag -** 0b565e41-6f22-44db-8414-4186f67fd018]
 
 
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
