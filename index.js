@@ -376,7 +376,7 @@ async function apiSendStandardCard(
       if (!existingH2TagLines.includes(linesThatNeedH2Tags[i])) {
         console.log(`Generating H2 Tag for line ${linesThatNeedH2Tags[i]} `)
         let uniqueH2TagValue = uuidv4()
-        let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
+        let uniqueH2TagValueToWrite = `**UUID H2 Guru Tag -** ${uniqueH2TagValue}`
 
         arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
         uniqueH2Tags.push(uniqueH2TagValue) // add the newly created H2 tag into list of all H2 tags
