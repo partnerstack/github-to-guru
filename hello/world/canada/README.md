@@ -2,6 +2,7 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration
+**UUID H2 Guru Tag -** 1abff12e-22ff-48f9-9393-2c1bc88365b7
 **UUID H2 Guru Tag -** 5221c26f-d3e0-4aea-9d23-20a07010fdca
 **UUID H2 Guru Tag -** 499af2a6-2bbc-49ca-897f-6cccec132911
 **UUID H2 Guru Tag -** b7377791-fa2e-4bac-9fc7-58b89f584797
@@ -71,6 +72,7 @@ jobs:
 Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## DOK Heading Hierarchy
+**UUID H2 Guru Tag -** 108c5b8d-f63f-4225-baf6-6646fb380b44
 **UUID H2 Guru Tag -** dd5894a0-9785-4bac-bc61-e7af60dd8463
 **UUID H2 Guru Tag -** e9051ee5-fb25-4a92-96c5-c5679a872a7a
 **UUID H2 Guru Tag -** 1a308f9f-2d31-47be-baa2-a54954f7f4a9
@@ -88,6 +90,7 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
+**UUID H2 Guru Tag -** 011e4439-115e-4b05-9613-10283a73b499
 **UUID H2 Guru Tag -** d1cd4d4b-caed-4322-bdea-b250b7345237
 **UUID H2 Guru Tag -** b309d2cd-81b9-48d5-992c-1247c8a5044c
 **UUID H2 Guru Tag -** c4abb44c-d491-4c3d-8148-56a7ba930573
@@ -155,6 +158,7 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
+**UUID H2 Guru Tag -** dea0d374-0792-43e4-b51d-cd8b8a3a501d
 **UUID H2 Guru Tag -** 7c2048f7-ecd1-4c83-b162-fbf7fa6722fc
 **UUID H2 Guru Tag -** cc5adb00-4f31-453c-9a25-f7ff2541c4c9
 **UUID H2 Guru Tag -** a494e1d4-eaf0-44ab-80f4-c3b5f7548d10
