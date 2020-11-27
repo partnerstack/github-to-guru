@@ -49,6 +49,7 @@ for (let cardFilename in cardConfigs) {
     });
 
     if (linesThatNeedH2Tags.length !== 0) {
+        linesThatNeedH2Tags = linesThatNeedH2Tags.filter(lineThatNeedsH2 => !existingH2TagLines.includes(lineThatNeedsH2))
         console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
         for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
             if (!existingH2TagLines.includes(linesThatNeedH2Tags[i])) {

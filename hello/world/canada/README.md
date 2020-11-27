@@ -83,7 +83,6 @@ It must contain a README.md file with the following format:
 ## How to Split a DOK File into Guru
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
-[**UUID H2 Guru Tag -** 7e1be927-2695-403a-adab-42751e749cb9]
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
 4. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
 (see https://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options and https://stackoverflow.com/questions/58582161/is-it-possible-to-write-text-in-the-middle-of-a-file-with-fs-createwritestream)
