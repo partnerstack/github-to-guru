@@ -16,11 +16,12 @@ for (let cardFilename in cardConfigs) {
     var existingH2TagLines = []
     var uniqueH2Tags = []
     var existingTag
+    var line_arr
     // idx - zero-indexed file line number
     // line - content of a given file line number (aka idx)
     arr.forEach((line, idx) => {
         if (line.includes("UUID Guru Tag -**")) {
-            var line_arr = line.split(" ")
+            line_arr = line.split(" ")
             existingTag = line_arr[line_arr.length - 1]
             return true
         } else if (
