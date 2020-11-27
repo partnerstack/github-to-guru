@@ -47,8 +47,18 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-function getH2Content(content) {
+function getH2Content(file, uniqueH2Tags, existingH2TagLines) {
   // take the content and split it off into sub-content based on the H2 tag
+  let contentMap = {}
+  let arr = file.split(/\r?\n/);
+  let h2_regex = /^## \w+/
+  arr.forEach((line, idx) => {
+    if (h2_regex.test(line)) {
+      // if we run into an H2, we want its corresponding uniqueH2Tag
+      // then we want to map the subcontent starting from the H2 to the next H2 (or end of file)
+      // eg. contentMap = { "10293daf210adg9124": subcontent, "aljd1j312412j3421": subcontent}
+    }
+  });
 }
 
 function splitCardFilename(cardFilename) {
@@ -384,6 +394,8 @@ async function apiSendStandardCard(
 
         arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
         uniqueH2Tags.push(uniqueH2TagValue) // add the newly created H2 tag into list of all H2 tags
+        // add file line number to list
+        existingH2TagLines.push(linesThatNeedH2Tags[i] + i)
       }
     }
     let newFileData = arr.join("\n"); // create the new file
@@ -544,7 +556,12 @@ async function apiSendStandardCard(
   // Use only the `content` from the H2 tag up until the next H2 tag
   // (or until it's the end of the file - figure out the OR logic)
   // make a `getH2Content` function to serve this purpose
-  // content = getH2Content()
+  // content = getH2Content(content, uniqueH2Tags, existingH2TagLines)
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // Also figure out how to uniquely search for the subcard, whose tag
+  // is appearing in the content body of the parent card... which means
+  // the search API will return more than one item
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
