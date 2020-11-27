@@ -81,6 +81,7 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
+[**UUID H2 Guru Tag -** 974a5e77-df7d-4255-9cfe-93ef1961096a]
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
