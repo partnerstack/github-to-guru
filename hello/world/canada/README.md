@@ -81,12 +81,10 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
-[**UUID H2 Guru Tag -** 8b95a6ef-f489-439a-a682-8c20a8d602b3]
 1. Fetch the file (eg. `README.md`)
-[**UUID H2 Guru Tag -** 3ab9c4c7-37ba-4dd2-8166-3a783c577422]
-1. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
-2. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
-3. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
+2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
+3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
+4. For each H2 in the file, if it doesn't already have one, also generate a UUID and append it directly under the H2. We can do this like so:
 (see https://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options and https://stackoverflow.com/questions/58582161/is-it-possible-to-write-text-in-the-middle-of-a-file-with-fs-createwritestream)
 ```
 const fs = require("fs");
