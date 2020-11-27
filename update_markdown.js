@@ -14,6 +14,7 @@ for (let cardFilename in cardConfigs) {
     let h2_regex = /^## \w+/
     var linesThatNeedH2Tags = []
     var existingH2TagLines = []
+    var uniqueH2Tags = []
     var existingTag
     // idx - zero-indexed file line number
     // line - content of a given file line number (aka idx)
@@ -34,10 +35,13 @@ for (let cardFilename in cardConfigs) {
             return true
         } else if (line.indexOf("[**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
+            // add file line number to list
             existingH2TagLines.push(idx)
+
+            // add tag to list of unqiue h2 tags
+            uniqueH2Tags.push(line_arr[line_arr.length - 1])
             console.log("Exising H2 Tag Lines", existingH2TagLines)
             return true
-            // } if (line.indexOf("## ") == 0) {
         } else if (h2_regex.test(line)) {
             // TODO - fix this so it doesn't include H3s
             console.log("This line needs an H2 Tag...", idx + 1)
@@ -58,6 +62,7 @@ for (let cardFilename in cardConfigs) {
                 let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
 
                 arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+                uniqueH2Tags.push(uniqueH2TagValue) // add the newly created H2 tag into list of all H2 tags
             }
         }
         let newFileData = arr.join("\n"); // create the new file
