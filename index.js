@@ -324,17 +324,61 @@ async function apiSendStandardCard(
   let file = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
   let arr = file.split(/\r?\n/);
   var existingTag
+
+  let h2_regex = /^## \w+/
+  var linesThatNeedH2Tags = []
+  var existingH2TagLines = []
+  var existingTag
+
   // idx - zero-indexed file line number
   // line - content of a given file line number (aka idx)
   arr.forEach((line, idx) => {
     if (line.includes("UUID Guru Tag -**")) {
-      let line_arr = line.split(" ")
+      var line_arr = line.split(" ")
       existingTag = line_arr[line_arr.length - 1]
+      return true
+    } else if (
+      line.includes("`") && line.includes("##") |
+      line.includes(">") && line.includes("##") |
+      line.includes("<") && line.includes("##")
+    ) {
+      console.log("We'll have to figure out how to handle this situation...")
+      return true
+    } else if (line.includes("`") | line.includes(">") | line.includes("<")) {
+      console.log("We'll have to figure out how to handle this situation...")
+      return true
+    } else if (line.indexOf("[**UUID H2 Guru Tag -** ") == 0) {
+      console.log("This line is an existing H2 Tag...")
+      existingH2TagLines.push(idx)
+      console.log("Exising H2 Tag Lines", existingH2TagLines)
+      return true
+      // } if (line.indexOf("## ") == 0) {
+    } else if (h2_regex.test(line)) {
+      // TODO - fix this so it doesn't include H3s
+      console.log("This line needs an H2 Tag...", idx + 1)
+      linesThatNeedH2Tags.push(idx + 1)
       return true
     } else {
       return false
     }
   });
+
+  if (linesThatNeedH2Tags.length !== 0) {
+    linesThatNeedH2Tags = linesThatNeedH2Tags.filter(lineThatNeedsH2 => !existingH2TagLines.includes(lineThatNeedsH2))
+    console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
+    for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
+      if (!existingH2TagLines.includes(linesThatNeedH2Tags[i])) {
+        console.log(`Generating H2 Tag for line ${linesThatNeedH2Tags[i]} `)
+        let uniqueH2TagValue = uuidv4()
+        let uniqueH2TagValueToWrite = `[**UUID H2 Guru Tag -** ${uniqueH2TagValue}]`
+
+        arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+      }
+    }
+    let newFileData = arr.join("\n"); // create the new file
+    let file = fs.writeFileSync(path.resolve(`${cardFilename}`), newFileData, { encoding: "utf8" }); // save it
+    console.log(`Added new unique tags to H2s`);
+  }
 
   let uniqueTagValue
   let content
