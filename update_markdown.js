@@ -40,6 +40,7 @@ for (let cardFilename in cardConfigs) {
             existingH2TagLines.push(idx)
 
             // add tag to list of unqiue h2 tags
+            line_arr = line.split(" ")
             uniqueH2Tags.push(line_arr[line_arr.length - 1])
             console.log("Exising H2 Tag Lines", existingH2TagLines)
             return true
