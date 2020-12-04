@@ -319,6 +319,7 @@ async function getOrCreateBoardsAndCards(
 
 async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue) {
   // 1. get all tag categories
+  let uniqueTagId
   try {
     apiGetAllTagCategories(
       auth,
@@ -327,7 +328,6 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       tagCategoryName
     ).then((response) => {
       console.log("Found a bunch of tag categories...")
-      let uniqueTagId
       // 2. for every tag category in the Response, if name == tagCategoryName...
       for (let i = 0; i < response.length; i++) {
         if (response[i].name == tagCategoryName) {
@@ -337,7 +337,6 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
             if (response[i].tags[y].value == uniqueTagValue) {
               console.log("Found a tag id whose value is", uniqueTagValue)
               uniqueTagId = response[i].tags[y].value
-              return uniqueTagId
             }
           }
         }
@@ -347,6 +346,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
   } catch (error) {
     core.setFailed(`Unable to get tag category id: ${error.message}`);
   }
+  return uniqueTagId
 }
 
 async function apiSendStandardCard(
