@@ -343,8 +343,8 @@ async function apiGetTagIdByTagValue(auth, tagCategoryName, uniqueTagValue) {
       }
     })
 
-  } catch {
-    console.log("found an issue with getting tag id by tag value")
+  } catch (error) {
+    core.setFailed(`Unable to get tag category id: ${error.message}`);
   }
 }
 
