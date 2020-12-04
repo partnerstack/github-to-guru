@@ -317,6 +317,37 @@ async function getOrCreateBoardsAndCards(
 
 }
 
+async function apiGetTagIdByTagValue(auth, tagCategoryName, uniqueTagValue) {
+  // 1. get all tag categories
+  try {
+    apiGetAllTagCategories(
+      auth,
+      uniqueTagValue,
+      teamId,
+      tagCategoryName
+    ).then((response) => {
+      console.log("Found a bunch of tag categories...")
+      let uniqueTagId
+      // 2. for every tag category in the Response, if name == tagCategoryName...
+      for (let i = 0; i < response.length; i++) {
+        if (response[i].name == tagCategoryName) {
+          console.log("Found a tag category with name", tagCategoryName)
+          // 3. ... then go through the list of tags in that category and get Id of tag whose value is uniqueTagValue
+          for (let y = 0; y < response[i].tags.length; y++) {
+            if (response[i].tags[y].value == uniqueTagValue) {
+              console.log("Found a tag id whose value is", uniqueTagValue)
+              uniqueTagId = response[i].tags[y].value
+            }
+          }
+        }
+      }
+    })
+
+  } catch {
+    console.log("found an issue with getting tag id by tag value")
+  }
+}
+
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -424,6 +455,9 @@ async function apiSendStandardCard(
   }
 
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
+    // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagValueAndCategoryName`
+    tagId = apiGetTagIdByTagValue(auth, tagCategoryName, uniqueTagValue)
+    console.log("EXISTING UNIQUE TAG VALUE's TAG ID", tagId)
     // 1. Search for a card by tag value and return its id.
     try {
       apiSearchCardByTagValueAndCategoryName(
@@ -479,14 +513,14 @@ async function apiSendStandardCard(
           console.log("Creating a new unique tag with team id", teamId);
 
           try {
-            apiCreateTagByCategoryId(
+            apiGetAllTagCategories(
               auth,
               uniqueTagValue,
               teamId,
               tagCategoryName
             ).then((response) => {
               try {
-                getTagCategoryId(response.data, tagCategoryName).then(
+                getTagCategoryIdByName(response.data, tagCategoryName).then(
                   (tagCategoryId) => {
                     console.log("tag category id????", tagCategoryId);
                     let tagData = {
@@ -623,14 +657,14 @@ async function apiSendStandardCard(
   //           console.log("Creating a new unique tag with team id", teamId);
 
   //           try {
-  //             apiCreateTagByCategoryId(
+  //             apiGetAllTagCategories(
   //               auth,
   //               uniqueTagValue,
   //               teamId,
   //               tagCategoryName
   //             ).then((response) => {
   //               try {
-  //                 getTagCategoryId(response.data, tagCategoryName).then(
+  //                 getTagCategoryIdByName(response.data, tagCategoryName).then(
   //                   (tagCategoryId) => {
   //                     console.log("tag category id????", tagCategoryId);
   //                     let tagData = {
@@ -695,7 +729,7 @@ async function apiSendStandardCard(
   // }
 }
 
-async function getTagCategoryId(data, tagCategoryName) {
+async function getTagCategoryIdByName(data, tagCategoryName) {
   console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
 
   for (let i = 0; i < data.length; i++) {
@@ -705,8 +739,8 @@ async function getTagCategoryId(data, tagCategoryName) {
   }
 }
 
-async function apiCreateTagByCategoryId(auth, teamId) {
-  console.log(`Creating tag by CategoryId`);
+async function apiGetAllTagCategories(auth, teamId) {
+  console.log(`Getting all tag categories by team id`);
 
   try {
     return axios.get(
@@ -730,6 +764,7 @@ async function apiSearchCardByTagValueAndCategoryName(
     `Searching for card in ${collectionId} collection with tag: ${tagValue}`
   );
 
+  // TODO - Swap the tagValue with the tagId!!!!!
   try {
     return axios.get(
       `https://api.getguru.com/api/v1/search/query?q=tag-${tagValue}%20exists&queryType=cards`,
