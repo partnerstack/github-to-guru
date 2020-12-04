@@ -456,7 +456,7 @@ async function apiSendStandardCard(
 
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
     // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagValueAndCategoryName`
-    tagId = apiGetTagIdByTagValue(auth, tagCategoryName, uniqueTagValue)
+    let tagId = apiGetTagIdByTagValue(auth, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", tagId)
     // 1. Search for a card by tag value and return its id.
     try {
