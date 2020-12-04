@@ -439,11 +439,11 @@ async function apiSendStandardCard(
           let cardTags = response.data[0].tags
           try {
             console.log(
-              `Found existing card for with title ${title} and uniqueTagValue ${uniqueTagValue} `
+              `Found existing card with title ${title} and uniqueTagValue ${uniqueTagValue} `
             );
             console.log("response data", cardTags);
             console.log(
-              `Updating card for with Id ${cardId} and uniqueTagValue ${uniqueTagValue} `
+              `Updating card with Id ${cardId} and uniqueTagValue ${uniqueTagValue} `
             );
             apiUpdateStandardCardById(
               auth,
@@ -732,7 +732,7 @@ async function apiSearchCardByTagValueAndCategoryName(
 
   try {
     return axios.get(
-      `https://api.getguru.com/api/v1/search/query?q=tag-${tagValue}%20exists&searchTerms=${tagValue}&queryType=cards`,
+      `https://api.getguru.com/api/v1/search/query?q=tag-${tagValue}%20exists&queryType=cards`,
       {
         auth: auth
       }
