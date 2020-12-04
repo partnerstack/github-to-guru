@@ -319,13 +319,11 @@ async function getOrCreateBoardsAndCards(
 
 async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue) {
   // 1. get all tag categories
-  let uniqueTagId
+  var uniqueTagId
   try {
     apiGetAllTagCategories(
       auth,
-      uniqueTagValue,
-      teamId,
-      tagCategoryName
+      teamId
     ).then((response) => {
       console.log("Found a bunch of tag categories...")
       // 2. for every tag category in the Response, if name == tagCategoryName...
@@ -341,12 +339,12 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
           }
         }
       }
+      console.log("unique tag id found", uniqueTagId)
+      return uniqueTagId
     })
-
   } catch (error) {
     core.setFailed(`Unable to get tag category id: ${error.message}`);
   }
-  return uniqueTagId
 }
 
 async function apiSendStandardCard(
