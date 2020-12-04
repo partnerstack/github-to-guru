@@ -337,6 +337,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
             if (response[i].tags[y].value == uniqueTagValue) {
               console.log("Found a tag id whose value is", uniqueTagValue)
               uniqueTagId = response[i].tags[y].value
+              return uniqueTagId
             }
           }
         }
