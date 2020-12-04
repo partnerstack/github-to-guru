@@ -146,7 +146,6 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
-**UUID H2 Guru Tag -** d220a368-22b7-480e-aaed-8f451bf0317f
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
