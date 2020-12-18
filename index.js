@@ -326,19 +326,29 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       teamId
     ).then((response) => {
       console.log("Found a bunch of tag categories...", response.data)
-      // 2. for every tag category in the Response, if name == tagCategoryName...
-      for (let i = 0; i < response.length; i++) {
-        if (response[i].name == tagCategoryName) {
-          console.log("Found a tag category with name", tagCategoryName)
-          // 3. ... then go through the list of tags in that category and get Id of tag whose value is uniqueTagValue
-          for (let y = 0; y < response[i].tags.length; y++) {
-            if (response[i].tags[y].value == uniqueTagValue) {
-              console.log("Found a tag id whose value is", uniqueTagValue)
-              uniqueTagId = response[i].tags[y].value
-            }
-          }
+      let tagCategoryIndex = response.data.findIndex(tag => tag.name === tagCategoryName)
+      if (tagCategoryIndex !== -1) {
+        console.log("Found a tag category with the target name", tagCategoryName)
+        let existingTagsInCategory = response.data[tagCategoryIndex].map(tag => tag.tags);
+        let desiredTag = existingTagsInCategory.find(tag => tag.value == uniqueTagValue)
+        if (desiredTag) {
+          console.log("Found target tag whose value is", uniqueTagValue)
+          uniqueTagId = desiredTag.id
         }
       }
+      // // 2. for every tag category in the Response, if name == tagCategoryName...
+      // for (let i = 0; i < response.length; i++) {
+      //   if (response[i].name == tagCategoryName) {
+      //     console.log("Found a tag category with the target name", tagCategoryName)
+      //     // 3. ... then go through the list of tags in that category and get Id of tag whose value is uniqueTagValue
+      //     for (let y = 0; y < response[i].tags.length; y++) {
+      //       if (response[i].tags[y].value == uniqueTagValue) {
+      //         console.log("Found target tag whose value is", uniqueTagValue)
+      //         uniqueTagId = response[i].tags[y].value
+      //       }
+      //     }
+      //   }
+      // }
       console.log("unique tag id found", uniqueTagId)
       return uniqueTagId
     })
