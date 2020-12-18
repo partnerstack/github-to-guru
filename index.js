@@ -325,7 +325,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       auth,
       teamId
     ).then((response) => {
-      console.log("Found a bunch of tag categories...")
+      console.log("Found a bunch of tag categories...", response.data)
       // 2. for every tag category in the Response, if name == tagCategoryName...
       for (let i = 0; i < response.length; i++) {
         if (response[i].name == tagCategoryName) {
@@ -767,6 +767,7 @@ async function apiSearchCardByTagValueAndCategoryName(
   try {
     return axios.get(
       `https://api.getguru.com/api/v1/search/query?q=tag-${tagValue}%20exists&queryType=cards`,
+      // `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
       {
         auth: auth
       }
