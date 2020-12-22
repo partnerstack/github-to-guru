@@ -337,8 +337,6 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
 
         if (desiredTag !== undefined) {
           uniqueTagId = desiredTag.id
-        } else {
-          throw `The tag with value ${uniqueTagValue} is undefined (ie. could not be found)`
         }
       }
       console.log("unique tag id found", uniqueTagId)
