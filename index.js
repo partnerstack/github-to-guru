@@ -790,7 +790,7 @@ async function apiSearchCardByTagValueAndCategoryName(
   // TODO - Swap the tagValue with the tagId!!!!!
   try {
     return axios.get(
-      `https://api.getguru.com/api/v1/search/query?q=tag-${tagValue}%20exists&queryType=cards`,
+      `https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`,
       // `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
       {
         auth: auth
