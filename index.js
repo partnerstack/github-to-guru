@@ -541,7 +541,7 @@ async function apiSendStandardCard(
                 };
                 console.log("Set tag data", tagData);
 
-                await apiCreateTags(headers, teamId, tagData).then((response) => {
+                apiCreateTags(headers, teamId, tagData).then((response) => {
                   console.log("Going to get or create new Boards and Cards");
                   console.log("TAG RESPONSE", response.data);
                   let date = new Date();
