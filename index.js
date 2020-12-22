@@ -351,7 +351,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
 
 async function apiCreateTags(headers, teamId, tagData) {
   try {
-    return axios.post(
+    return await axios.post(
       `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
       tagData,
       headers
@@ -541,8 +541,8 @@ async function apiSendStandardCard(
                 };
                 console.log("Set tag data", tagData);
 
-                apiCreateTags(headers, teamId, tagData).then((response) => {
-                  console.log("GOing to get or create new Boards and Cards");
+                await apiCreateTags(headers, teamId, tagData).then((response) => {
+                  console.log("Going to get or create new Boards and Cards");
                   console.log("TAG RESPONSE", response.data);
                   let date = new Date();
                   let utcDate = date.getUTCDate();
