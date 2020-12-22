@@ -542,6 +542,9 @@ async function apiSendStandardCard(
                 console.log("Set tag data", tagData);
 
                 apiCreateTags(headers, teamId, tagData).then((response) => {
+                  if (response.status !== 200) {
+                    throw `Request to create tags failed: ${response}`
+                  }
                   console.log("Going to get or create new Boards and Cards");
                   console.log("TAG RESPONSE", response);
                   let date = new Date();
