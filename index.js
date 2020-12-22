@@ -543,7 +543,7 @@ async function apiSendStandardCard(
 
                 apiCreateTags(headers, teamId, tagData).then((response) => {
                   console.log("Going to get or create new Boards and Cards");
-                  console.log("TAG RESPONSE", response.data);
+                  console.log("TAG RESPONSE", response);
                   let date = new Date();
                   let utcDate = date.getUTCDate();
                   let cardPaths = splitCardFilename(cardFilename)
