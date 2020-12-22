@@ -330,7 +330,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       if (tagCategoryIndex !== -1) {
         console.log("Found a tag category with the target name", tagCategoryName)
         // the next five lines don't seem to be working right now
-        let existingTagsInCategory = response.data[tagCategoryIndex].tags.map(tag => tag.tags);
+        let existingTagsInCategory = response.data[tagCategoryIndex].tags.map(tag => tag);
         console.log("Here are the tags in this category", existingTagsInCategory)
         let desiredTag = existingTagsInCategory.find(tag => tag.value == uniqueTagValue)
         if (desiredTag) {
