@@ -738,6 +738,7 @@ async function getTagByValue(tags, tagValue) {
 
 async function getTagsInCategory(data, tagCategoryIndex) {
   console.log("Tag cat index", tagCategoryIndex)
+  console.log("Data", data)
   let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
   console.log("Here are the tags in this category", tagsInCategory)
   return tagsInCategory
