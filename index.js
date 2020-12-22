@@ -521,7 +521,7 @@ async function apiSendStandardCard(
               tagCategoryName
             ).then((response) => {
               try {
-                tagCategoryId = getTagCategoryIdByName(response.data, tagCategoryName)
+                let tagCategoryId = getTagCategoryIdByName(response.data, tagCategoryName)
                 console.log("tag category id????", tagCategoryId);
                 let tagData = {
                   categoryId: tagCategoryId,
@@ -736,7 +736,7 @@ function getTagsInCategory(data, tagCategoryIndex) {
 
 function getTagCategoryIndexByName(data, tagCategoryName) {
   // if the tagCategoryIndex is -1, it means that no tag with tagCategoryName was found
-  console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
+  console.log(`Getting Tag Category Index by Category Name`, tagCategoryName);
   let tagCategoryIndex = data.findIndex(tagCategory => tagCategory.name === tagCategoryName)
   return tagCategoryIndex
 }
