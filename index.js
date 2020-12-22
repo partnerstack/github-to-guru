@@ -730,13 +730,13 @@ async function apiSendStandardCard(
   // }
 }
 
-async function getTagByValue(tags, tagValue) {
+function getTagByValue(tags, tagValue) {
   let desiredTag = tags.find(tag => tag.value == tagValue)
   console.log("Found target tag whose value is", uniqueTagValue)
   return desiredTag
 }
 
-async function getTagsInCategory(data, tagCategoryIndex) {
+function getTagsInCategory(data, tagCategoryIndex) {
   console.log("Tag cat index", tagCategoryIndex)
   console.log("Data", data)
   let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
@@ -744,14 +744,14 @@ async function getTagsInCategory(data, tagCategoryIndex) {
   return tagsInCategory
 }
 
-async function getTagCategoryIndexByName(data, tagCategoryName) {
+function getTagCategoryIndexByName(data, tagCategoryName) {
   // if the tagCategoryIndex is -1, it means that no tag with tagCategoryName was found
   console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
   let tagCategoryIndex = data.findIndex(tagCategory => tagCategory.name === tagCategoryName)
   return tagCategoryIndex
 }
 
-async function getTagCategoryIdByName(data, tagCategoryName) {
+function getTagCategoryIdByName(data, tagCategoryName) {
   console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
   let tagCategoryIndex = getTagCategoryIndexByName(data, tagCategoryName)
   if (tagCategoryIndex !== -1) {
