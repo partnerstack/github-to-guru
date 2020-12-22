@@ -349,6 +349,18 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
   }
 }
 
+async function apiCreateTags(headers, teamId, tagData) {
+  try {
+    return axios.post(
+      `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
+      tagData,
+      headers
+    )
+  } catch (error) {
+    core.setFailed(`Unable to create tags: ${error.message}`);
+  }
+}
+
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -529,11 +541,7 @@ async function apiSendStandardCard(
                 };
                 console.log("Set tag data", tagData);
 
-                return axios.post(
-                  `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
-                  tagData,
-                  headers
-                ).then((response) => {
+                apiCreateTags(headers, teamId, tagData).then((response) => {
                   console.log("GOing to get or create new Boards and Cards");
                   console.log("TAG RESPONSE", response.data);
                   let date = new Date();
@@ -785,7 +793,7 @@ async function apiSearchCardByTagValueAndCategoryName(
         auth: auth
       }
     );
-  } catch (_unused) {
+  } catch (error) {
     core.setFailed(
       `Unable to get find card with tagValue ${tagValue} in category ${tagCategoryName}: ${error.message}`
     );
