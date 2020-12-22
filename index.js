@@ -732,7 +732,7 @@ async function apiSendStandardCard(
 
 function getTagByValue(tags, tagValue) {
   let desiredTag = tags.find(tag => tag.value == tagValue)
-  console.log("Found target tag whose value is", uniqueTagValue)
+  console.log("Found target tag whose value is", tagValue)
   return desiredTag
 }
 
