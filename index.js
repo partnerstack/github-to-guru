@@ -326,31 +326,21 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       teamId
     ).then((response) => {
       console.log("Found a bunch of tag categories...", response.data)
-      let tagCategoryIndex = response.data.findIndex(tag => tag.name === tagCategoryName)
+
+      let tagCategoryIndex = getTagCategoryIndexByName(response.data, tagCategoryName)
+
       if (tagCategoryIndex !== -1) {
         console.log("Found a tag category with the target name", tagCategoryName)
-        // the next five lines don't seem to be working right now
-        let existingTagsInCategory = response.data[tagCategoryIndex].tags.map(tag => tag);
-        console.log("Here are the tags in this category", existingTagsInCategory)
-        let desiredTag = existingTagsInCategory.find(tag => tag.value == uniqueTagValue)
-        if (desiredTag) {
-          console.log("Found target tag whose value is", uniqueTagValue)
+        let tagsInCategory = getTagsInCategory(response.data, tagCategoryIndex)
+
+        let desiredTag = getTagByValue(tagsInCategory, uniqueTagValue)
+
+        if (desiredTag !== undefined) {
           uniqueTagId = desiredTag.id
+        } else {
+          throw `The tag with value ${uniqueTagValue} is undefined (ie. could not be found)`
         }
       }
-      // // 2. for every tag category in the Response, if name == tagCategoryName...
-      // for (let i = 0; i < response.length; i++) {
-      //   if (response[i].name == tagCategoryName) {
-      //     console.log("Found a tag category with the target name", tagCategoryName)
-      //     // 3. ... then go through the list of tags in that category and get Id of tag whose value is uniqueTagValue
-      //     for (let y = 0; y < response[i].tags.length; y++) {
-      //       if (response[i].tags[y].value == uniqueTagValue) {
-      //         console.log("Found target tag whose value is", uniqueTagValue)
-      //         uniqueTagId = response[i].tags[y].value
-      //       }
-      //     }
-      //   }
-      // }
       console.log("unique tag id found", uniqueTagId)
       return uniqueTagId
     })
@@ -467,8 +457,8 @@ async function apiSendStandardCard(
 
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
     // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagValueAndCategoryName`
-    let tagId = apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
-    console.log("EXISTING UNIQUE TAG VALUE's TAG ID", tagId)
+    let uniqueTagId = apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
+    console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
     // 1. Search for a card by tag value and return its id.
     try {
       apiSearchCardByTagValueAndCategoryName(
@@ -740,13 +730,32 @@ async function apiSendStandardCard(
   // }
 }
 
+async function getTagByValue(tags, tagValue) {
+  let desiredTag = tags.find(tag => tag.value == tagValue)
+  console.log("Found target tag whose value is", uniqueTagValue)
+  return desiredTag
+}
+
+async function getTagsInCategory(data, tagCategoryIndex) {
+  let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
+  console.log("Here are the tags in this category", tagsInCategory)
+  return tagsInCategory
+}
+
+async function getTagCategoryIndexByName(data, tagCategoryName) {
+  // if the tagCategoryIndex is -1, it means that no tag with tagCategoryName was found
+  console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
+  let tagCategoryIndex = data.findIndex(tagCategory => tagCategory.name === tagCategoryName)
+  return tagCategoryIndex
+}
+
 async function getTagCategoryIdByName(data, tagCategoryName) {
   console.log(`Getting Tag Category Id by Category Name`, tagCategoryName);
-
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].name === tagCategoryName) {
-      return data[i].id;
-    }
+  let tagCategoryIndex = getTagCategoryIndexByName(data, tagCategoryName)
+  if (tagCategoryIndex !== -1) {
+    return data[tagCategoryIndex].id
+  } else {
+    return null
   }
 }
 
