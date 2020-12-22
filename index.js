@@ -521,55 +521,45 @@ async function apiSendStandardCard(
               tagCategoryName
             ).then((response) => {
               try {
-                getTagCategoryIdByName(response.data, tagCategoryName).then(
-                  (tagCategoryId) => {
-                    console.log("tag category id????", tagCategoryId);
-                    let tagData = {
-                      categoryId: tagCategoryId,
-                      value: uniqueTagValue
-                    };
-                    console.log("get tag data", tagData);
+                tagCategoryId = getTagCategoryIdByName(response.data, tagCategoryName)
+                console.log("tag category id????", tagCategoryId);
+                let tagData = {
+                  categoryId: tagCategoryId,
+                  value: uniqueTagValue
+                };
+                console.log("Set tag data", tagData);
 
-                    try {
-                      console.log("DATA", tagData);
-                      console.log("teamID", teamId);
-                      console.log("headers", headers);
-                      return axios.post(
-                        `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
-                        tagData,
-                        headers
-                      ).then((response) => {
-                        console.log("GOing to get or create new Boards and Cards");
-                        console.log("TAG RESPONSE", response.data);
-                        let date = new Date();
-                        let utcDate = date.getUTCDate();
-                        let cardPaths = splitCardFilename(cardFilename)
-                        let tags = [response.data]
-                        console.log(`Retrieved cardFilename paths: ${cardPaths}`)
-                        try {
-                          // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-                          getOrCreateBoardsAndCards(
-                            cardPaths,
-                            headers,
-                            title,
-                            content,
-                            collectionId,
-                            tags,
-                            verificationInterval,
-                            verificationEmail,
-                            verificationFirstName,
-                            verificationLastName,
-                            utcDate
-                          )
-                        } catch (error) {
-                          core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
-                        }
-                      });
-                    } catch (error) {
-                      core.setFailed(`Unable to create tag: ${error.message}`);
-                    }
+                return axios.post(
+                  `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
+                  tagData,
+                  headers
+                ).then((response) => {
+                  console.log("GOing to get or create new Boards and Cards");
+                  console.log("TAG RESPONSE", response.data);
+                  let date = new Date();
+                  let utcDate = date.getUTCDate();
+                  let cardPaths = splitCardFilename(cardFilename)
+                  let tags = [response.data]
+                  console.log(`Retrieved cardFilename paths: ${cardPaths}`)
+                  try {
+                    // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
+                    getOrCreateBoardsAndCards(
+                      cardPaths,
+                      headers,
+                      title,
+                      content,
+                      collectionId,
+                      tags,
+                      verificationInterval,
+                      verificationEmail,
+                      verificationFirstName,
+                      verificationLastName,
+                      utcDate
+                    )
+                  } catch (error) {
+                    core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
                   }
-                );
+                });
               } catch (error) {
                 core.setFailed(`Unable to create new tag: ${error.message}`);
               }
