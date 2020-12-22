@@ -327,16 +327,18 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
     ).then((response) => {
       console.log("Found a bunch of tag categories...", response.data)
 
-      let tagCategoryIndex = getTagCategoryIndexByName(response.data, tagCategoryName)
+      if (response.data !== undefined) {
+        let tagCategoryIndex = getTagCategoryIndexByName(response.data, tagCategoryName)
 
-      if (tagCategoryIndex !== -1) {
-        console.log("Found a tag category with the target name", tagCategoryName)
-        let tagsInCategory = getTagsInCategory(response.data, tagCategoryIndex)
+        if (tagCategoryIndex !== -1) {
+          console.log("Found a tag category with the target name", tagCategoryName)
+          let tagsInCategory = getTagsInCategory(response.data, tagCategoryIndex)
 
-        let desiredTag = getTagByValue(tagsInCategory, uniqueTagValue)
+          let desiredTag = getTagByValue(tagsInCategory, uniqueTagValue)
 
-        if (desiredTag !== undefined) {
-          uniqueTagId = desiredTag.id
+          if (desiredTag !== undefined) {
+            uniqueTagId = desiredTag.id
+          }
         }
       }
       console.log("unique tag id found", uniqueTagId)
