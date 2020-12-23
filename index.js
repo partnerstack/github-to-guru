@@ -530,7 +530,7 @@ async function apiSendStandardCard(
           console.log("Creating a new unique tag with team id", teamId);
 
           try {
-            await apiGetAllTagCategories(
+            apiGetAllTagCategories(
               auth,
               uniqueTagValue,
               teamId,
