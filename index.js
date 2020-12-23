@@ -482,112 +482,46 @@ async function apiSendStandardCard(
     content = file
   }
 
+  // CREATE THE "PARENT" CARD
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
     // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagId`
     let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
 
     if (uniqueTagId !== null) {
-      try {
-        await apiSearchCardByTagId(
-          auth,
-          uniqueTagId
-        ).then((response) => {
-          // 2a. If card exists, call to update existing card by id (not by tag value).
-          if (response.data.length >= 1) {
-            let cardId = response.data[0].id
-            let cardTags = response.data[0].tags
-            try {
-              console.log(
-                `Found existing card with uniqueTagValue ${uniqueTagValue} and the following tags: ${cardTags}`
-              );
-              apiUpdateStandardCardById(
-                auth,
-                process.env.GURU_COLLECTION_ID,
-                title,
-                cardId,
-                cardTags,
-                verificationInterval,
-                verificationEmail,
-                verificationFirstName,
-                verificationLastName,
-                content
-              ).then((response) => {
-                console.log(`Updated card`);
-
-                try {
-                  let postData = {};
-                  // need to pass in empty post body or else request will fail
-                  apiUnverifyCard(headers, cardId, postData)
-                } catch (error) {
-                  core.setFailed(`Unable to unverify card: ${error.message}`);
-                }
-              });
-            } catch (error) {
-              core.setFailed(`Unable to update card by Id: ${error.message}`);
-            }
-          }
-        })
-      } catch (error) {
-        core.setFailed(`Unable to find card: ${error.message}`);
-      }
+      findAndUpdateCard(
+        uniqueTagId,
+        auth,
+        title,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationLastName,
+        content
+      )
     } else {
-      // 2b. If unique tag does not exist, call to create a new unique tag and then a new card with said tag.
+      // 1b. If unique tag does not exist, call to create a new unique tag and then a new card with said tag.
       console.log("Creating a new unique tag with team id", teamId);
+      createTagAndCard(
+        uniqueTagValue,
+        auth,
+        title,
+        verificationInterval,
+        verificationEmail,
+        verificationFirstName,
+        verificationLastName,
+        content
+      )
+    }
+  }
 
-      try {
-        apiGetAllTagCategories(
-          auth,
-          uniqueTagValue,
-          teamId,
-          tagCategoryName
-        ).then((response) => {
-          try {
-            let tagCategoryId = getTagCategoryIdByName(response.data, tagCategoryName)
-            console.log("tag category id????", tagCategoryId);
-            let tagData = {
-              categoryId: tagCategoryId,
-              value: uniqueTagValue
-            };
-            console.log("Set tag data", tagData);
+  // CREATE THE "CHILDREN" CARD BASED ON H2s IN THE PARENT CARD
+  if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
+    for (let i = 0; i < uniqueH2Tags.length; i++) {
+      let uniqueTagValue = uniqueH2Tags[i]
+      // 1a. If existing tag found (and therefore 'child' card exists), call to update existing card by id (not by tag value).
 
-            apiCreateTags(headers, teamId, tagData).then((response) => {
-              if (response.status !== 200) {
-                throw `Request to create tags failed: ${response}`
-              }
-              console.log("Going to get or create new Boards and Cards");
-              console.log("TAG RESPONSE", response);
-              let date = new Date();
-              let utcDate = date.getUTCDate();
-              let cardPaths = splitCardFilename(cardFilename)
-              let tags = [response.data]
-              console.log(`Retrieved cardFilename paths: ${cardPaths}`)
-              try {
-                // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-                getOrCreateBoardsAndCards(
-                  cardPaths,
-                  headers,
-                  title,
-                  content,
-                  collectionId,
-                  tags,
-                  verificationInterval,
-                  verificationEmail,
-                  verificationFirstName,
-                  verificationLastName,
-                  utcDate
-                )
-              } catch (error) {
-                core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
-              }
-            });
-          } catch (error) {
-            core.setFailed(`Unable to create new tag: ${error.message}`);
-          }
-        });
-      } catch (error) {
-        core.setFailed(`Unable to create tag: ${error.message}`);
-      }
+      // 1b. if 'child' card does not exist, call to create a new unique tag and then create a new card with said tag
     }
   }
 }
@@ -736,6 +670,128 @@ async function apiSendStandardCard(
 //     }
 //   }
 // }
+
+function createTagAndCard(
+  uniqueTagValue,
+  auth,
+  title,
+  verificationInterval,
+  verificationEmail,
+  verificationFirstName,
+  verificationLastName,
+  content) {
+  try {
+    apiGetAllTagCategories(
+      auth,
+      uniqueTagValue,
+      teamId,
+      tagCategoryName
+    ).then((response) => {
+      try {
+        let tagCategoryId = getTagCategoryIdByName(response.data, tagCategoryName)
+        console.log("tag category id????", tagCategoryId);
+        let tagData = {
+          categoryId: tagCategoryId,
+          value: uniqueTagValue
+        };
+        console.log("Set tag data", tagData);
+        try {
+          apiCreateTags(headers, teamId, tagData).then((response) => {
+            if (response.status !== 200) {
+              throw `Request to create tags failed: ${response}`
+            }
+
+            console.log("Going to get or create new Boards and Cards");
+            console.log("TAG RESPONSE", response);
+            let date = new Date();
+            let utcDate = date.getUTCDate();
+            let cardPaths = splitCardFilename(cardFilename)
+            let tags = [response.data]
+            console.log(`Retrieved cardFilename paths: ${cardPaths}`)
+            try {
+              // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
+              getOrCreateBoardsAndCards(
+                cardPaths,
+                headers,
+                title,
+                content,
+                collectionId,
+                tags,
+                verificationInterval,
+                verificationEmail,
+                verificationFirstName,
+                verificationLastName,
+                utcDate
+              )
+            } catch (error) {
+              core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
+            }
+          });
+        } catch (error) {
+          core.setFailed(`Unable to create tags: ${error.message}`);
+        }
+      } catch (error) {
+        core.setFailed(`Unable to get category id: ${error.message}`);
+      }
+    });
+  } catch (error) {
+    core.setFailed(`Unable to get all tag categories: ${error.message}`);
+  }
+}
+
+function findAndUpdateCard(
+  uniqueTagId,
+  auth,
+  title,
+  verificationInterval,
+  verificationEmail,
+  verificationFirstName,
+  verificationLastName,
+  content) {
+  try {
+    await apiSearchCardByTagId(
+      auth,
+      uniqueTagId
+    ).then((response) => {
+      // 1a. If existing tag found (and therefore card exists), call to update existing card by id (not by tag value).
+      if (response.data.length >= 1) {
+        let cardId = response.data[0].id
+        let cardTags = response.data[0].tags
+        try {
+          console.log(
+            `Found existing card with uniqueTagValue ${uniqueTagValue}`
+          );
+          apiUpdateStandardCardById(
+            auth,
+            process.env.GURU_COLLECTION_ID,
+            title,
+            cardId,
+            cardTags,
+            verificationInterval,
+            verificationEmail,
+            verificationFirstName,
+            verificationLastName,
+            content
+          ).then((response) => {
+            console.log(`Updated card`);
+
+            try {
+              let postData = {};
+              // need to pass in empty post body or else request will fail
+              apiUnverifyCard(headers, cardId, postData)
+            } catch (error) {
+              core.setFailed(`Unable to unverify card: ${error.message}`);
+            }
+          });
+        } catch (error) {
+          core.setFailed(`Unable to update card by Id: ${error.message}`);
+        }
+      }
+    })
+  } catch (error) {
+    core.setFailed(`Unable to find card: ${error.message}`);
+  }
+}
 
 function getTagByValue(tags, tagValue) {
   let desiredTag = tags.find(tag => tag.value == tagValue)
