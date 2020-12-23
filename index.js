@@ -175,7 +175,7 @@ async function apiCreateCard(
       `https://api.getguru.com/api/v1/facts/extended`,
       cardData,
       headers
-    ).then((repsonse) => {
+    ).then((response) => {
       console.log("Response", response);
     }).catch((error) => {
       if (error.response) {
