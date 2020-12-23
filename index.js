@@ -749,7 +749,7 @@ function findAndUpdateCard(
   verificationLastName,
   content) {
   try {
-    await apiSearchCardByTagId(
+    apiSearchCardByTagId(
       auth,
       uniqueTagId
     ).then((response) => {
