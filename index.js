@@ -317,7 +317,7 @@ async function getOrCreateBoardsAndCards(
 
 }
 
-function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue) {
+async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue) {
   // 1. get all tag categories
   var uniqueTagId
   try {
@@ -469,7 +469,7 @@ async function apiSendStandardCard(
 
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
     // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagValueAndCategoryName`
-    let uniqueTagId = apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
+    let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
     // 1. Search for a card by tag value and return its id.
     try {
