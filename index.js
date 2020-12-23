@@ -321,7 +321,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
   // 1. get all tag categories
   var uniqueTagId
   try {
-    apiGetAllTagCategories(
+    await apiGetAllTagCategories(
       auth,
       teamId
     ).then((response) => {
