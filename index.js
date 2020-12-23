@@ -759,7 +759,7 @@ function findAndUpdateCard(
         let cardTags = response.data[0].tags
         try {
           console.log(
-            `Found existing card with uniqueTagValue ${uniqueTagValue}`
+            `Found existing card with uniqueTagId ${uniqueTagId}`
           );
           apiUpdateStandardCardById(
             auth,
