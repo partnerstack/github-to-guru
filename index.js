@@ -537,6 +537,9 @@ async function apiSendStandardCard(
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
 
+      let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
+      console.log("EXISTING UNIQUE H2 TAG VALUE's TAG ID", uniqueTagId)
+
       // 1a. If unique tag exists, find related 'child' card using the tag id and update.
       if (uniqueTagId !== null) {
         findAndUpdateCard(
