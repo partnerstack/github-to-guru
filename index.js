@@ -175,7 +175,24 @@ async function apiCreateCard(
       `https://api.getguru.com/api/v1/facts/extended`,
       cardData,
       headers
-    )} catch (error) {
+    ).then((response) => {
+      console.log("Response", response);
+    }).catch((error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        throw `A card create request was made, but received a bad response...\n Status: ${error.response.status} \n Response data: ${error.response.data}; \n Response headers: ${error.response.headers}`
+      } else if (error.request) {
+        throw `A card create request was made but no response was received: ${error.request}`
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        throw `There was an issue with setting up the card create request: ${error.request}`
+      }
+    })
+  } catch (error) {
     core.setFailed(
       `Unable to create card: ${error.message}`
     );
