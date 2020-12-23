@@ -514,6 +514,7 @@ async function apiSendStandardCard(
         headers,
         teamId,
         tagCategoryName,
+        cardFilename,
         collectionId
       )
     }
