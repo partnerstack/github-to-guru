@@ -341,9 +341,9 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
           }
         }
       }
-      console.log("unique tag id found", uniqueTagId)
-      return uniqueTagId
     })
+    console.log("unique tag id found", uniqueTagId)
+    return uniqueTagId
   } catch (error) {
     core.setFailed(`Unable to get tag category id: ${error.message}`);
   }
