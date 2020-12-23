@@ -513,7 +513,8 @@ async function apiSendStandardCard(
         verificationLastName,
         content,
         headers,
-        teamId
+        teamId,
+        tagCategoryName
       )
     }
   }
@@ -684,7 +685,8 @@ function createTagAndCard(
   verificationLastName,
   content,
   headers,
-  teamId) {
+  teamId,
+  tagCategoryName) {
   try {
     apiGetAllTagCategories(
       auth,
