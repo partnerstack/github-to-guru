@@ -540,6 +540,9 @@ async function apiSendStandardCard(
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
       console.log("EXISTING UNIQUE H2 TAG VALUE's TAG ID", uniqueTagId)
 
+      // content = getH2Content()
+      content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply testing</p>"
+
       // 1a. If unique tag exists, find related 'child' card using the tag id and update.
       if (uniqueTagId !== null) {
         findAndUpdateCard(
@@ -559,7 +562,7 @@ async function apiSendStandardCard(
         console.log("Creating a new unique tag with team id", teamId);
 
         // content = getH2Content()
-        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply testing</p>"
+        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply</p>"
 
 
         createTagAndCard(
