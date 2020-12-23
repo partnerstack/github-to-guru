@@ -319,7 +319,7 @@ async function getOrCreateBoardsAndCards(
 
 async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue) {
   // 1. get all tag categories
-  var uniqueTagId
+  let uniqueTagId
   try {
     await apiGetAllTagCategories(
       auth,
