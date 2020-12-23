@@ -95,7 +95,7 @@ function splitCardFilename(cardFilename) {
   }
 }
 
-async function createCard(
+async function apiCreateCard(
   headers,
   title,
   content,
@@ -171,7 +171,7 @@ async function createCard(
       verificationReason: "NEW_VERIFIER"
     };
     console.log(`Making the card create request to Guru  now with ${JSON.stringify(cardData)}`)
-    return axios.post(
+    return await axios.post(
       `https://api.getguru.com/api/v1/facts/extended`,
       cardData,
       headers
@@ -224,7 +224,7 @@ async function getOrCreateBoardsAndCards(
       case 1:
         // create a top-level card in the collection
         console.log("Creating/Getting top-level Card")
-        createCard(
+        await apiCreateCard(
           headers,
           title,
           content,
@@ -243,7 +243,7 @@ async function getOrCreateBoardsAndCards(
         cardName = cardPaths.cardName
         console.log("Creating/Getting Board and Card")
 
-        createCard(
+        await apiCreateCard(
           headers,
           title,
           content,
@@ -265,7 +265,7 @@ async function getOrCreateBoardsAndCards(
         boardName = cardPaths.boardName
         cardName = cardPaths.cardName
 
-        createCard(
+        await apiCreateCard(
           headers,
           title,
           content,
@@ -290,7 +290,7 @@ async function getOrCreateBoardsAndCards(
         cardName = cardPaths.cardName
 
         try {
-          createCard(
+          await apiCreateCard(
             headers,
             title,
             content,
@@ -338,6 +338,8 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
 
           if (desiredTag !== undefined) {
             uniqueTagId = desiredTag.id
+          } else {
+            throw `Could not find tag with value ${uniqueTagValue}: ${response}`
           }
         }
       }
@@ -345,7 +347,7 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
     console.log("unique tag id found", uniqueTagId)
     return uniqueTagId
   } catch (error) {
-    core.setFailed(`Unable to get tag category id: ${error.message}`);
+    core.setFailed(`Unable to get tag id: ${error.message}`);
   }
 }
 
@@ -358,6 +360,18 @@ async function apiCreateTags(headers, teamId, tagData) {
     )
   } catch (error) {
     core.setFailed(`Unable to create tags: ${error.message}`);
+  }
+}
+
+async function apiUnverifyCard(headers, postData) {
+  try {
+    return await axios.post(
+      `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
+      { postData },
+      headers
+    );
+  } catch (error) {
+    core.setFailed(`Unable to unverify card: ${error.message}`);
   }
 }
 
@@ -468,17 +482,14 @@ async function apiSendStandardCard(
   }
 
   if (process.env.GURU_CARD_YAML && uniqueTagValue) {
-    // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagValueAndCategoryName`
+    // 0. Get all tags and get the tag id of the tag whose value is uniqueTagValue and pass it along to `apiSearchCardByTagId`
     let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
-    // 1. Search for a card by tag value and return its id.
+    // 1. Search for a card by tag ID
     try {
-      apiSearchCardByTagValueAndCategoryName(
+      await apiSearchCardByTagId(
         auth,
-        process.env.GURU_COLLECTION_ID,
-        uniqueTagId,
-        tagCategoryName,
-        content
+        uniqueTagId
       ).then((response) => {
         // 2a. If card exists, call to update existing card by id (not by tag value).
         if (response.data.length >= 1) {
@@ -486,13 +497,9 @@ async function apiSendStandardCard(
           let cardTags = response.data[0].tags
           try {
             console.log(
-              `Found existing card with title ${title} and uniqueTagValue ${uniqueTagValue} `
+              `Found existing card with uniqueTagValue ${uniqueTagValue} and the following tags: ${cardTags}`
             );
-            console.log("response data", cardTags);
-            console.log(
-              `Updating card with Id ${cardId} and uniqueTagValue ${uniqueTagValue} `
-            );
-            apiUpdateStandardCardById(
+            await apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
               title,
@@ -509,24 +516,21 @@ async function apiSendStandardCard(
               try {
                 console.log(`Unverifying updated card.`);
                 let postData = {};
-                return axios.post(
-                  `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
-                  { postData },
-                  headers
-                );
+                // need to pass in empty post body or else request will fail
+                await apiUnverifyCard(headers, postData)
               } catch (error) {
                 core.setFailed(`Unable to unverify card: ${error.message}`);
               }
             });
           } catch (error) {
-            core.setFailed(`Unable to prepare card: ${error.message}`);
+            core.setFailed(`Unable to update card by Id: ${error.message}`);
           }
         } else {
           // 2b. If card does not exist, call to create a new unique tag and then a new card with said tag.
           console.log("Creating a new unique tag with team id", teamId);
 
           try {
-            apiGetAllTagCategories(
+            await apiGetAllTagCategories(
               auth,
               uniqueTagValue,
               teamId,
@@ -541,7 +545,7 @@ async function apiSendStandardCard(
                 };
                 console.log("Set tag data", tagData);
 
-                apiCreateTags(headers, teamId, tagData).then((response) => {
+                await apiCreateTags(headers, teamId, tagData).then((response) => {
                   if (response.status !== 200) {
                     throw `Request to create tags failed: ${response}`
                   }
@@ -554,7 +558,7 @@ async function apiSendStandardCard(
                   console.log(`Retrieved cardFilename paths: ${cardPaths}`)
                   try {
                     // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-                    getOrCreateBoardsAndCards(
+                    await getOrCreateBoardsAndCards(
                       cardPaths,
                       headers,
                       title,
@@ -606,7 +610,7 @@ async function apiSendStandardCard(
   //     let uniqueTagValue = uniqueH2Tags[i]
   //     // 1. Search for a card by tag value and return its id.
   //     try {
-  //       apiSearchCardByTagValueAndCategoryName(
+  //       apiSearchCardByTagId(
   //         auth,
   //         process.env.GURU_COLLECTION_ID,
   //         uniqueTagValue,
@@ -739,7 +743,6 @@ function getTagByValue(tags, tagValue) {
 
 function getTagsInCategory(data, tagCategoryIndex) {
   console.log("Tag cat index", tagCategoryIndex)
-  console.log("Data", data)
   let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
   console.log("Here are the tags in this category", tagsInCategory)
   return tagsInCategory
@@ -778,20 +781,16 @@ async function apiGetAllTagCategories(auth, teamId) {
   }
 }
 
-async function apiSearchCardByTagValueAndCategoryName(
+async function apiSearchCardByTagId(
   auth,
-  collectionId,
-  tagId,
-  tagCategoryName
+  tagId
 ) {
   console.log(
-    `Searching for card in ${collectionId} collection with tag: ${tagId}`
+    `Searching for card with Tag ID: ${tagId}`
   );
 
-  // TODO - Swap the tagValue with the tagId!!!!!
   try {
-    return axios.get(
-      // `https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`,
+    return await axios.get(
       `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
       {
         auth: auth
@@ -799,7 +798,7 @@ async function apiSearchCardByTagValueAndCategoryName(
     );
   } catch (error) {
     core.setFailed(
-      `Unable to get find card with tagValue ${tagValue} in category ${tagCategoryName}: ${error.message}`
+      `Unable to get find card with tagId ${tagId}: ${error.message}`
     );
   }
 }
@@ -816,12 +815,11 @@ async function apiUpdateStandardCardById(
   verificationLastName,
   content
 ) {
-  console.log(`Updating card in ${collectionId}: ${title} with ID ${cardId}`);
+  console.log(`Updating card with title: ${title} and ID ${cardId}`);
   let headers = {
     auth: auth,
     "content-type": `application/json`
   };
-  console.log("TAGS", tags);
   let date = new Date();
   let utcDate = date.getUTCDate();
   let data = {
@@ -872,7 +870,7 @@ async function apiUpdateStandardCardById(
     verificationReason: "NEW_VERIFIER",
     tags: tags
   };
-  return axios.put(
+  return await axios.put(
     `https://api.getguru.com/api/v1/cards/${cardId}/extended`,
     data,
     headers
@@ -1044,14 +1042,6 @@ function processStandardCollection(auth) {
           cardConfigs[cardFilename].VerificationLastName,
           cardFilename
         )
-          .then((response) => {
-            console.log(`Created or updated card for ${cardFilename}`);
-          })
-          .catch((error) => {
-            core.setFailed(
-              `Unable to create or update card for ${cardFilename}: ${error.message}`
-            );
-          });
       } catch (error) {
         core.setFailed(
           `Unable to prepare card for creation/update: ${error.message}`
