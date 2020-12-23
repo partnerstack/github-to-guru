@@ -194,7 +194,7 @@ async function apiCreateCard(
     })
   } catch (error) {
     core.setFailed(
-      `Unable to create card: ${error.message}`
+      `Unable to create card: ${error}`
     );
   }
 }
