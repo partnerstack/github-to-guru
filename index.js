@@ -363,8 +363,9 @@ async function apiCreateTags(headers, teamId, tagData) {
   }
 }
 
-async function apiUnverifyCard(headers, postData) {
+async function apiUnverifyCard(headers, cardId, postData) {
   try {
+    console.log(`Unverifying updated card.`);
     return await axios.post(
       `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
       { postData },
@@ -514,10 +515,9 @@ async function apiSendStandardCard(
               console.log(`Updated card`);
 
               try {
-                console.log(`Unverifying updated card.`);
                 let postData = {};
                 // need to pass in empty post body or else request will fail
-                apiUnverifyCard(headers, postData)
+                apiUnverifyCard(headers, cardId, postData)
               } catch (error) {
                 core.setFailed(`Unable to unverify card: ${error.message}`);
               }
