@@ -766,7 +766,8 @@ async function apiGetAllTagCategories(auth, teamId) {
   console.log(`Getting all tag categories by team id`);
 
   try {
-    return axios.get(
+    console.log("Calling Get All Tags now")
+    return await axios.get(
       `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`,
       {
         auth: auth
