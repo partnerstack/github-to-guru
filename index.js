@@ -372,7 +372,7 @@ async function apiUnverifyCard(headers, cardId, postData) {
       headers
     );
   } catch (error) {
-    core.setFailed(`Unable to unverify card: ${error.message}`);
+    core.setFailed(`Could not unverify card: ${error.message}`);
   }
 }
 
@@ -497,7 +497,8 @@ async function apiSendStandardCard(
         verificationEmail,
         verificationFirstName,
         verificationLastName,
-        content
+        content,
+        headers
       )
     } else {
       // 1b. If unique tag does not exist, call to create a new unique tag and then a new card with said tag.
@@ -510,7 +511,8 @@ async function apiSendStandardCard(
         verificationEmail,
         verificationFirstName,
         verificationLastName,
-        content
+        content,
+        headers
       )
     }
   }
@@ -679,7 +681,8 @@ function createTagAndCard(
   verificationEmail,
   verificationFirstName,
   verificationLastName,
-  content) {
+  content,
+  headers) {
   try {
     apiGetAllTagCategories(
       auth,
@@ -747,7 +750,8 @@ function findAndUpdateCard(
   verificationEmail,
   verificationFirstName,
   verificationLastName,
-  content) {
+  content,
+  headers) {
   try {
     apiSearchCardByTagId(
       auth,
