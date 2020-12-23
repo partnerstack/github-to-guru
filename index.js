@@ -498,7 +498,8 @@ async function apiSendStandardCard(
         verificationFirstName,
         verificationLastName,
         content,
-        headers
+        headers,
+        collectionId
       )
     } else {
       // 1b. If unique tag does not exist, call to create a new unique tag and then a new card with said tag.
@@ -514,7 +515,8 @@ async function apiSendStandardCard(
         content,
         headers,
         teamId,
-        tagCategoryName
+        tagCategoryName,
+        collectionId
       )
     }
   }
@@ -686,7 +688,9 @@ function createTagAndCard(
   content,
   headers,
   teamId,
-  tagCategoryName) {
+  tagCategoryName,
+  cardFilename,
+  collectionId) {
   try {
     apiGetAllTagCategories(
       auth,
@@ -755,7 +759,8 @@ function findAndUpdateCard(
   verificationFirstName,
   verificationLastName,
   content,
-  headers) {
+  headers,
+  collectionId) {
   try {
     apiSearchCardByTagId(
       auth,
@@ -771,7 +776,7 @@ function findAndUpdateCard(
           );
           apiUpdateStandardCardById(
             auth,
-            process.env.GURU_COLLECTION_ID,
+            collectionId,
             title,
             cardId,
             cardTags,
