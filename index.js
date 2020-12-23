@@ -476,7 +476,7 @@ async function apiSendStandardCard(
       apiSearchCardByTagValueAndCategoryName(
         auth,
         process.env.GURU_COLLECTION_ID,
-        uniqueTagValue,
+        uniqueTagId,
         tagCategoryName,
         content
       ).then((response) => {
@@ -781,18 +781,18 @@ async function apiGetAllTagCategories(auth, teamId) {
 async function apiSearchCardByTagValueAndCategoryName(
   auth,
   collectionId,
-  tagValue,
+  tagId,
   tagCategoryName
 ) {
   console.log(
-    `Searching for card in ${collectionId} collection with tag: ${tagValue}`
+    `Searching for card in ${collectionId} collection with tag: ${tagId}`
   );
 
   // TODO - Swap the tagValue with the tagId!!!!!
   try {
     return axios.get(
-      `https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`,
-      // `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
+      // `https://api.getguru.com/api/v1/search/query?searchTerms=${tagValue}&queryType=cards`,
+      `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
       {
         auth: auth
       }
