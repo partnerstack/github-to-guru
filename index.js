@@ -517,7 +517,7 @@ async function apiSendStandardCard(
                 console.log(`Unverifying updated card.`);
                 let postData = {};
                 // need to pass in empty post body or else request will fail
-                await apiUnverifyCard(headers, postData)
+                apiUnverifyCard(headers, postData)
               } catch (error) {
                 core.setFailed(`Unable to unverify card: ${error.message}`);
               }
@@ -545,7 +545,7 @@ async function apiSendStandardCard(
                 };
                 console.log("Set tag data", tagData);
 
-                await apiCreateTags(headers, teamId, tagData).then((response) => {
+                apiCreateTags(headers, teamId, tagData).then((response) => {
                   if (response.status !== 200) {
                     throw `Request to create tags failed: ${response}`
                   }
@@ -558,7 +558,7 @@ async function apiSendStandardCard(
                   console.log(`Retrieved cardFilename paths: ${cardPaths}`)
                   try {
                     // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-                    await getOrCreateBoardsAndCards(
+                    getOrCreateBoardsAndCards(
                       cardPaths,
                       headers,
                       title,
