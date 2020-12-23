@@ -499,7 +499,7 @@ async function apiSendStandardCard(
             console.log(
               `Found existing card with uniqueTagValue ${uniqueTagValue} and the following tags: ${cardTags}`
             );
-            await apiUpdateStandardCardById(
+            apiUpdateStandardCardById(
               auth,
               process.env.GURU_COLLECTION_ID,
               title,
