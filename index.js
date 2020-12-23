@@ -559,7 +559,7 @@ async function apiSendStandardCard(
         console.log("Creating a new unique tag with team id", teamId);
 
         // content = getH2Content()
-        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply</p>"
+        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply testing</p>"
 
 
         createTagAndCard(
