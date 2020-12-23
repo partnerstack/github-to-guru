@@ -486,6 +486,7 @@ async function apiSendStandardCard(
     let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
 
+    // 1a. If unique tag exists, find related card using the tag id and update.
     if (uniqueTagId !== null) {
       findAndUpdateCard(
         uniqueTagId,
@@ -521,160 +522,62 @@ async function apiSendStandardCard(
   }
 
   // CREATE THE "CHILDREN" CARD BASED ON H2s IN THE PARENT CARD
+  // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // For each unique H2 Tag, create a brand new card.
+  // Use only the `content` from the H2 tag up until the next H2 tag
+  // (or until it's the end of the file - figure out the OR logic)
+  // make a `getH2Content` function to serve this purpose
+  // content = getH2Content(content, uniqueH2Tags, existingH2TagLines)
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
-      // 1a. If existing tag found (and therefore 'child' card exists), call to update existing card by id (not by tag value).
 
-      // 1b. if 'child' card does not exist, call to create a new unique tag and then create a new card with said tag
+      // 1a. If unique tag exists, find related 'child' card using the tag id and update.
+      if (uniqueTagId !== null) {
+        findAndUpdateCard(
+          uniqueTagId,
+          auth,
+          title,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          content,
+          headers,
+          collectionId
+        )
+      } else {
+        // 1b. If unique tag does not exist, call to create a new unique tag and then a new 'child' card with said tag.
+        console.log("Creating a new unique tag with team id", teamId);
+
+        // content = getH2Content()
+        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply</p>"
+
+
+        createTagAndCard(
+          uniqueTagValue,
+          auth,
+          title,
+          verificationInterval,
+          verificationEmail,
+          verificationFirstName,
+          verificationLastName,
+          content,
+          headers,
+          teamId,
+          tagCategoryName,
+          cardFilename,
+          collectionId
+        )
+      }
     }
   }
 }
-
-// TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// For each unique H2 Tag, create a brand new card.
-// Use only the `content` from the H2 tag up until the next H2 tag
-// (or until it's the end of the file - figure out the OR logic)
-// make a `getH2Content` function to serve this purpose
-// content = getH2Content(content, uniqueH2Tags, existingH2TagLines)
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// Also figure out how to uniquely search for the subcard, whose tag
-// is appearing in the content body of the parent card... which means
-// the search API will return more than one item
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-// if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
-//   for (let i = 0; i < uniqueH2Tags.length; i++) {
-//     let uniqueTagValue = uniqueH2Tags[i]
-//     // 1. Search for a card by tag value and return its id.
-//     try {
-//       apiSearchCardByTagId(
-//         auth,
-//         process.env.GURU_COLLECTION_ID,
-//         uniqueTagValue,
-//         tagCategoryName,
-//         content
-//       ).then((response) => {
-//         // 2a. If card exists, call to update existing card by id (not by tag value).
-//         if (response.data.length >= 1) {
-//           let cardId = response.data[0].id
-//           let cardTags = response.data[0].tags
-//           try {
-//             console.log(
-//               `Found existing card for with title ${title} and uniqueTagValue ${uniqueTagValue} `
-//             );
-//             console.log("response data", cardTags);
-//             console.log(
-//               `Updating card for with Id ${cardId} and uniqueTagValue ${uniqueTagValue} `
-//             );
-//             apiUpdateStandardCardById(
-//               auth,
-//               process.env.GURU_COLLECTION_ID,
-//               title,
-//               cardId,
-//               cardTags,
-//               verificationInterval,
-//               verificationEmail,
-//               verificationFirstName,
-//               verificationLastName,
-//               content
-//             ).then((response) => {
-//               console.log(`Updated card`);
-
-//               try {
-//                 console.log(`Unverifying updated card.`);
-//                 let postData = {};
-//                 return axios.post(
-//                   `https://api.getguru.com/api/v1/cards/${cardId}/unverify`,
-//                   { postData },
-//                   headers
-//                 );
-//               } catch (error) {
-//                 core.setFailed(`Unable to unverify card: ${error.message}`);
-//               }
-//             });
-//           } catch (error) {
-//             core.setFailed(`Unable to prepare card: ${error.message}`);
-//           }
-//         } else {
-//           // 2b. If card does not exist, call to create a new unique tag and then a new card with said tag.
-//           console.log("Creating a new unique tag with team id", teamId);
-
-//           try {
-//             apiGetAllTagCategories(
-//               auth,
-//               uniqueTagValue,
-//               teamId,
-//               tagCategoryName
-//             ).then((response) => {
-//               try {
-//                 getTagCategoryIdByName(response.data, tagCategoryName).then(
-//                   (tagCategoryId) => {
-//                     console.log("tag category id????", tagCategoryId);
-//                     let tagData = {
-//                       categoryId: tagCategoryId,
-//                       value: uniqueTagValue
-//                     };
-//                     console.log("get tag data", tagData);
-
-//                     try {
-//                       console.log("DATA", tagData);
-//                       console.log("teamID", teamId);
-//                       console.log("headers", headers);
-//                       return axios.post(
-//                         `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories/tags/`,
-//                         tagData,
-//                         headers
-//                       ).then((response) => {
-//                         console.log("GOing to get or create new Boards and Cards");
-//                         console.log("TAG RESPONSE", response.data);
-//                         let date = new Date();
-//                         let utcDate = date.getUTCDate();
-//                         let cardPaths = splitCardFilename(cardFilename)
-//                         let tags = [response.data]
-//                         console.log(`Retrieved cardFilename paths: ${cardPaths}`)
-//                         try {
-//                           // TODO - parse cardPaths... make calls to make board group/board/board section accordingly
-//                           getOrCreateBoardsAndCards(
-//                             cardPaths,
-//                             headers,
-//                             title,
-//                             content,
-//                             collectionId,
-//                             tags,
-//                             verificationInterval,
-//                             verificationEmail,
-//                             verificationFirstName,
-//                             verificationLastName,
-//                             utcDate
-//                           )
-//                         } catch (error) {
-//                           core.setFailed(`Unable to getorCreateBoardsAndCards: ${error.message}`);
-//                         }
-//                       });
-//                     } catch (error) {
-//                       core.setFailed(`Unable to create tag: ${error.message}`);
-//                     }
-//                   }
-//                 );
-//               } catch (error) {
-//                 core.setFailed(`Unable to create new tag: ${error.message}`);
-//               }
-//             });
-//           } catch (error) {
-//             core.setFailed(`Unable to create tag: ${error.message}`);
-//           }
-//         }
-//       });
-//     } catch (error) {
-//       core.setFailed(`Unable to find card: ${error.message}`);
-//     }
-//   }
-// }
 
 function createTagAndCard(
   uniqueTagValue,
