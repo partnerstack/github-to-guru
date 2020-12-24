@@ -49,7 +49,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
 
 function getH2ContentKeyMap(content) {
   // take the content and split it off into sub-content based on the H2 tag
-  let contentMap = []
+  let h2ContentKeyMap = []
   let tagAndContentIndicesList = []
   let contentIndexAndTagList = []
   let contentIndexAndH2Array = []
@@ -104,12 +104,12 @@ function getH2ContentKeyMap(content) {
     let tagMap = {}
     tagMap[tag] = h2Content
 
-    contentMap.push(tagMap)
+    h2ContentKeyMap.push(tagMap)
 
   })
   return {
-    contentMap: contentMap,
-    contentIndexAndH2Array: contentIndexAndH2Array
+    h2ContentKeyMap: h2ContentKeyMap,
+    contentIndexAndH2Array: tagMap
   }
 }
 
