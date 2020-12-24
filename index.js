@@ -107,7 +107,7 @@ function getH2ContentKeyMap(content) {
     contentMap.push(tagMap)
 
   })
-  return contentMap
+  return [contentMap, contentIndexAndH2Array]
 }
 
 function getH2ContentForKey(h2ContentKeyMap, uniqueTagValue) {
@@ -592,7 +592,8 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
-    let h2ContentKeyMap = getH2ContentKeyMap(content)
+    let {h2ContentKeyMap, contentIndexAndH2Array} = getH2ContentKeyMap(content)
+    console.log("TITLES", contentIndexAndH2Array)
     console.log("h2 content key map", h2ContentKeyMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
