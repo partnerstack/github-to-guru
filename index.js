@@ -76,12 +76,12 @@ function getH2ContentKeyMap(content) {
   })
 
   // map h2 tag to content line numbers eg. x = [{ ["10293daf210adg9124"]: [83: 97]}, {["aljd1j312412j3421"]: [98: 101]}]
-  contentIndexAndTagList.map((lineAndTag, index) => {
+  contentIndexAndH2Array.map((lineAndTag, index) => {
       let tag = Object.values(lineAndTag)
       let firstLineNumber = parseInt(Object.keys(lineAndTag))
       let lastLineNumber
-      if (index !== contentIndexAndTagList.length - 1) {
-          lastLineNumber = Object.keys(contentIndexAndTagList[index+1]) - 1
+      if (index !== contentIndexAndH2Array.length - 1) {
+          lastLineNumber = Object.keys(contentIndexAndH2Array[index+1]) - 1
           tagAndContentIndicesList.push({
               [tag]: [firstLineNumber, lastLineNumber]
           })
