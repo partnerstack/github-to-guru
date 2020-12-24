@@ -99,7 +99,7 @@ function getH2ContentKeyMap(content) {
   tagAndContentIndicesList.map((tagAndLines, index) => {
     let tag = Object.keys(tagAndLines)
     let h2Indices = Object.values(tagAndLines)
-    let h2Content = splitContentArray.slice(h2Indices[0][0], h2Indices[0][1]).join('')
+    let h2Content = splitContentArray.slice(h2Indices[0][0], h2Indices[0][1]).join('\n')
 
     let tagMap = {}
     tagMap[tag] = h2Content
