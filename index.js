@@ -47,7 +47,7 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-function getH2Content(content) {
+function getH2ContentKeyMap(content) {
   // take the content and split it off into sub-content based on the H2 tag
   let contentMap = []
   let tagAndContentIndicesList = []
@@ -97,7 +97,6 @@ function getH2Content(content) {
   // eg. y = [{ 10293daf210adg9124: "i am the content" }, {aljd1j312412j3421: "I am some more content"}]
 
   tagAndContentIndicesList.map((tagAndLines, index) => {
-    console.log("tag and lines", tagAndLines)
     let tag = Object.keys(tagAndLines)
     let h2Indices = Object.values(tagAndLines)
     let h2Content = splitContentArray.slice(h2Indices[0][0], h2Indices[0][1]).join('')
@@ -587,13 +586,13 @@ async function apiSendStandardCard(
   // For each unique H2 Tag, create a brand new card.
   // Use only the `content` from the H2 tag up until the next H2 tag
   // (or until it's the end of the file - figure out the OR logic)
-  // make a `getH2Content` function to serve this purpose
-  // content = getH2Content(content, uniqueH2Tags, existingH2TagLines)
+  // make a `getH2ContentKeyMap` function to serve this purpose
+  // content = getH2ContentKeyMap(content, uniqueH2Tags, existingH2TagLines)
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
-    let h2ContentKeyMap = getH2Content(content)
+    let h2ContentKeyMap = getH2ContentKeyMap(content)
     console.log("h2 content key map", h2ContentKeyMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
