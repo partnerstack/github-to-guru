@@ -604,7 +604,7 @@ async function apiSendStandardCard(
       content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
       console.log("content", content)
 
-      let updatedH2Title = title + " - " + Object.value(h2ContentKeyMap[i])[0]
+      let updatedH2Title = title
       console.log("UPDATED TITLE", updatedH2Title)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
