@@ -615,7 +615,7 @@ async function apiSendStandardCard(
         findAndUpdateCard(
           uniqueTagId,
           auth,
-          updatedH2Title,
+          title,
           verificationInterval,
           verificationEmail,
           verificationFirstName,
@@ -631,7 +631,7 @@ async function apiSendStandardCard(
         createTagAndCard(
           uniqueTagValue,
           auth,
-          updatedH2Title,
+          title,
           verificationInterval,
           verificationEmail,
           verificationFirstName,
