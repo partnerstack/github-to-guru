@@ -47,18 +47,73 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-function getH2Content(file, uniqueH2Tags, existingH2TagLines) {
+function getH2Content(content) {
   // take the content and split it off into sub-content based on the H2 tag
-  let contentMap = {}
-  let arr = file.split(/\r?\n/);
+  let contentMap = []
+  let tagAndContentIndicesList = []
+  let contentIndexAndTagList = []
+  let contentIndexAndH2Array = []
+  let splitContentArray = content.split(/\r?\n/);
+  let lastContentLineNumber
   let h2_regex = /^## \w+/
-  arr.forEach((line, idx) => {
-    if (h2_regex.test(line)) {
-      // if we run into an H2, we want its corresponding uniqueH2Tag
-      // then we want to map the subcontent starting from the H2 to the next H2 (or end of file)
-      // eg. contentMap = { "10293daf210adg9124": subcontent, "aljd1j312412j3421": subcontent}
-    }
-  });
+
+  splitContentArray.map((line, index) => {
+      if (h2_regex.test(line)) {
+          // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
+          contentIndexAndH2Array.push({
+                  [index]: line
+              })
+          // also map corresponding unique tag to line number eg. [{84: "aljd1j312412j3421"}, {99: "10293daf210adg9124"}]
+          let h2Tag = splitContentArray[index + 1].split(" ").slice(-1)[0]
+          contentIndexAndTagList.push({
+              [index + 1]: h2Tag
+          })
+      }
+      // store the last line in the content that is not the parent UUID and breakline
+      if (splitContentArray.length - 3 === index) {
+          lastContentLineNumber = index
+      }
+  })
+
+  // map h2 tag to content line numbers eg. x = [{ ["10293daf210adg9124"]: [83: 97]}, {["aljd1j312412j3421"]: [98: 101]}]
+  contentIndexAndTagList.map((lineAndTag, index) => {
+      let tag = Object.values(lineAndTag)
+      let firstLineNumber = parseInt(Object.keys(lineAndTag))
+      let lastLineNumber
+      if (index !== contentIndexAndTagList.length - 1) {
+          lastLineNumber = Object.keys(contentIndexAndTagList[index+1]) - 1
+          tagAndContentIndicesList.push({
+              [tag]: [firstLineNumber, lastLineNumber]
+          })
+
+      } else {
+          tagAndContentIndicesList.push({
+              [tag]: [firstLineNumber, lastContentLineNumber]
+          })
+      }
+  })
+
+  // then we want to create a map of the actual content to the ky
+  // eg. y = [{ ["10293daf210adg9124"]: "i am the content" }, {["aljd1j312412j3421"]: "I am some more content"}]
+
+  tagAndContentIndicesList.map((tagAndLines, index) => {
+    console.log("tag and lines", tagAndLines)
+    let tag = Object.keys(tagAndLines)
+    let h2Indices = Object.values(tagAndLines)
+    let h2Content = splitContentArray.slice(h2Indices[0][0], h2Indices[0][1]).join('')
+
+    contentMap.push({
+        [tag]: h2Content
+    })
+
+  })
+  return contentMap
+}
+
+function getH2ContentForKey(h2ContentKeyMap, uniqueTagValue) {
+  let result = h2ContentKeyMap.filter((h2contentKeyMap, index) => Object.keys(h2contentKeyMap)[index])[0];
+  let h2Content = result[uniqueTagValue]
+  return h2Content
 }
 
 function splitCardFilename(cardFilename) {
@@ -486,7 +541,7 @@ async function apiSendStandardCard(
     let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
     console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
 
-    // 1a. If unique tag exists, find related card using the tag id and update.
+    // 1a. If unique tag exists in Guru, find related card using the tag id and update.
     if (uniqueTagId !== null) {
       findAndUpdateCard(
         uniqueTagId,
@@ -501,7 +556,7 @@ async function apiSendStandardCard(
         collectionId
       )
     } else {
-      // 1b. If unique tag does not exist, call to create a new unique tag and then a new card with said tag.
+      // 1b. If unique tag does not exist in Guru, call to create a new unique tag and then a new card with said tag.
       console.log("Creating a new unique tag with team id", teamId);
       createTagAndCard(
         uniqueTagValue,
@@ -534,16 +589,15 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
+    let h2ContentKeyMap = getH2Content(content)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
+      content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
       console.log("EXISTING UNIQUE H2 TAG VALUE's TAG ID", uniqueTagId)
 
-      // content = getH2Content()
-      content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply testing</p>"
-
-      // 1a. If unique tag exists, find related 'child' card using the tag id and update.
+      // 1a. If unique tag exists in Guru, find related 'child' card using the tag id and update.
       if (uniqueTagId !== null) {
         findAndUpdateCard(
           uniqueTagId,
@@ -558,12 +612,8 @@ async function apiSendStandardCard(
           collectionId
         )
       } else {
-        // 1b. If unique tag does not exist, call to create a new unique tag and then a new 'child' card with said tag.
+        // 1b. If unique tag does not exist in Guru, call to create a new unique tag and then a new 'child' card with said tag.
         console.log("Creating a new unique tag with team id", teamId);
-
-        // content = getH2Content()
-        content = "<p class=\"ghq-card-content__paragraph\" data-ghq-card-content-type=\"paragraph\">simply</p>"
-
 
         createTagAndCard(
           uniqueTagValue,
