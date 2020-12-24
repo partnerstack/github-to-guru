@@ -112,9 +112,12 @@ function getH2Content(content) {
 }
 
 function getH2ContentForKey(h2ContentKeyMap, uniqueTagValue) {
-  let result = h2ContentKeyMap.filter((h2contentKeyMap, index) => Object.keys(h2contentKeyMap)[index])[0];
-  let h2Content = result[uniqueTagValue]
-  return h2Content
+  for (let i = 0; i < h2ContentKeyMap.length; i++) {
+        let tag = Object.keys(h2ContentKeyMap[i])
+        if (tag.includes(uniqueTagValue)){
+            return h2ContentKeyMap[i][uniqueTagValue]
+        }
+  }
 }
 
 function splitCardFilename(cardFilename) {
