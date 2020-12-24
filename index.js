@@ -604,7 +604,7 @@ async function apiSendStandardCard(
       content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
       console.log("content", content)
 
-      let updatedH2Title = title
+      let updatedH2Title = title + " - " + Object.values(h2ContentKeyMap[i])[0]
       console.log("UPDATED TITLE", updatedH2Title)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
@@ -615,7 +615,7 @@ async function apiSendStandardCard(
         findAndUpdateCard(
           uniqueTagId,
           auth,
-          title,
+          updatedH2Title,
           verificationInterval,
           verificationEmail,
           verificationFirstName,
@@ -631,7 +631,7 @@ async function apiSendStandardCard(
         createTagAndCard(
           uniqueTagValue,
           auth,
-          title,
+          updatedH2Title,
           verificationInterval,
           verificationEmail,
           verificationFirstName,
