@@ -590,6 +590,7 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
     let h2ContentKeyMap = getH2Content(content)
+    console.log("h2 content key map", h2ContentKeyMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
