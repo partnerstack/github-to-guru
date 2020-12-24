@@ -82,12 +82,12 @@ function getH2ContentKeyMap(content) {
       let lastLineNumber
       if (index !== contentIndexAndH2Array.length - 1) {
           lastLineNumber = Object.keys(contentIndexAndH2Array[index+1]) - 1
-          tagAndContentIndicesList.push({
+          contentIndexAndH2Array.push({
               [tag]: [firstLineNumber, lastLineNumber]
           })
 
       } else {
-          tagAndContentIndicesList.push({
+        contentIndexAndH2Array.push({
               [tag]: [firstLineNumber, lastContentLineNumber]
           })
       }
