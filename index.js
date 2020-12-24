@@ -94,7 +94,7 @@ function getH2Content(content) {
   })
 
   // then we want to create a map of the actual content to the ky
-  // eg. y = [{ ["10293daf210adg9124"]: "i am the content" }, {["aljd1j312412j3421"]: "I am some more content"}]
+  // eg. y = [{ 10293daf210adg9124: "i am the content" }, {aljd1j312412j3421: "I am some more content"}]
 
   tagAndContentIndicesList.map((tagAndLines, index) => {
     console.log("tag and lines", tagAndLines)
@@ -102,9 +102,10 @@ function getH2Content(content) {
     let h2Indices = Object.values(tagAndLines)
     let h2Content = splitContentArray.slice(h2Indices[0][0], h2Indices[0][1]).join('')
 
-    contentMap.push({
-        [tag]: h2Content
-    })
+    let tagMap = {}
+    tagMap[tag] = h2Content
+
+    contentMap.push(tagMap)
 
   })
   return contentMap
