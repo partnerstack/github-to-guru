@@ -109,7 +109,7 @@ function getH2ContentKeyMap(content) {
   })
   return {
     h2ContentKeyMap: h2ContentKeyMap,
-    contentIndexAndH2Array: tagMap
+    contentIndexAndH2Array: contentIndexAndH2Array
   }
 }
 
