@@ -593,8 +593,8 @@ async function apiSendStandardCard(
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
-      console.log("h2ContentKeyMap", h2ContentKeyMap)
       content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
+      console.log("content", content)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
       console.log("EXISTING UNIQUE H2 TAG VALUE's TAG ID", uniqueTagId)
