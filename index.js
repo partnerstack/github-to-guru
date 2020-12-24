@@ -107,7 +107,10 @@ function getH2ContentKeyMap(content) {
     contentMap.push(tagMap)
 
   })
-  return [contentMap, contentIndexAndH2Array]
+  return {
+    contentMap: contentMap,
+    contentIndexAndH2Array: contentIndexAndH2Array
+  }
 }
 
 function getH2ContentForKey(h2ContentKeyMap, uniqueTagValue) {
