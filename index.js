@@ -549,7 +549,7 @@ async function apiSendStandardCard(
 
     // 1a. If unique tag exists in Guru, find related card using the tag id and update.
     if (uniqueTagId !== null) {
-      findAndUpdateCard(
+      await findAndUpdateCard(
         uniqueTagId,
         auth,
         title,
@@ -612,7 +612,7 @@ async function apiSendStandardCard(
 
       // 1a. If unique tag exists in Guru, find related 'child' card using the tag id and update.
       if (uniqueTagId !== null) {
-        findAndUpdateCard(
+        await findAndUpdateCard(
           uniqueTagId,
           auth,
           updatedH2Title,
@@ -721,7 +721,7 @@ function createTagAndCard(
   }
 }
 
-function findAndUpdateCard(
+async function findAndUpdateCard(
   uniqueTagId,
   auth,
   title,
@@ -733,7 +733,7 @@ function findAndUpdateCard(
   headers,
   collectionId) {
   try {
-    apiSearchCardByTagId(
+    await apiSearchCardByTagId(
       auth,
       uniqueTagId
     ).then((response) => {
@@ -745,7 +745,7 @@ function findAndUpdateCard(
           console.log(
             `Found existing card with uniqueTagId ${uniqueTagId}`
           );
-          apiUpdateStandardCardById(
+          await apiUpdateStandardCardById(
             auth,
             collectionId,
             title,
@@ -911,11 +911,16 @@ async function apiUpdateStandardCardById(
     verificationReason: "NEW_VERIFIER",
     tags: tags
   };
-  return await axios.put(
-    `https://api.getguru.com/api/v1/cards/${cardId}/extended`,
-    data,
-    headers
-  );
+  try {
+    return await axios.put(
+      `https://api.getguru.com/api/v1/cards/${cardId}/extended`,
+      data,
+      headers
+    );
+  } catch (error) {
+    core.setFailed(`Unable to prepare tempfiles: ${error.message}`);
+    return;
+  }
 }
 
 function copyCollectionData(targetDir) {
