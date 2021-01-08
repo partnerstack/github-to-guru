@@ -745,7 +745,7 @@ async function findAndUpdateCard(
           console.log(
             `Found existing card with uniqueTagId ${uniqueTagId}`
           );
-          await apiUpdateStandardCardById(
+          apiUpdateStandardCardById(
             auth,
             collectionId,
             title,
