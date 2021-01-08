@@ -1,8 +1,4 @@
 hello/world/canada/README.md:
-  Tags:
-    - "Pstack GitHub-to-Guru Readme"
-    - "Documentation"
-    - "Readme"
   Title: "Pstack GitHub-to-Guru Readme"
   TeamId: process.env.GURU_TEAM_ID
   TagCategoryName: "UnderDok Tags"
@@ -12,10 +8,6 @@ hello/world/canada/README.md:
   VerificationLastName: "Curnew"
 
 hello/world/canada/README2.md:
-  Tags:
-    - "Pstack GitHub-to-Guru Readme"
-    - "Documentation"
-    - "Readme"
   Title: "Pstack GitHub-to-Guru Readme II"
   TeamId: process.env.GURU_TEAM_ID
   TagCategoryName: "UnderDok Tags"
