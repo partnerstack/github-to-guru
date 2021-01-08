@@ -7,6 +7,7 @@ let cardConfigs = yaml.parse(
     fs.readFileSync("cards.yaml", "utf8")
 );
 
+var existingTag
 for (let cardFilename in cardConfigs) {
     console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
@@ -15,7 +16,6 @@ for (let cardFilename in cardConfigs) {
     var linesThatNeedH2Tags = []
     var existingH2TagLines = []
     var uniqueH2Tags = []
-    var existingTag
     var line_arr
     // idx - zero-indexed file line number
     // line - content of a given file line number (aka idx)
@@ -72,4 +72,6 @@ for (let cardFilename in cardConfigs) {
         stream.write(`${uniqueTagValueToWrite}`)
         stream.end();
     }
+    // reset existing tag to empty string for the next pass
+    existingTag = ''
 }
