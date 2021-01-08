@@ -588,6 +588,7 @@ async function apiSendStandardCard(
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
+      content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
 
       let updatedH2Title = title + " - " + Object.values(contentIndexAndH2TitleMap[i])[0]
       console.log("UPDATED TITLE", updatedH2Title)
