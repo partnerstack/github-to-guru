@@ -584,17 +584,18 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
     let {h2ContentKeyMap, contentIndexAndH2TitleMap} = getH2ContentKeyMap(content)
-    console.log("H2 TITLES", contentIndexAndH2TitleMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
       content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
 
+      console.log("\n\n\nH2 CHILD CARD CONTENT", content + "\n\n\n")
+
       let updatedH2Title = title + " - " + Object.values(contentIndexAndH2TitleMap[i])[0]
       console.log("UPDATED TITLE", updatedH2Title)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
-      console.log("EXISTING UNIQUE H2 TAG VALUE's TAG ID", uniqueTagId)
+      console.log("Existing unique H2 tag ID", uniqueTagId)
 
       // 1a. If unique tag exists in Guru, find related 'child' card using the tag id and update.
       if (uniqueTagId !== null) {
