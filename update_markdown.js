@@ -29,10 +29,10 @@ for (let cardFilename in cardConfigs) {
             line.includes(">") && line.includes("##") |
             line.includes("<") && line.includes("##")
         ) {
-            console.log("We'll have to figure out how to handle this situation...")
+            console.log("Special chars + H2s; We'll have to figure out how to handle this situation...")
             return true
         } else if (line.includes("`") | line.includes(">") | line.includes("<")) {
-            console.log("We'll have to figure out how to handle this situation...")
+            console.log("Special chars; We'll have to figure out how to handle this situation...")
             return true
         } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
