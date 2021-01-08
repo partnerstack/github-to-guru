@@ -384,8 +384,6 @@ async function apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagVal
       auth,
       teamId
     ).then((response) => {
-      console.log("Found a bunch of tag categories...", response.data)
-
       if (response.data !== undefined) {
         let tagCategoryIndex = getTagCategoryIndexByName(response.data, tagCategoryName)
 
@@ -596,8 +594,7 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
     let {h2ContentKeyMap, contentIndexAndH2TitleMap} = getH2ContentKeyMap(content)
-    console.log("TITLES", contentIndexAndH2TitleMap)
-    console.log("h2 content key map", h2ContentKeyMap)
+    console.log("H2 TITLES", contentIndexAndH2TitleMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
@@ -684,7 +681,6 @@ function createTagAndCard(
             }
 
             console.log("Going to get or create new Boards and Cards");
-            console.log("TAG RESPONSE", response);
             let date = new Date();
             let utcDate = date.getUTCDate();
             let cardPaths = splitCardFilename(cardFilename)
@@ -783,7 +779,6 @@ function getTagByValue(tags, tagValue) {
 }
 
 function getTagsInCategory(data, tagCategoryIndex) {
-  console.log("Tag cat index", tagCategoryIndex)
   let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
   console.log("Here are the tags in this category", tagsInCategory)
   return tagsInCategory
@@ -807,10 +802,8 @@ function getTagCategoryIdByName(data, tagCategoryName) {
 }
 
 async function apiGetAllTagCategories(auth, teamId) {
-  console.log(`Getting all tag categories by team id`);
-
   try {
-    console.log("Calling Get All Tags now")
+    console.log(`Getting all tag categories by team id`);
     return await axios.get(
       `https://api.getguru.com/api/v1/teams/${teamId}/tagcategories`,
       {
@@ -826,11 +819,10 @@ async function apiSearchCardByTagId(
   auth,
   tagId
 ) {
-  console.log(
-    `Searching for card with Tag ID: ${tagId}`
-  );
-
   try {
+    console.log(
+      `Searching for card with Tag ID: ${tagId}`
+    );
     return await axios.get(
       `https://api.getguru.com/api/v1/search/query?q=tag-${tagId}%20exists`,
       {
@@ -856,7 +848,7 @@ async function apiUpdateStandardCardById(
   verificationLastName,
   content
 ) {
-  console.log(`Updating card with title: ${title} and ID ${cardId}`);
+  console.log(`Updating card with ID ${cardId}`);
   let headers = {
     auth: auth,
     "content-type": `application/json`
