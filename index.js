@@ -778,8 +778,8 @@ function getTagByValue(tags, tagValue) {
 }
 
 function getTagsInCategory(data, tagCategoryIndex) {
+  console.log("Getting all Tags in Category")
   let tagsInCategory = data[tagCategoryIndex].tags.map(tag => tag);
-  console.log("Got all Tags in Category", tagsInCategory)
   return tagsInCategory
 }
 
