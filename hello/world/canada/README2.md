@@ -22,7 +22,6 @@ Please ignore
 but i'll bet you'll see this
 ```
 ## Some code block h2
-**UUID H2 Guru Tag -** bd525cda-8499-4b71-9f98-64c583a37e72
 ```
 
 This is gonna be annoying isn't it?
