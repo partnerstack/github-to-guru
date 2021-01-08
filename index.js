@@ -52,7 +52,7 @@ function getH2ContentKeyMap(content) {
   let h2ContentKeyMap = []
   let tagAndContentIndicesList = []
   let contentIndexAndTagList = []
-  let contentIndexAndH2Array = []
+  let contentIndexAndH2TitleMap = []
   let splitContentArray = content.split(/\r?\n/);
   let lastContentLineNumber
   let h2_regex = /^## \w+/
@@ -60,7 +60,7 @@ function getH2ContentKeyMap(content) {
   splitContentArray.map((line, index) => {
       if (h2_regex.test(line)) {
           // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
-          contentIndexAndH2Array.push({
+          contentIndexAndH2TitleMap.push({
                   [index]: line
               })
           // also map corresponding unique tag to line number eg. [{84: "aljd1j312412j3421"}, {99: "10293daf210adg9124"}]
@@ -78,7 +78,7 @@ function getH2ContentKeyMap(content) {
   // map h2 tag to content line numbers eg. x = [{ ["10293daf210adg9124"]: [83: 97]}, {["aljd1j312412j3421"]: [98: 101]}]
   contentIndexAndTagList.map((lineAndTag, index) => {
       let tag = Object.values(lineAndTag)
-      let firstLineNumber = parseInt(Object.keys(contentIndexAndH2Array[index]))
+      let firstLineNumber = parseInt(Object.keys(contentIndexAndH2TitleMap[index]))
       let lastLineNumber
       if (index !== contentIndexAndTagList.length - 1) {
           lastLineNumber = Object.keys(contentIndexAndTagList[index+1]) - 1
@@ -109,7 +109,7 @@ function getH2ContentKeyMap(content) {
   })
   return {
     h2ContentKeyMap: h2ContentKeyMap,
-    contentIndexAndH2Array: contentIndexAndH2Array
+    contentIndexAndH2TitleMap: contentIndexAndH2TitleMap
   }
 }
 
@@ -595,8 +595,8 @@ async function apiSendStandardCard(
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (process.env.GURU_CARD_YAML && uniqueH2Tags) {
-    let {h2ContentKeyMap, contentIndexAndH2Array} = getH2ContentKeyMap(content)
-    console.log("TITLES", contentIndexAndH2Array)
+    let {h2ContentKeyMap, contentIndexAndH2TitleMap} = getH2ContentKeyMap(content)
+    console.log("TITLES", contentIndexAndH2TitleMap)
     console.log("h2 content key map", h2ContentKeyMap)
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
@@ -604,7 +604,7 @@ async function apiSendStandardCard(
       content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
       console.log("content", content)
 
-      let updatedH2Title = title + " - " + Object.values(h2ContentKeyMap[i])[0]
+      let updatedH2Title = title + " - " + Object.values(contentIndexAndH2TitleMap[i])[0]
       console.log("UPDATED TITLE", updatedH2Title)
 
       let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
@@ -918,7 +918,7 @@ async function apiUpdateStandardCardById(
       headers
     );
   } catch (error) {
-    core.setFailed(`Unable to prepare tempfiles: ${error.message}`);
+    core.setFailed(`Unable to update card: ${error.message}`);
     return;
   }
 }
