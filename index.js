@@ -469,16 +469,6 @@ async function apiSendStandardCard(
       line_arr = line.split(" ")
       existingTag = line_arr[line_arr.length - 1]
       return true
-    } else if (
-      line.includes("`") && line.includes("##") |
-      line.includes(">") && line.includes("##") |
-      line.includes("<") && line.includes("##")
-    ) {
-      console.log("Special chars + H2s; We'll have to figure out how to handle this situation...")
-      return true
-    } else if (line.includes("`") | line.includes(">") | line.includes("<")) {
-      console.log("Special chars; We'll have to figure out how to handle this situation...")
-      return true
     } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
       console.log("This line is an existing H2 Tag...")
       // add file line number to list
@@ -598,7 +588,6 @@ async function apiSendStandardCard(
     for (let i = 0; i < uniqueH2Tags.length; i++) {
       let uniqueTagValue = uniqueH2Tags[i]
       console.log("uniqueTagValue", uniqueTagValue)
-      content = getH2ContentForKey(h2ContentKeyMap, uniqueTagValue)
 
       let updatedH2Title = title + " - " + Object.values(contentIndexAndH2TitleMap[i])[0]
       console.log("UPDATED TITLE", updatedH2Title)
