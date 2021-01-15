@@ -102,8 +102,6 @@ function arrayIncludesElement(array, element) {
   JSON.stringify(array).includes(element)
 }
 
-function createH2ContentKeyMap()
-
 function getH2ContentKeyMap(content) {
   // take the content and split it off into sub-content based on the H2 tag
   let h2ContentKeyMap = []
