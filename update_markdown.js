@@ -98,6 +98,7 @@ for (let cardFilename in cardConfigs) {
 
 
 function getInclusiveRange(arrayOfRanges) {
+    console.log("Array of ranges - let's get the full range for each", arrayOfRanges)
     // if the array of ranges is not empty, exit the function
     if (arrayOfRanges == undefined || arrayOfRanges.length == 0) {
       return
