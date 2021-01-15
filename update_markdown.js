@@ -44,7 +44,7 @@ for (let cardFilename in cardConfigs) {
     });
 
     if (linesThatNeedH2Tags.length !== 0) {
-        let codeBlockLinesToSkip = getCodeBlockLinesToSkip(splitContentArray)
+        let codeBlockLinesToSkip = getCodeBlockLinesToSkip(arr)
         console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
 
         linesThatNeedH2Tags = linesThatNeedH2Tags.filter(lineThatNeedsH2 => !existingH2TagLines.includes(lineThatNeedsH2))
