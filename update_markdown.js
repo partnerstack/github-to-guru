@@ -43,7 +43,7 @@ for (let cardFilename in cardConfigs) {
 
             let skipIndex
             if (codeBlockLinesToSkip !== undefined) {
-                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, lineToCheck)
+                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, line)
             }
             console.log("SKIP INDEX", skipIndex)
 
