@@ -111,6 +111,7 @@ function getH2ContentKeyMap(content) {
   let splitContentArray = content.split(/\r?\n/);
   let lastContentLineNumber
   let h2Regex = /^## \w+/;
+  let skipIndex
 
   let codeBlockLinesToSkip = getCodeBlockLinesToSkip(splitContentArray)
   console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
