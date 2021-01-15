@@ -53,7 +53,7 @@ for (let cardFilename in cardConfigs) {
             let lineToCheck = linesThatNeedH2Tags[i]
             let skipIndex
             if (codeBlockLinesToSkip !== undefined) {
-                skipIndex = arrayIncludesElement(lineToCheck)
+                skipIndex = arrayIncludesElement(linesThatNeedH2Tags, lineToCheck)
             }
             if ((!existingH2TagLines.includes(lineToCheck)) && (!skipIndex)) {
                 console.log(`Generating H2 Tag for line ${lineToCheck} `)
@@ -91,9 +91,9 @@ function getInclusiveRange(arrayOfRanges) {
     }
   
     // Validate edge/start
-    edge = arrayOfRanges[1] || 0;
-    start = arrayOfRanges[0]
-    step = 1
+    let edge = arrayOfRanges[1] || 0;
+    let start = arrayOfRanges[0]
+    let step = 1
   
     // Create array of numbers, stopping before the edge
     let arr = [];

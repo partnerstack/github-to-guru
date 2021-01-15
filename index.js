@@ -54,9 +54,9 @@ function getInclusiveRange(arrayOfRanges) {
   }
 
   // Validate edge/start
-  edge = arrayOfRanges[1] || 0;
-  start = arrayOfRanges[0]
-  step = 1
+  let edge = arrayOfRanges[1] || 0;
+  let start = arrayOfRanges[0]
+  let step = 1
 
   // Create array of numbers, stopping before the edge
   let arr = [];
