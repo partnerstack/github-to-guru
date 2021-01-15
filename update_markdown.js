@@ -22,7 +22,7 @@ for (let cardFilename in cardConfigs) {
     // line - content of a given file line number (aka index)
     arr.forEach((line, index) => {
         if (line.includes("UUID Guru Tag -**")) {
-            y = line.split(" ")
+            lineArray = line.split(" ")
             existingTag = lineArray[lineArray.length - 1]
             return true
         } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
