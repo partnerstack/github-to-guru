@@ -123,12 +123,15 @@ function getInclusiveRange(arrayOfRanges) {
     // eg. [13, 19, 45, 47, 99, 103]
     let codeBlockIndices = splitContentArray.map((line, index) => {
       if (codeBlockRegex.test(line)) {
+        console.log("Found a line with triple back ticks...", line)
+        console.log("Here's the index", index)
         return index
       }
     }).filter(index => Number.isInteger(index));
   
     // exit function if nothing found
     if (codeBlockIndices.length === undefined || codeBlockIndices.length === 0) {
+        console.log("Exiting 'getCodeBlockLinesToSkip' because no triple backticks were found, so no indices were logged")
       return
     }
   
