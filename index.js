@@ -122,7 +122,7 @@ function getH2ContentKeyMap(content) {
       skipIndex = arrayIncludesElement(codeBlockLinesToSkip, index)
     }
     console.log("Skip index", skipIndex)
-    if (h2Regex.test(line) && !skipIndex) {
+    if (h2Regex.test(line) && (skipIndex == false)) {
         console.log("MAP")
         // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
         contentIndexAndH2TitleMap.push({

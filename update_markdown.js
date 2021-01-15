@@ -47,7 +47,7 @@ for (let cardFilename in cardConfigs) {
             }
             console.log("SKIP INDEX", skipIndex)
 
-            if (!skipIndex) {
+            if (skipIndex == false) {
                 console.log("This line definitely needs an H2 Tag", index + 1)
                 linesThatNeedH2Tags.push(index + 1)
                 return true
