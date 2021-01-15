@@ -119,7 +119,7 @@ function getH2ContentKeyMap(content) {
   splitContentArray.map((line, index) => {
     // if there are code blocks in the content, we'll want to skip over their lines when getting the H2ContentKeyMap
     if (codeBlockLinesToSkip !== undefined) {
-      skipIndex = arrayIncludesElement(index)
+      skipIndex = arrayIncludesElement(codeBlockLinesToSkip, index)
     }
     console.log("Skip index", skipIndex)
     if (h2Regex.test(line) && !skipIndex) {

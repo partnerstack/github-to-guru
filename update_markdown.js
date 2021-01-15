@@ -53,7 +53,7 @@ for (let cardFilename in cardConfigs) {
             let lineToCheck = linesThatNeedH2Tags[i]
             let skipIndex
             if (codeBlockLinesToSkip !== undefined) {
-                skipIndex = arrayIncludesElement(linesThatNeedH2Tags, lineToCheck)
+                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, lineToCheck)
             }
             console.log("SKIP INDEX", skipIndex)
             if ((!existingH2TagLines.includes(lineToCheck)) && (!skipIndex)) {
