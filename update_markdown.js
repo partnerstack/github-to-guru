@@ -55,6 +55,7 @@ for (let cardFilename in cardConfigs) {
             if (codeBlockLinesToSkip !== undefined) {
                 skipIndex = arrayIncludesElement(linesThatNeedH2Tags, lineToCheck)
             }
+            console.log("SKIP INDEX", skipIndex)
             if ((!existingH2TagLines.includes(lineToCheck)) && (!skipIndex)) {
                 console.log(`Generating H2 Tag for line ${lineToCheck} `)
                 let uniqueH2TagValue = uuidv4()
