@@ -47,26 +47,62 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
+function getInclusiveRange(arrayOfRanges) {
+  // if the array of ranges is not empty, exit the function
+  if (arrayOfRanges == undefined || arrayOfRanges.length == 0) {
+    return
+  }
+
+  // Validate edge/start
+  edge = arrayOfRanges[1] || 0;
+  start = arrayOfRanges[0]
+  step = 1
+
+  // Create array of numbers, stopping before the edge
+  let arr = [];
+  for (arr; (edge - start) * step > 0; start += step) {
+    arr.push(start);
+  }
+  arr.push(edge)
+  return arr;
+}
+
 function getCodeBlockLinesToSkip(splitContentArray) {
   let codeBlockRegex = /^`{3}$/
 
   // get all the indices where we see triple-backticks at the start of a line
+  // eg. [13, 19, 45, 47, 99, 103]
   let codeBlockIndices = splitContentArray.map((line, index) => {
     if (codeBlockRegex.test(line)) {
       return index
     }
   }).filter(index => Number.isInteger(index));
 
+  // exit function if nothing found
+  if (codeBlockIndices.length === undefined || codeBlockIndices.length === 0) {
+    return
+  }
+
   // create an array of arrays consisting of index pairs, demarking the start of a code block and its end
-  // eg. [[13, 19], [45, 57], [99 - 103]]
+  // eg. [[13, 19], [45, 47], [99 - 103]]
   let indexPairsToSkip = codeBlockIndices.reduce((result, value, index, array) => {
     if (index % 2 === 0)
       result.push(array.slice(index, index + 2));
     return result;
   }, []);
 
-  return indexPairsToSkip
+  // create an array of arrays consisting of the ranges based on the index pairs
+  // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
+  return getInclusiveRange(indexPairsToSkip)
 }
+
+function arrayIncludesElement(array, element) {
+  // checks if an element is inside of an array and returns true if found
+  // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
+  JSON.stringify(array).includes(element)
+}
+
+function createH2ContentKeyMap()
 
 function getH2ContentKeyMap(content) {
   // take the content and split it off into sub-content based on the H2 tag
@@ -76,31 +112,34 @@ function getH2ContentKeyMap(content) {
   let contentIndexAndH2TitleMap = []
   let splitContentArray = content.split(/\r?\n/);
   let lastContentLineNumber
-  let h2_regex = /^## \w+/;
+  let h2Regex = /^## \w+/;
 
   let codeBlockLinesToSkip = getCodeBlockLinesToSkip(splitContentArray)
   console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
 
-
   splitContentArray.map((line, index) => {
-      if (codeBlockRegex.test(line)) {
-        codeBlockIndices.push(index)
+    // if there are code blocks in the content, we'll want to skip over their lines when getting the H2ContentKeyMap
+    if (codeBlockLlinesToSkip !== undefined) {
+      skipIndex = arrayIncludesElement(index)
+      if (skipIndex){
+        continue
       }
-      if (h2_regex.test(line)) {
-          // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
-          contentIndexAndH2TitleMap.push({
-                  [index]: line
-              })
-          // also map corresponding unique tag to line number eg. [{84: "aljd1j312412j3421"}, {99: "10293daf210adg9124"}]
-          let h2Tag = splitContentArray[index + 1].split(" ").slice(-1)[0]
-          contentIndexAndTagList.push({
-              [index + 1]: h2Tag
-          })
-      }
-      // store the last line in the content that is not the parent UUID and breakline
-      if (splitContentArray.length - 3 === index) {
-          lastContentLineNumber = index
-      }
+    }
+    if (h2Regex.test(line)) {
+        // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
+        contentIndexAndH2TitleMap.push({
+                [index]: line
+            })
+        // also map corresponding unique tag to line number eg. [{84: "aljd1j312412j3421"}, {99: "10293daf210adg9124"}]
+        let h2Tag = splitContentArray[index + 1].split(" ").slice(-1)[0]
+        contentIndexAndTagList.push({
+            [index + 1]: h2Tag
+        })
+    }
+    // store the last line in the content that is not the parent UUID and breakline
+    if (splitContentArray.length - 3 === index) {
+        lastContentLineNumber = index
+    }
   })
 
   // map h2 tag to content line numbers eg. x = [{ ["10293daf210adg9124"]: [83: 97]}, {["aljd1j312412j3421"]: [98: 101]}]
@@ -483,19 +522,19 @@ async function apiSendStandardCard(
   let arr = file.split(/\r?\n/);
   var existingTag
 
-  let h2_regex = /^## \w+/
+  let h2Regex = /^## \w+/
   var linesThatNeedH2Tags = []
   var existingH2TagLines = []
   var uniqueH2Tags = []
   var existingTag
-  var line_arr
+  var lineArray
 
   // idx - zero-indexed file line number
   // line - content of a given file line number (aka idx)
   arr.forEach((line, idx) => {
     if (line.includes("UUID Guru Tag -**")) {
-      line_arr = line.split(" ")
-      existingTag = line_arr[line_arr.length - 1]
+      lineArray = line.split(" ")
+      existingTag = lineArray[lineArray.length - 1]
       return true
     } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
       console.log("This line is an existing H2 Tag...")
@@ -503,11 +542,11 @@ async function apiSendStandardCard(
       existingH2TagLines.push(idx)
 
       // add tag to list of unqiue h2 tags
-      line_arr = line.split(" ")
-      uniqueH2Tags.push(line_arr[line_arr.length - 1])
+      lineArray = line.split(" ")
+      uniqueH2Tags.push(lineArray[lineArray.length - 1])
       console.log("Exising H2 Tag Lines", existingH2TagLines)
       return true
-    } else if (h2_regex.test(line)) {
+    } else if (h2Regex.test(line)) {
       // TODO - fix this so it doesn't include H3s
       console.log("This line needs an H2 Tag...", idx + 1)
       linesThatNeedH2Tags.push(idx + 1)

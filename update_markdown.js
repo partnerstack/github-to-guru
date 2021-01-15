@@ -12,17 +12,17 @@ for (let cardFilename in cardConfigs) {
     console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
-    let h2_regex = /^## \w+/
+    let h2Regex = /^## \w+/
     var linesThatNeedH2Tags = []
     var existingH2TagLines = []
     var uniqueH2Tags = []
-    var line_arr
+    var lineArray
     // idx - zero-indexed file line number
     // line - content of a given file line number (aka idx)
     arr.forEach((line, idx) => {
         if (line.includes("UUID Guru Tag -**")) {
-            line_arr = line.split(" ")
-            existingTag = line_arr[line_arr.length - 1]
+            y = line.split(" ")
+            existingTag = lineArray[lineArray.length - 1]
             return true
         } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
@@ -30,12 +30,11 @@ for (let cardFilename in cardConfigs) {
             existingH2TagLines.push(idx)
 
             // add tag to list of unqiue h2 tags
-            line_arr = line.split(" ")
-            uniqueH2Tags.push(line_arr[line_arr.length - 1])
+            lineArray = line.split(" ")
+            uniqueH2Tags.push(lineArray[lineArray.length - 1])
             console.log("Exising H2 Tag Lines", existingH2TagLines)
             return true
-        } else if (h2_regex.test(line)) {
-            // TODO - fix this so it doesn't include H3s
+        } else if (h2Regex.test(line)) {
             console.log("This line needs an H2 Tag...", idx + 1)
             linesThatNeedH2Tags.push(idx + 1)
             return true
