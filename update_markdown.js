@@ -2,6 +2,7 @@ const yaml = require("yaml");
 const fs = require(`fs-extra`);
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const { Console } = require("console");
 
 let cardConfigs = yaml.parse(
     fs.readFileSync("cards.yaml", "utf8")
@@ -43,7 +44,7 @@ for (let cardFilename in cardConfigs) {
 
             let skipIndex
             if (codeBlockLinesToSkip !== undefined) {
-                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, line)
+                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, index + 1)
             }
             console.log("SKIP INDEX", skipIndex)
 
@@ -113,6 +114,7 @@ function getInclusiveRange(arrayOfRanges) {
       arr.push(start);
     }
     arr.push(edge)
+    console.log("Here is the range of indice pairs marking triple back ticks to ignore", arr)
     return arr;
   }
   
