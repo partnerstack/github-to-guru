@@ -44,15 +44,20 @@ for (let cardFilename in cardConfigs) {
     });
 
     if (linesThatNeedH2Tags.length !== 0) {
+        let codeBlockLinesToSkip = getCodeBlockLinesToSkip(splitContentArray)
+        console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
+
         linesThatNeedH2Tags = linesThatNeedH2Tags.filter(lineThatNeedsH2 => !existingH2TagLines.includes(lineThatNeedsH2))
         console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
         for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
-            if (!existingH2TagLines.includes(linesThatNeedH2Tags[i])) {
-                console.log(`Generating H2 Tag for line ${linesThatNeedH2Tags[i]} `)
+            let lineToCheck = linesThatNeedH2Tags[i]
+            skipIndex = arrayIncludesElement(index)
+            if ((!existingH2TagLines.includes(lineToCheck)) && (!arrayIncludesElement(codeBlockLinesToSkip, lineToCheck))) {
+                console.log(`Generating H2 Tag for line ${lineToCheck} `)
                 let uniqueH2TagValue = uuidv4()
                 let uniqueH2TagValueToWrite = `**UUID H2 Guru Tag -** ${uniqueH2TagValue}`
 
-                arr.splice(linesThatNeedH2Tags[i] + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
+                arr.splice(lineToCheck + i, 0, uniqueH2TagValueToWrite); // insert new tag into file lines array
                 uniqueH2Tags.push(uniqueH2TagValue) // add the newly created H2 tag into list of all H2 tags
             }
         }
@@ -74,3 +79,59 @@ for (let cardFilename in cardConfigs) {
     // reset existing tag to empty string for the next pass
     existingTag = ''
 }
+
+
+function getInclusiveRange(arrayOfRanges) {
+    // if the array of ranges is not empty, exit the function
+    if (arrayOfRanges == undefined || arrayOfRanges.length == 0) {
+      return
+    }
+  
+    // Validate edge/start
+    edge = arrayOfRanges[1] || 0;
+    start = arrayOfRanges[0]
+    step = 1
+  
+    // Create array of numbers, stopping before the edge
+    let arr = [];
+    for (arr; (edge - start) * step > 0; start += step) {
+      arr.push(start);
+    }
+    arr.push(edge)
+    return arr;
+  }
+  
+  function getCodeBlockLinesToSkip(splitContentArray) {
+    let codeBlockRegex = /^`{3}$/
+  
+    // get all the indices where we see triple-backticks at the start of a line
+    // eg. [13, 19, 45, 47, 99, 103]
+    let codeBlockIndices = splitContentArray.map((line, index) => {
+      if (codeBlockRegex.test(line)) {
+        return index
+      }
+    }).filter(index => Number.isInteger(index));
+  
+    // exit function if nothing found
+    if (codeBlockIndices.length === undefined || codeBlockIndices.length === 0) {
+      return
+    }
+  
+    // create an array of arrays consisting of index pairs, demarking the start of a code block and its end
+    // eg. [[13, 19], [45, 47], [99 - 103]]
+    let indexPairsToSkip = codeBlockIndices.reduce((result, value, index, array) => {
+      if (index % 2 === 0)
+        result.push(array.slice(index, index + 2));
+      return result;
+    }, []);
+  
+    // create an array of arrays consisting of the ranges based on the index pairs
+    // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
+    return getInclusiveRange(indexPairsToSkip)
+  }
+
+  function arrayIncludesElement(array, element) {
+    // checks if an element is inside of an array and returns true if found
+    // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
+    JSON.stringify(array).includes(element)
+  }
