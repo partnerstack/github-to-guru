@@ -47,6 +47,27 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
+function getCodeBlockLinesToSkip(splitContentArray) {
+  let codeBlockRegex = /^`{3}$/
+
+  // get all the indices where we see triple-backticks at the start of a line
+  let codeBlockIndices = splitContentArray.map((line, index) => {
+    if (codeBlockRegex.test(line)) {
+      return index
+    }
+  }).filter(index => Number.isInteger(index));
+
+  // create an array of arrays consisting of index pairs, demarking the start of a code block and its end
+  // eg. [[13, 19], [45, 57], [99 - 103]]
+  let indexPairsToSkip = codeBlockIndices.reduce((result, value, index, array) => {
+    if (index % 2 === 0)
+      result.push(array.slice(index, index + 2));
+    return result;
+  }, []);
+
+  return indexPairsToSkip
+}
+
 function getH2ContentKeyMap(content) {
   // take the content and split it off into sub-content based on the H2 tag
   let h2ContentKeyMap = []
@@ -55,9 +76,16 @@ function getH2ContentKeyMap(content) {
   let contentIndexAndH2TitleMap = []
   let splitContentArray = content.split(/\r?\n/);
   let lastContentLineNumber
-  let h2_regex = /^## \w+/
+  let h2_regex = /^## \w+/;
+
+  let codeBlockLinesToSkip = getCodeBlockLinesToSkip(splitContentArray)
+  console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
+
 
   splitContentArray.map((line, index) => {
+      if (codeBlockRegex.test(line)) {
+        codeBlockIndices.push(index)
+      }
       if (h2_regex.test(line)) {
           // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
           contentIndexAndH2TitleMap.push({
