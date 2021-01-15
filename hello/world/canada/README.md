@@ -68,6 +68,7 @@ Every time you push a commit to master, you can check out the Actions tab to vie
 
 ## DOK Heading Hierarchy
 ### Adding a New Theme
+**UUID H2 Guru Tag -** 0b8ff309-96af-4778-aff0-53fddb150a40
 A Theme is a top level project or collection of documents under the docs folder.
 
 It must contain a README.md file with the following format:
@@ -81,6 +82,7 @@ It must contain a README.md file with the following format:
 
 ## How to Split a DOK File into Guru
 
+**UUID H2 Guru Tag -** 9f01e263-b308-41dc-af5d-7f47dfffe972
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
@@ -145,6 +147,7 @@ OUR EXAMPLE:
 
 ## TODO LIST - Updated
 1. Figure out how to set a group of users as the verifier.
+**UUID H2 Guru Tag -** 0cd142b9-a642-4ebf-9e53-e7ca114ddd13
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
 4. Create an `updateBoard` function.
@@ -163,3 +166,5 @@ STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-l
 2. GET - the {{card_id}} of the card in question
 3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
 4. POST - https://api.getguru.com/api/v1/boards/{{board_id}}/entries - Use the Response Body's `itemID` from step 2 as the value of this Request Body's `BoardEntries[i].id`.
+***
+**UUID Guru Tag -** b90e0927-311f-46c2-8853-6e58876884c1

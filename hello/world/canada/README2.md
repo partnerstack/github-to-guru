@@ -1,9 +1,11 @@
 # GitHub to Guru - PStack Version II
 
 ## Another child card woot
+**UUID H2 Guru Tag -** 30d59432-1374-43a2-a44a-698c51750611
 adjfaldj adljfad
 
 ## And a new child
+**UUID H2 Guru Tag -** eb0425ac-482d-4975-8387-3d81313b4bf3
 dafda;fjk;adj;
 dfja;dfa
 jrjeaw;ljaejgawe
@@ -23,3 +25,5 @@ but i'll bet you'll see this
 ```
 
 This is gonna be annoying isn't it?
+***
+**UUID Guru Tag -** a37299ac-a35b-4963-bc08-2c6e25398a92
