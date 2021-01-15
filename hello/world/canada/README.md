@@ -2,7 +2,6 @@
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration!!
-**UUID H2 Guru Tag -** d1e24899-769f-4694-b65a-a03adb4bc226
 
 
 1. Set up Secrets in your Repo by going to Settings > Secrets. You will need `GURU_COLLECTION_ID`, `GURU_USER_EMAIL` and `GURU_USER_TOKEN`. You can generate the user token via the Guru web app. The Guru Collection ID can be found by inspecting the network tab of your browser inspector when checking out a Collections page.
@@ -68,7 +67,6 @@ jobs:
 Every time you push a commit to master, you can check out the Actions tab to view the queued jobs from your `main.yml` file.
 
 ## DOK Heading Hierarchy
-**UUID H2 Guru Tag -** 716e31ac-3e9e-4ed8-9d11-074b9e76f4d8
 ### Adding a New Theme
 A Theme is a top level project or collection of documents under the docs folder.
 
@@ -82,7 +80,6 @@ It must contain a README.md file with the following format:
 ```
 
 ## How to Split a DOK File into Guru
-**UUID H2 Guru Tag -** 45441022-6fdf-411f-ae5c-62a8bf6239cf
 1. Fetch the file (eg. `README.md`)
 2. Fetch the file's relative path and create a tag from it (eg. `hello/world/canada/README.md`)
 3. If it doesn't already have one, generate a UUID and append it to the file (eg. `23sfljb039130coifdf`)
@@ -146,7 +143,6 @@ OUR EXAMPLE:
 5. Create/update a card for each H2
 
 ## TODO LIST - Updated
-**UUID H2 Guru Tag -** 0495e355-d685-4293-bea6-2f6d38635bfa
 1. Figure out how to set a group of users as the verifier.
 2. Figure out if we can make cards for nested files.
 3. Create a `createBoard` function.
@@ -166,5 +162,3 @@ STEPS FOR MOVING CARDS TO NESTED BOARD SECTION (note - this depends on the top-l
 2. GET - the {{card_id}} of the card in question
 3. POST - https://api.getguru.com/api/v1/cards/{{card_id}}/boards/ - move the card from the Collection to the nested Board Group of choice (Board Groups can be nested up to 2 levels deep) where the value of the Request's `id` is the the {{board_id}}.
 4. POST - https://api.getguru.com/api/v1/boards/{{board_id}}/entries - Use the Response Body's `itemID` from step 2 as the value of this Request Body's `BoardEntries[i].id`.
-***
-**UUID Guru Tag -** 68144d0d-e165-4312-9b3e-5d9ac428a797

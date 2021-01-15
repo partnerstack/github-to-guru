@@ -527,9 +527,9 @@ async function apiSendStandardCard(
   var existingTag
   var lineArray
 
-  // idx - zero-indexed file line number
-  // line - content of a given file line number (aka idx)
-  arr.forEach((line, idx) => {
+  // index - zero-indexed file line number
+  // line - content of a given file line number (aka index)
+  arr.forEach((line, index) => {
     if (line.includes("UUID Guru Tag -**")) {
       lineArray = line.split(" ")
       existingTag = lineArray[lineArray.length - 1]
@@ -537,7 +537,7 @@ async function apiSendStandardCard(
     } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
       console.log("This line is an existing H2 Tag...")
       // add file line number to list
-      existingH2TagLines.push(idx)
+      existingH2TagLines.push(index)
 
       // add tag to list of unqiue h2 tags
       lineArray = line.split(" ")
