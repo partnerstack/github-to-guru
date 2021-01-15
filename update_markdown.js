@@ -97,6 +97,26 @@ for (let cardFilename in cardConfigs) {
 }
 
 
+// function range(start, edge, step) {
+//   // If only 1 number passed make it the edge and 0 the start
+//   if (arguments.length === 1) {
+//     edge = start;
+//     start = 0;
+//   }
+
+//   // Validate edge/start
+//   edge = edge || 0;
+//   step = step || 1;
+
+//   // Create array of numbers, stopping before the edge
+//   let arr = [];
+//   for (arr; (edge - start) * step > 0; start += step) {
+//     arr.push(start);
+//   }
+//   return arr;
+// }
+
+// TODO - FIX THIS... IT TAKES AN ARRAY OF ARRAYS... WHICH MEANS WE GOTTA LOOP THROUGH AND TO THE BELOW LOGIC FOR EACH SUBARRAY
 function getInclusiveRange(arrayOfRanges) {
     console.log("Array of ranges - let's get the full range for each", arrayOfRanges)
     // if the array of ranges is not empty, exit the function
