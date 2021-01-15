@@ -51,8 +51,11 @@ for (let cardFilename in cardConfigs) {
         console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
         for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
             let lineToCheck = linesThatNeedH2Tags[i]
-            skipIndex = arrayIncludesElement(index)
-            if ((!existingH2TagLines.includes(lineToCheck)) && (!arrayIncludesElement(codeBlockLinesToSkip, lineToCheck))) {
+            let skipIndex
+            if (codeBlockLinesToSkip !== undefined) {
+                skipIndex = arrayIncludesElement(lineToCheck)
+            }
+            if ((!existingH2TagLines.includes(lineToCheck)) && (!skipIndex)) {
                 console.log(`Generating H2 Tag for line ${lineToCheck} `)
                 let uniqueH2TagValue = uuidv4()
                 let uniqueH2TagValueToWrite = `**UUID H2 Guru Tag -** ${uniqueH2TagValue}`

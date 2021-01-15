@@ -119,11 +119,8 @@ function getH2ContentKeyMap(content) {
     // if there are code blocks in the content, we'll want to skip over their lines when getting the H2ContentKeyMap
     if (codeBlockLlinesToSkip !== undefined) {
       skipIndex = arrayIncludesElement(index)
-      if (skipIndex){
-        continue
-      }
     }
-    if (h2Regex.test(line)) {
+    if (h2Regex.test(line) && !skipIndex) {
         // if we run into an H2, map line number to the h2 content eg. [{83: "## Title"}, {98: "## Title2"}]
         contentIndexAndH2TitleMap.push({
                 [index]: line
