@@ -545,10 +545,23 @@ async function apiSendStandardCard(
       console.log("Exising H2 Tag Lines", existingH2TagLines)
       return true
     } else if (h2Regex.test(line)) {
-      // TODO - fix this so it doesn't include H3s
-      console.log("This line needs an H2 Tag...", idx + 1)
-      linesThatNeedH2Tags.push(idx + 1)
-      return true
+      console.log("This line maybe needs an H2 Tag...", index + 1)
+      console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
+
+      let skipIndex
+      if (codeBlockLinesToSkip !== undefined) {
+          skipIndex = arrayIncludesElement(codeBlockLinesToSkip, lineToCheck)
+      }
+      console.log("SKIP INDEX", skipIndex)
+
+      if (!skipIndex) {
+          console.log("This line definitely needs an H2 Tag", index + 1)
+          linesThatNeedH2Tags.push(index + 1)
+          return true
+      } else {
+          console.log("This line does not need an H2 Tag")
+          return false
+      }
     } else {
       return false
     }

@@ -17,9 +17,10 @@ for (let cardFilename in cardConfigs) {
     var existingH2TagLines = []
     var uniqueH2Tags = []
     var lineArray
-    // idx - zero-indexed file line number
-    // line - content of a given file line number (aka idx)
-    arr.forEach((line, idx) => {
+    let codeBlockLinesToSkip = getCodeBlockLinesToSkip(arr)
+    // index - zero-indexed file line number
+    // line - content of a given file line number (aka index)
+    arr.forEach((line, index) => {
         if (line.includes("UUID Guru Tag -**")) {
             y = line.split(" ")
             existingTag = lineArray[lineArray.length - 1]
@@ -27,7 +28,7 @@ for (let cardFilename in cardConfigs) {
         } else if (line.indexOf("**UUID H2 Guru Tag -** ") == 0) {
             console.log("This line is an existing H2 Tag...")
             // add file line number to list
-            existingH2TagLines.push(idx)
+            existingH2TagLines.push(index)
 
             // add tag to list of unqiue h2 tags
             lineArray = line.split(" ")
@@ -35,28 +36,38 @@ for (let cardFilename in cardConfigs) {
             console.log("Exising H2 Tag Lines", existingH2TagLines)
             return true
         } else if (h2Regex.test(line)) {
-            console.log("This line needs an H2 Tag...", idx + 1)
-            linesThatNeedH2Tags.push(idx + 1)
-            return true
+            // TODO - fix this so it doesn't include H3s
+
+            console.log("This line maybe needs an H2 Tag...", index + 1)
+            console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
+
+            let skipIndex
+            if (codeBlockLinesToSkip !== undefined) {
+                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, lineToCheck)
+            }
+            console.log("SKIP INDEX", skipIndex)
+
+            if (!skipIndex) {
+                console.log("This line definitely needs an H2 Tag", index + 1)
+                linesThatNeedH2Tags.push(index + 1)
+                return true
+            } else {
+                console.log("This line does not need an H2 Tag")
+                return false
+            }
+
         } else {
             return false
         }
     });
 
     if (linesThatNeedH2Tags.length !== 0) {
-        let codeBlockLinesToSkip = getCodeBlockLinesToSkip(arr)
-        console.log("CODE BLOCK LINES TO SKIP", codeBlockLinesToSkip)
-
         linesThatNeedH2Tags = linesThatNeedH2Tags.filter(lineThatNeedsH2 => !existingH2TagLines.includes(lineThatNeedsH2))
         console.log("These lines will have new H2 tags...", linesThatNeedH2Tags)
         for (let i = 0; i < linesThatNeedH2Tags.length; i++) {
             let lineToCheck = linesThatNeedH2Tags[i]
-            let skipIndex
-            if (codeBlockLinesToSkip !== undefined) {
-                skipIndex = arrayIncludesElement(codeBlockLinesToSkip, lineToCheck)
-            }
-            console.log("SKIP INDEX", skipIndex)
-            if ((!existingH2TagLines.includes(lineToCheck)) && (!skipIndex)) {
+
+            if (!existingH2TagLines.includes(lineToCheck)) {
                 console.log(`Generating H2 Tag for line ${lineToCheck} `)
                 let uniqueH2TagValue = uuidv4()
                 let uniqueH2TagValueToWrite = `**UUID H2 Guru Tag -** ${uniqueH2TagValue}`
