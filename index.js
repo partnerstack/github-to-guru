@@ -99,7 +99,7 @@ function getCodeBlockLinesToSkip(splitContentArray) {
 function arrayIncludesElement(array, element) {
   // checks if an element is inside of an array and returns true if found
   // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
-  JSON.stringify(array).includes(element)
+  return JSON.stringify(array).includes(element)
 }
 
 function getH2ContentKeyMap(content) {
