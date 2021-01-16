@@ -169,7 +169,7 @@ function getInclusiveRange(array) {
     // create an array of arrays consisting of the ranges based on the index pairs
     // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
     for (let i = 0; i < indexPairsToSkip.length; i++) {
-      inclusiveRange = getInclusiveRange(indexPairsToSkip[i])
+      let inclusiveRange = getInclusiveRange(indexPairsToSkip[i])
       inclusiveArrayRanges.push(inclusiveRange)
     }
     return inclusiveArrayRanges
