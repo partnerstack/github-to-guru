@@ -1,4 +1,4 @@
-# GitHub to Guru - PStack Version
+# GitHub to Guru - PStack Version WITH TITLE CHANGE
 Updating the Github-to-Guru action with Pstack flair.
 
 ## How to set up a GitHub to Guru integration!!
