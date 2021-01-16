@@ -10,7 +10,7 @@ let cardConfigs = yaml.parse(
 
 var existingTag
 for (let cardFilename in cardConfigs) {
-    console.log("UPDATING MARKDOWN FILE WITH GURU TAG")
+    console.log("UPDATING MARKDOWN FILE WITH GURU TAG", cardFilename)
     let markdownFile = fs.readFileSync(path.resolve(`${cardFilename}`), "utf8")
     let arr = markdownFile.split(/\r?\n/);
     let h2Regex = /^## \w+/
@@ -178,5 +178,5 @@ function getInclusiveRange(array) {
   function arrayIncludesElement(array, element) {
     // checks if an element is inside of an array and returns true if found
     // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
-    return JSON.stringify(array).includes(element)
+    return array.some(row => row.includes(element))
   }
