@@ -117,30 +117,30 @@ for (let cardFilename in cardConfigs) {
 // }
 
 // TODO - FIX THIS... IT TAKES AN ARRAY OF ARRAYS... WHICH MEANS WE GOTTA LOOP THROUGH AND TO THE BELOW LOGIC FOR EACH SUBARRAY
-function getInclusiveRange(arrayOfRanges) {
-    console.log("Array of ranges - let's get the full range for each", arrayOfRanges)
-    // if the array of ranges is not empty, exit the function
-    if (arrayOfRanges == undefined || arrayOfRanges.length == 0) {
-      return
-    }
-  
-    // Validate edge/start
-    let edge = arrayOfRanges[1] || 0;
-    let start = arrayOfRanges[0]
-    let step = 1
-  
-    // Create array of numbers, stopping before the edge
-    let arr = [];
-    for (arr; (edge - start) * step > 0; start += step) {
-      arr.push(start);
-    }
-    arr.push(edge)
-    console.log("Here is the range of indice pairs marking triple back ticks to ignore", arr)
-    return arr;
+function getInclusiveRange(array) {
+  // Exit early if there's nothing to get a range for
+  if (array.length === 0 || array == undefined) {
+    return
   }
+
+  // Validate edge/start
+  let start = array[0]
+  let edge = array[1];
+  let step = 1;
+
+  // Create array of numbers, stopping before the edge
+  let arr = [];
+  for (arr; (edge - start) * step > 0; start += step) {
+    arr.push(start);
+  }
+  // Include the tail-edge of the array
+  arr.push(edge);
+  return arr;
+}
   
   function getCodeBlockLinesToSkip(splitContentArray) {
     let codeBlockRegex = /^`{3}$/
+    let inclusiveArrayRanges = []
   
     // get all the indices where we see triple-backticks at the start of a line
     // eg. [13, 19, 45, 47, 99, 103]
@@ -168,7 +168,11 @@ function getInclusiveRange(arrayOfRanges) {
   
     // create an array of arrays consisting of the ranges based on the index pairs
     // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
-    return getInclusiveRange(indexPairsToSkip)
+    for (let i = 0; i < indexPairsToSkip.length; i++) {
+      inclusiveRange = getInclusiveRange(indexPairsToSkip[i])
+      inclusiveArrayRanges.push(inclusiveRange)
+    }
+    return inclusiveArrayRanges
   }
 
   function arrayIncludesElement(array, element) {

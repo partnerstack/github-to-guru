@@ -47,28 +47,30 @@ async function apiSendSynchedCollection(sourceDir, auth, collectionId) {
   }
 }
 
-function getInclusiveRange(arrayOfRanges) {
-  // if the array of ranges is not empty, exit the function
-  if (arrayOfRanges == undefined || arrayOfRanges.length == 0) {
+function getInclusiveRange(array) {
+  // Exit early if there's nothing to get a range for
+  if (array.length === 0 || array == undefined) {
     return
   }
 
   // Validate edge/start
-  let edge = arrayOfRanges[1] || 0;
-  let start = arrayOfRanges[0]
-  let step = 1
+  let start = array[0]
+  let edge = array[1];
+  let step = 1;
 
   // Create array of numbers, stopping before the edge
   let arr = [];
   for (arr; (edge - start) * step > 0; start += step) {
     arr.push(start);
   }
-  arr.push(edge)
+  // Include the tail-edge of the array
+  arr.push(edge);
   return arr;
 }
 
 function getCodeBlockLinesToSkip(splitContentArray) {
   let codeBlockRegex = /^`{3}$/
+  let inclusiveArrayRanges = []
 
   // get all the indices where we see triple-backticks at the start of a line
   // eg. [13, 19, 45, 47, 99, 103]
@@ -91,9 +93,13 @@ function getCodeBlockLinesToSkip(splitContentArray) {
     return result;
   }, []);
 
-  // create an array of arrays consisting of the ranges based on the index pairs
-  // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
-  return getInclusiveRange(indexPairsToSkip)
+    // create an array of arrays consisting of the ranges based on the index pairs
+    // eg. [[13, 14, 15, 16, 17, 18, 19], [45, 46, 47], [99, 100, 101, 102, 103]]
+    for (let i = 0; i < indexPairsToSkip.length; i++) {
+      inclusiveRange = getInclusiveRange(indexPairsToSkip[i])
+      inclusiveArrayRanges.push(inclusiveRange)
+    }
+    return inclusiveArrayRanges
 }
 
 function arrayIncludesElement(array, element) {
