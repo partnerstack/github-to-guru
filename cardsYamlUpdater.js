@@ -55,6 +55,7 @@ let data = {
     }
 }
 
+// this needs to be manually populated whenever somebody removes a file for now
 data["cardsToDelete"] = [
     "0ce3d4b-1111-4be2-a7f4-3764df14905f",
     "0ce3d4b-2222-4be2-a7f4-3764df14905f"
