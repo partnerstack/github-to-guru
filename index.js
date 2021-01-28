@@ -504,6 +504,27 @@ async function apiUnverifyCard(headers, cardId, postData) {
   }
 }
 
+async function apiDeleteStandardCard(
+  auth,
+  cardId
+) {
+  console.log("Deleting card...")
+  let headers = {
+    auth: auth,
+    "content-type": `application / json`
+  };
+  fetch(`https://api.getguru.com/api/v1/cards/${cardId}`, {
+    "method": "DELETE",
+    "headers": {}
+  })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
+
 async function apiSendStandardCard(
   auth,
   collectionId,
@@ -1147,25 +1168,35 @@ function processStandardCollection(auth) {
     for (let cardFilename in cardConfigs) {
       // TODO - implement this once we have cards to delete in the yaml file
       if (cardFileName === "cardsToDelete") {
-        console.log("skip this")
-      }
-      try {
-        apiSendStandardCard(
-          auth,
-          process.env.GURU_COLLECTION_ID,
-          cardConfigs[cardFilename].Title,
-          cardConfigs[cardFilename].TeamId,
-          cardConfigs[cardFilename].TagCategoryName,
-          cardConfigs[cardFilename].VerificationInterval,
-          cardConfigs[cardFilename].VerificationEmail,
-          cardConfigs[cardFilename].VerificationFirstName,
-          cardConfigs[cardFilename].VerificationLastName,
-          cardFilename
-        )
-      } catch (error) {
-        core.setFailed(
-          `Unable to prepare card for creation/update: ${error.message}`
-        );
+        try {
+          apiDeleteStandardCard(
+            auth,
+            cardId
+          )
+        } catch (error) {
+          core.setFailed(
+            `Unable to prepare card for deletion: ${error.message}`
+          );
+        }
+      } else {
+        try {
+          apiSendStandardCard(
+            auth,
+            process.env.GURU_COLLECTION_ID,
+            cardConfigs[cardFilename].Title,
+            cardConfigs[cardFilename].TeamId,
+            cardConfigs[cardFilename].TagCategoryName,
+            cardConfigs[cardFilename].VerificationInterval,
+            cardConfigs[cardFilename].VerificationEmail,
+            cardConfigs[cardFilename].VerificationFirstName,
+            cardConfigs[cardFilename].VerificationLastName,
+            cardFilename
+          )
+        } catch (error) {
+          core.setFailed(
+            `Unable to prepare card for creation/update: ${error.message}`
+          );
+        }
       }
     }
   }
