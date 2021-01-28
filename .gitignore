@@ -1,0 +1,9 @@
+# node
+node_modules/
+**/node_modules
+
+# Env files
+.env
+
+#package-lock - ignore yarn, we only use the npm in this repo
+yarn.lock

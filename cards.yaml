@@ -6,7 +6,6 @@ hello/world/canada/README.md:
   VerificationEmail: "shannon.curnew@partnerstack.com"
   VerificationFirstName: "Shannon"
   VerificationLastName: "Curnew"
-
 hello/world/canada/README2.md:
   Title: "Pstack GitHub-to-Guru Readme II"
   TeamId: process.env.GURU_TEAM_ID
