@@ -55,27 +55,28 @@ let data = {
     }
 }
 
-data["cardsToDelete"] = {
-    // cardFileName: {
-    "hello/world/canada/delete-me.md": {
-        Title: "Pstack GitHub-to-Guru Readme II",
-        TeamId: teamId,
-        TagCategoryName: tagCategoryName,
-        VerificationInterval: verificationInterval,
-        VerificationEmail: "shannon.curnew@partnerstack.com",
-        VerificationFirstName: "Shannon",
-        VerificationLastName: "Curnew",
-    },
-    "hello/world/canada/delete-me-too-please.md": {
-        Title: "Pstack GitHub-to-Guru Readme II",
-        TeamId: teamId,
-        TagCategoryName: tagCategoryName,
-        VerificationInterval: verificationInterval,
-        VerificationEmail: "shannon.curnew@partnerstack.com",
-        VerificationFirstName: "Shannon",
-        VerificationLastName: "Curnew",
-    }
-}
+data["cardsToDelete"] = [
+    "0ce3d4b-1111-4be2-a7f4-3764df14905f",
+    "0ce3d4b-2222-4be2-a7f4-3764df14905f"
+]
 
-let yamlStr = yaml.dump(data);
-fs.writeFileSync('data-out.yaml', yamlStr, 'utf8');
+// let yamlStr = yaml.dump(data);
+// fs.writeFileSync('data-out.yaml', yamlStr, 'utf8');
+
+// try {
+//     let fileContents = fs.readFileSync('./data-out.yaml', 'utf8');
+
+//     let cardConfigs = yaml.load(fileContents);
+
+//     for (let cardFileName in cardConfigs) {
+//         if (cardFileName === "cardsToDelete") {
+//             for (let i = 0; i < cardConfigs[cardFileName].length; i++) {
+//                 console.log(cardConfigs[cardFileName][i])
+//             }
+//         }
+//     }
+
+//     console.log(data);
+// } catch (e) {
+//     console.log(e);
+// }

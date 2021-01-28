@@ -15,19 +15,5 @@ hello/world/canada/README4.md:
   VerificationFirstName: Shannon
   VerificationLastName: Curnew
 cardsToDelete:
-  hello/world/canada/delete-me.md:
-    Title: Pstack GitHub-to-Guru Readme II
-    TeamId: process.env.GURU_TEAM_ID
-    TagCategoryName: UnderDok Tags
-    VerificationInterval: 30
-    VerificationEmail: shannon.curnew@partnerstack.com
-    VerificationFirstName: Shannon
-    VerificationLastName: Curnew
-  hello/world/canada/delete-me-too-please.md:
-    Title: Pstack GitHub-to-Guru Readme II
-    TeamId: process.env.GURU_TEAM_ID
-    TagCategoryName: UnderDok Tags
-    VerificationInterval: 30
-    VerificationEmail: shannon.curnew@partnerstack.com
-    VerificationFirstName: Shannon
-    VerificationLastName: Curnew
+  - 0ce3d4b-1111-4be2-a7f4-3764df14905f
+  - 0ce3d4b-2222-4be2-a7f4-3764df14905f

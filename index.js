@@ -506,8 +506,10 @@ async function apiUnverifyCard(headers, cardId, postData) {
 
 async function apiDeleteStandardCard(
   auth,
-  cardId
+  uniqueCardTagToDelete
 ) {
+  // Find card by unique Tag go get Id
+
   console.log("Deleting card...")
   let headers = {
     auth: auth,
@@ -535,7 +537,8 @@ async function apiSendStandardCard(
   verificationEmail,
   verificationFirstName,
   verificationLastName,
-  cardFilename
+  cardFilename,
+  cardToDelete
 ) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`);
   let headers = {
@@ -1168,15 +1171,19 @@ function processStandardCollection(auth) {
     for (let cardFilename in cardConfigs) {
       // TODO - implement this once we have cards to delete in the yaml file
       if (cardFileName === "cardsToDelete") {
-        try {
-          apiDeleteStandardCard(
-            auth,
-            cardId
-          )
-        } catch (error) {
-          core.setFailed(
-            `Unable to prepare card for deletion: ${error.message}`
-          );
+        for (let i = 0; i < cardConfigs[cardFileName].length; i++) {
+          console.log("Tag of card to delete", cardConfigs[cardFileName][i])
+          let uniqueCardTagToDelete = cardConfigs[cardFileName][i]
+          try {
+            apiDeleteStandardCard(
+              auth,
+              uniqueCardTagToDelete
+            )
+          } catch (error) {
+            core.setFailed(
+              `Unable to prepare card ${uniqueCardTagToDelete} for deletion: ${error.message}`
+            );
+          }
         }
       } else {
         try {
