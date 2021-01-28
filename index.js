@@ -1169,10 +1169,10 @@ function processStandardCollection(auth) {
 
     for (let cardFilename in cardConfigs) {
       // TODO - implement this once we have cards to delete in the yaml file
-      if (cardFileName === "cardsToDelete") {
-        for (let i = 0; i < cardConfigs[cardFileName].length; i++) {
-          console.log("Tag of card to delete", cardConfigs[cardFileName][i])
-          let uniqueCardTagToDelete = cardConfigs[cardFileName][i]
+      if (cardFilename === "cardsToDelete") {
+        for (let i = 0; i < cardConfigs[cardFilename].length; i++) {
+          console.log("Tag of card to delete", cardConfigs[cardFilename][i])
+          let uniqueCardTagToDelete = cardConfigs[cardFilename][i]
           try {
             apiDeleteStandardCard(
               auth,

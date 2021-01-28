@@ -20,7 +20,7 @@ let teamId = "process.env.GURU_TEAM_ID"
 let tagCategoryName = "UnderDok Tags"
 let verificationInterval = 30
 
-// let cardFileName = ""
+// let cardFilename = ""
 
 // 1. Go through all the directories
 // 2. Get the path for any files that have the .md extension
@@ -33,7 +33,7 @@ let verificationInterval = 30
 // 7. Output file
 
 let data = {
-    // cardFileName: {
+    // cardFilename: {
     "hello/world/canada/README3.md": {
         Title: "Pstack GitHub-to-Guru Readme II",
         TeamId: teamId,
@@ -43,7 +43,7 @@ let data = {
         VerificationFirstName: "Shannon",
         VerificationLastName: "Curnew",
     },
-    // cardFileName: {
+    // cardFilename: {
     "hello/world/canada/README4.md": {
         Title: "Pstack GitHub-to-Guru Readme II",
         TeamId: teamId,
@@ -68,10 +68,10 @@ data["cardsToDelete"] = [
 
 //     let cardConfigs = yaml.load(fileContents);
 
-//     for (let cardFileName in cardConfigs) {
-//         if (cardFileName === "cardsToDelete") {
-//             for (let i = 0; i < cardConfigs[cardFileName].length; i++) {
-//                 console.log(cardConfigs[cardFileName][i])
+//     for (let cardFilename in cardConfigs) {
+//         if (cardFilename === "cardsToDelete") {
+//             for (let i = 0; i < cardConfigs[cardFilename].length; i++) {
+//                 console.log(cardConfigs[cardFilename][i])
 //             }
 //         }
 //     }
