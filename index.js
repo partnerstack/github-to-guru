@@ -509,22 +509,45 @@ async function apiDeleteStandardCard(
   uniqueCardTagToDelete
 ) {
   // Find card by unique Tag go get Id
+  let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
+  console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
 
-  console.log("Deleting card...")
-  let headers = {
-    auth: auth,
-    "content-type": `application / json`
-  };
-  fetch(`https://api.getguru.com/api/v1/cards/${cardId}`, {
-    "method": "DELETE",
-    "headers": {}
-  })
-  .then(response => {
-    console.log(response);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+  try {
+    await apiSearchCardByTagId(
+      auth,
+      uniqueTagId
+    ).then((response) => {
+      // 1a. If existing tag found (and therefore card exists), call to Delete existing card by id (not by tag value).
+      if (response.data.length >= 1) {
+        let cardId = response.data[0].id
+        let headers = {
+          auth: auth,
+          "content-type": `application / json`
+        };
+        try {
+          console.log(
+            `Found existing card with uniqueTagId ${uniqueTagId} and cardId ${cardId}... Deleting`
+          );
+
+          fetch(`https://api.getguru.com/api/v1/cards/${cardId}`, {
+            "method": "DELETE",
+            "headers": headers
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+        } catch (error) {
+          core.setFailed(`Unable to update card by Id: ${error.message}`);
+        }
+      }
+    })
+  } catch (error) {
+    core.setFailed(`Unable to find card: ${error.message}`);
+  }
+
 }
 
 async function apiSendStandardCard(
