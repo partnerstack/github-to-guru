@@ -545,6 +545,7 @@ async function apiDeleteStandardCard(
           core.setFailed(`Unable to update card by Id: ${error.message}`);
         }
       }
+      // 2. Delete the tag
     })
   } catch (error) {
     core.setFailed(`Unable to find card: ${error.message}`);
