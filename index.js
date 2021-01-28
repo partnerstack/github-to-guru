@@ -506,10 +506,12 @@ async function apiUnverifyCard(headers, cardId, postData) {
 
 async function apiDeleteStandardCard(
   auth,
+  teamId,
+  tagCategoryName,
   uniqueCardTagToDelete
 ) {
   // Find card by unique Tag go get Id
-  let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueTagValue)
+  let uniqueTagId = await apiGetTagIdByTagValue(auth, teamId, tagCategoryName, uniqueCardTagToDelete)
   console.log("EXISTING UNIQUE TAG VALUE's TAG ID", uniqueTagId)
 
   try {
@@ -1199,6 +1201,8 @@ function processStandardCollection(auth) {
           try {
             apiDeleteStandardCard(
               auth,
+              cardConfigs[cardFilename].TeamId,
+              cardConfigs[cardFilename].TagCategoryName,
               uniqueCardTagToDelete
             )
           } catch (error) {
