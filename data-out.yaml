@@ -1,0 +1,33 @@
+hello/world/canada/README3.md:
+  Title: Pstack GitHub-to-Guru Readme II
+  TeamId: process.env.GURU_TEAM_ID
+  TagCategoryName: UnderDok Tags
+  VerificationInterval: 30
+  VerificationEmail: shannon.curnew@partnerstack.com
+  VerificationFirstName: Shannon
+  VerificationLastName: Curnew
+hello/world/canada/README4.md:
+  Title: Pstack GitHub-to-Guru Readme II
+  TeamId: process.env.GURU_TEAM_ID
+  TagCategoryName: UnderDok Tags
+  VerificationInterval: 30
+  VerificationEmail: shannon.curnew@partnerstack.com
+  VerificationFirstName: Shannon
+  VerificationLastName: Curnew
+toBeDeleted:
+  hello/world/canada/delte-me-please.md:
+    Title: Pstack GitHub-to-Guru Readme II
+    TeamId: process.env.GURU_TEAM_ID
+    TagCategoryName: UnderDok Tags
+    VerificationInterval: 30
+    VerificationEmail: shannon.curnew@partnerstack.com
+    VerificationFirstName: Shannon
+    VerificationLastName: Curnew
+  hello/world/canada/i-need-deletion-too.md:
+    Title: Pstack GitHub-to-Guru Readme II
+    TeamId: process.env.GURU_TEAM_ID
+    TagCategoryName: UnderDok Tags
+    VerificationInterval: 30
+    VerificationEmail: shannon.curnew@partnerstack.com
+    VerificationFirstName: Shannon
+    VerificationLastName: Curnew
