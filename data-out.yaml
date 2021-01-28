@@ -14,8 +14,8 @@ hello/world/canada/README4.md:
   VerificationEmail: shannon.curnew@partnerstack.com
   VerificationFirstName: Shannon
   VerificationLastName: Curnew
-toBeDeleted:
-  hello/world/canada/delte-me-please.md:
+cardsToDelete:
+  hello/world/canada/delete-me.md:
     Title: Pstack GitHub-to-Guru Readme II
     TeamId: process.env.GURU_TEAM_ID
     TagCategoryName: UnderDok Tags
@@ -23,7 +23,7 @@ toBeDeleted:
     VerificationEmail: shannon.curnew@partnerstack.com
     VerificationFirstName: Shannon
     VerificationLastName: Curnew
-  hello/world/canada/i-need-deletion-too.md:
+  hello/world/canada/delete-me-too-please.md:
     Title: Pstack GitHub-to-Guru Readme II
     TeamId: process.env.GURU_TEAM_ID
     TagCategoryName: UnderDok Tags

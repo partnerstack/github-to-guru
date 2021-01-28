@@ -55,5 +55,27 @@ let data = {
     }
 }
 
+data["cardsToDelete"] = {
+    // cardFileName: {
+    "hello/world/canada/delete-me.md": {
+        Title: "Pstack GitHub-to-Guru Readme II",
+        TeamId: teamId,
+        TagCategoryName: tagCategoryName,
+        VerificationInterval: verificationInterval,
+        VerificationEmail: "shannon.curnew@partnerstack.com",
+        VerificationFirstName: "Shannon",
+        VerificationLastName: "Curnew",
+    },
+    "hello/world/canada/delete-me-too-please.md": {
+        Title: "Pstack GitHub-to-Guru Readme II",
+        TeamId: teamId,
+        TagCategoryName: tagCategoryName,
+        VerificationInterval: verificationInterval,
+        VerificationEmail: "shannon.curnew@partnerstack.com",
+        VerificationFirstName: "Shannon",
+        VerificationLastName: "Curnew",
+    }
+}
+
 let yamlStr = yaml.dump(data);
 fs.writeFileSync('data-out.yaml', yamlStr, 'utf8');

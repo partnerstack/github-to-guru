@@ -1144,7 +1144,11 @@ function processStandardCollection(auth) {
       fs.readFileSync(process.env.GURU_CARD_YAML, "utf8")
     );
 
-    for (let cardFilename in cardConfigs)
+    for (let cardFilename in cardConfigs) {
+      // TODO - implement this once we have cards to delete in the yaml file
+      if (cardFileName === "cardsToDelete") {
+        console.log("skip this")
+      }
       try {
         apiSendStandardCard(
           auth,
@@ -1163,6 +1167,7 @@ function processStandardCollection(auth) {
           `Unable to prepare card for creation/update: ${error.message}`
         );
       }
+    }
   }
 }
 
