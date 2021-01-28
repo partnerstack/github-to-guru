@@ -538,7 +538,6 @@ async function apiSendStandardCard(
   verificationFirstName,
   verificationLastName,
   cardFilename,
-  cardToDelete
 ) {
   console.log(`Creating or Updating card in ${collectionId}: ${title}`);
   let headers = {
